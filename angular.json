@@ -167,5 +167,10 @@
       }
     }
   },
-  "defaultProject": "ngx-ez"
+  "defaultProject": "ngx-ez",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
