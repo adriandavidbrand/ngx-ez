@@ -1,4 +1,4 @@
-# Ezng
+# ngx-ez
 
 Easy Angular is a collection of components to help build Angular apps in a template driven style.
 
