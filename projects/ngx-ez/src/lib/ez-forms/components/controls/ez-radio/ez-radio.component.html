@@ -1,0 +1,13 @@
+<ez-control fieldset>
+  <ng-content></ng-content>
+  <ng-container question-controls>
+    <ng-container *ngIf="readonly else elseBlock">{{ value | reference: options }}</ng-container>
+    <ng-template #elseBlock>
+      <label *ngFor="let option of options" [ngClass]="radioLabelClasses">
+        <input type="radio" [name]="name + '_radio_input'" (change)="onChange(option.value)"
+          [checked]="value === option.value" [ngClass]="radioClasses" />
+        {{ option.label }}
+      </label>
+    </ng-template>
+  </ng-container>
+</ez-control>

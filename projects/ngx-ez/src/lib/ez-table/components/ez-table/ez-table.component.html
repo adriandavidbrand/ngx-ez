@@ -1,0 +1,23 @@
+<div class="ez-table">
+  <ng-content></ng-content>
+  <table id="tableId">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns" [attr.tabindex]="column.sortable ? '0' : null" [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, $event.shiftKey)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of pageData">
+        <ng-container *ngFor="let column of columns">
+          <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]">
+            <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item }"></ng-container>
+            <ng-template #defaultColumTemplate let-item>
+              {{ column.display ? column.display(item[column.property]) : item[column.property] }}
+            </ng-template>
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+  <ng-content select="[footer]"></ng-content>
+</div>

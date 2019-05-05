@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-ez": [
+        "dist/ngx-ez"
+      ],
+      "ngx-ez/*": [
+        "dist/ngx-ez/*"
+      ]
+    }
   }
 }

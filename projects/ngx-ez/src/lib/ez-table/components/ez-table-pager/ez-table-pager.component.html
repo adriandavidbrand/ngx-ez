@@ -1,0 +1,26 @@
+<label class="ez-page-size">
+  Show
+  <select [value]="table.pageSize" (change)="changeSize($event.target.value)" [attr.aria-controls]="table.tableId">
+    <option [value]="size" *ngFor="let size of table.pageSizes">{{size}}</option>
+  </select>
+  records of {{table.data.length}}
+</label>
+<div class="ez-page-select" *ngIf="table.totalPages > 1">
+  <a [ngClass]="{ 'disabled': table.pageNum === 1 }" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="1"
+    tabindex="0" (keydown.enter)="table.first()" (click)="table.first()">First</a>
+
+  <a [ngClass]="{ 'disabled': table.pageNum === 1 }" [attr.aria-controls]="table.tableId"
+    [attr.data-dt-idx]="table.pageNum === 1 ? 1 : table.pageNum - 1" tabindex="0" (keydown.enter)="table.previous()"
+    (click)="table.previous()">Previous</a>
+
+  <a *ngFor="let pn of table.pageNums" [ngClass]="{ 'current': table.pageNum === pn }" role="button" tabIndex="0"
+    [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="pn" (keydown.enter)="table.goto(pn)"
+    (click)="table.goto(pn)">{{pn}}</a>
+
+  <a [ngClass]="{ 'disabled': table.pageNum === table.totalPages }" [attr.aria-controls]="table.tableId"
+    [attr.data-dt-idx]="table.pageNum === table.totalPages ? table.totalPages : table.pageNum + 1" tabindex="0"
+    (keydown.enter)="table.next()" (click)="table.next()">Next</a>
+
+  <a [ngClass]="{ 'disabled': table.pageNum === table.totalPages }" [attr.aria-controls]="table.tableId"
+    [attr.data-dt-idx]="table.totalPages" tabindex="0" (keydown.enter)="table.last()" (click)="table.last()">Last</a>
+</div>

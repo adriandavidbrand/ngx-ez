@@ -1,0 +1,18 @@
+<ez-control fieldset>
+  <ng-content></ng-content>
+  <ng-container question-controls>
+    <ng-container *ngIf="readonly else elseBlock">{{ value === 'Y' ? 'Yes' : value === 'N' ? 'No' : '' }}</ng-container>
+    <ng-template #elseBlock>
+      <label [ngClass]="radioLabelClasses">
+        <input type="radio" value="Y" [name]="name + '_radio_input'" (change)="onChange($event.target.value)"
+          [checked]="value === 'Y'" [ngClass]="radioClasses" />
+        Yes
+      </label>
+      <label [ngClass]="radioLabelClasses">
+        <input type="radio" value="N" [name]="name + '_radio_input'" (change)="onChange($event.target.value)"
+          [checked]="value === 'N'" [ngClass]="radioClasses" />
+        No
+      </label>
+    </ng-template>
+  </ng-container>
+</ez-control>

@@ -1,0 +1,13 @@
+<ez-control>
+  <ng-content></ng-content>
+  <ng-container question-controls>
+    <ng-container *ngIf="readonly else elseBlock">{{ value | reference: options }}</ng-container>
+    <ng-template #elseBlock>
+      <select [id]="name + '_question_input'" [attr.aria-describedby]="valid ? null : name + '_validationMessage'"
+        [(ngModel)]="value" (ngModelChange)="onChange(value)" [ngClass]="selectClasses">
+        <option [ngValue]="defaultValue" *ngIf="showDefault">{{defaultText}}</option>
+        <option *ngFor="let option of options" [ngValue]="option.value">{{option.label}}</option>
+      </select>
+    </ng-template>
+  </ng-container>
+</ez-control>

@@ -1,0 +1,10 @@
+<ez-control fieldset>
+  <ng-content></ng-content>
+  <ng-container question-controls>
+    <label [ngClass]="checkboxLabelClasses" *ngFor="let option of options">
+      <input type="checkbox" [checked]="value && value[option.property]" [disabled]="readonly || option.disabled"
+        (change)="onValueChange($event, option)" [ngClass]="checkboxClasses">
+      {{option.label}}
+    </label>
+  </ng-container>
+</ez-control>

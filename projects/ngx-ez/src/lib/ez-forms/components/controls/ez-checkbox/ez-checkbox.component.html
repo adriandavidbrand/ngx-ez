@@ -1,0 +1,10 @@
+<ez-control>
+  <ng-content></ng-content>
+  <ng-container question-controls>
+    <input [id]="name + '_question_input'"
+      [attr.aria-describedby]="(valid || disabled)? null : name + '_validationMessage'" [value]="value" type="checkbox"
+      [ngClass]="checkboxClasses" [disabled]="readonly || disabled" [checked]="value"
+      (change)="onChange($event.target.checked)">
+    <span class="ez-sublabel" [ngClass]="sublabelClasses" *ngIf="sublabel">{{sublabel}}</span>
+  </ng-container>
+</ez-control>

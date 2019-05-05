@@ -1,0 +1,65 @@
+.ez-page-select a {
+    cursor: pointer;
+    padding: .1rem .2rem;
+    border: 1px solid black;
+    margin: .3rem .2rem .2rem 0;
+    display: inline-block;
+    border-radius: .3rem;
+  }
+  
+  .ez-page-select a.disabled, .ez-page-select a.current {
+    cursor: default;
+    color: gray;
+    border-color: gray;
+  }
+  
+  .ez-page-size select, .ez-table-search input {
+    padding: .1rem .2rem;
+    border-radius: .3rem;
+    border: 1px solid black;
+  }
+  
+  .ez-table th {
+    text-align: left;
+  }
+  
+  .ez-table table {
+    border-collapse: collapse;
+    margin: 5px 0;
+  }
+  
+  .ez-table th, .ez-table td {
+    border: 1px solid black;
+    padding: .1rem .2rem;
+    vertical-align: top;
+  }
+  
+  .ez-table th[aria-controls] {
+    position: relative;
+    padding-right: 11px;
+    cursor: pointer;
+  }
+  
+  .ez-table th[aria-controls]:after, .ez-table th[aria-controls]:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-color: #cccccc transparent;
+    display: block;
+    width: 0;
+    right: 2px;
+  }
+  
+  .ez-table th[aria-controls]:after {
+    border-width: 5px 3px 0;
+    bottom: 4px;
+  }
+  
+  .ez-table th[aria-controls]:before {
+    border-width: 0 3px 5px;
+    top: 4px;
+  }
+  
+  .ez-table th[aria-sort=ascending]:before, .ez-table th[aria-sort=descending]:after {
+    border-color: black transparent;
+  }

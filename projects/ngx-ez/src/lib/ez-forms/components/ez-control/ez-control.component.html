@@ -1,0 +1,51 @@
+<div class="ez-control" [ngClass]="controlClasses">
+  <ng-container *ngTemplateOutlet="fieldset !== false ? fieldsetTemplate : labelTemplate"></ng-container>
+</div>
+
+<ng-template #fieldsetTemplate>
+  <fieldset *ngIf="!readonly else readonlyTemplate"
+    [attr.aria-describedby]="invalid ? name + '_validation_message' : null">
+    <legend class="ez-label" [ngClass]="labelClasses">
+      <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </legend>
+    <div class="ez-controls" [ngClass]="controlsClasses">
+      <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+    </div>
+    <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="validationClasses"
+      *ngIf="invalid">{{message}}</div>
+  </fieldset>
+</ng-template>
+
+<ng-template #labelTemplate>
+  <ng-container *ngIf="!readonly else readonlyTemplate">
+    <label class="ez-label" [ngClass]="labelClasses" [id]="name + '_question_input_label'"
+      [for]="name + '_question_input'">
+      <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </label>
+    <div class="ez-controls" [ngClass]="controlsClasses">
+      <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+    </div>
+    <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="validationClasses"
+      *ngIf="invalid">{{message}}</div>
+  </ng-container>
+</ng-template>
+
+<ng-template #readonlyTemplate>
+  <div class="ez-label" [ngClass]="labelClasses">
+    <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+  </div>
+  <div class="ez-controls" [ngClass]="controlsClasses">
+    <span class="ez-readonly" [ngClass]="readonlyClasses">
+      <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #contentTemplate>
+  <ng-content></ng-content>
+  <span class="ez-required" *ngIf="showRequired">*</span>
+</ng-template>
+
+<ng-template #controlsTemplate>
+  <ng-content select="[question-controls]"></ng-content>
+</ng-template>

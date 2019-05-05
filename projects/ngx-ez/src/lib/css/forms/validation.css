@@ -1,0 +1,25 @@
+.ez-control .ng-invalid.ng-dirty,
+.ez-submitted .ng-invalid,
+.ez-form.ng-invalid .ng-invalid.ng-dirty input,
+.ez-submitted .ng-invalid input,
+.ez-form.ng-invalid .ng-invalid.ng-dirty select,
+.ez-submitted .ng-invalid select {
+  border-color: red;
+}
+
+.ez-validation {
+  display: inline-block;
+}
+
+.ez-validation {
+  color: red;
+}
+
+.ng-valid .ez-validation,
+.ng-pristine .ez-validation {
+  display: none;
+}
+
+.ez-submitted .ng-invalid .ez-validation {
+  display: inline-block;
+}
