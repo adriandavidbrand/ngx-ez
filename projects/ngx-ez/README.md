@@ -1,24 +1,73 @@
-# NgxEz
+# Ezng
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+Easy Angular is a collection of components to help build Angular apps in a template driven style.
 
-## Code scaffolding
+## Usage
 
-Run `ng generate component component-name --project ngx-ez` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-ez`.
-> Note: Don't forget to add `--project ngx-ez` or else it will be added to the default project in your `angular.json` file. 
+npm install --save ngx-ez
 
-## Build
+## Forms
 
-Run `ng build ngx-ez` to build the project. The build artifacts will be stored in the `dist/` directory.
+Add the EzFormsModule to your module and you are ready to build so Easy Forms.
 
-## Publishing
+[Testbed on StackBlitz](https://stackblitz.com/edit/angular-8brst8?file=src%2Fapp%2Fapp.component.html)
 
-After building your library with `ng build ngx-ez`, go to the dist folder `cd dist/ngx-ez` and run `npm publish`.
+```javascript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { EzFormsModule } from 'ngx-ez';
 
-## Running unit tests
+import { AppComponent } from './app.component';
 
-Run `ng test ngx-ez` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+  imports:      [ BrowserModule, FormsModule, EzFormsModule ],
+  declarations: [ AppComponent ],
+  bootstrap:    [ AppComponent ]
+})
+export class AppModule { }
+```
 
-## Further help
+On a form you add the ez-form directive and an (ezSubmit) event handler that will only fire if the form is valid.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```html
+<form ez-form (ezSubmit)="onSubmit()" [readonly]="readonly">
+</form>
+```
+
+Now you can add form controls with the directives ez-text, ez-select, ez-radio, ez-checkbox and ez-checkboxes.
+
+```html
+<form ez-form (ezSubmit)="onSubmit()" [readonly]="readonly">
+  <ez-text name="text" [(ngModel)]="model.text" required range="4-6">
+    Text
+  </ez-text>
+
+  <ez-yes-no name="yesno" [(ngModel)]="model.yesno" required>
+    Yes/No
+  </ez-yes-no>
+
+  <ez-select name="select" [(ngModel)]="model.select" [options]="[{ value: 1, label: 'Select 1' }, { value: 2, label: 'Select 2' }]" required>
+    Select
+  </ez-select>
+
+  <ez-radio name="radio" [(ngModel)]="model.radio" [options]="[{ value: 1, label: 'Radio 1' }, { value: 2, label: 'Radio 2' }]" required>
+    Radio
+  </ez-radio>
+
+  <ez-checkbox name="checkbox" [(ngModel)]="model.checkbox">
+    Checkbox
+  </ez-checkbox>
+
+  <ez-checkboxes name="checkboxes" [(ngModel)]="model.checkboxes" [options]="[{ property: 'prop1', label: 'Checkbox 1' }, { property: 'prop2', label: 'Checkbox 2' }, { property: 'prop3', label: 'Checkbox 3' }]" checkboxes-required [messages]="{ required: 'Please select at least one option' }">
+    Checkboxes
+  </ez-checkboxes>
+
+  <button type="submit">Submit</button>
+  <button type="reset">Reset</button>
+  <button type="button" (click)="readonly = !readonly">Toggle readonly</button>
+</form>
+```
+
+Putting a readonly attribute on the form will place all controls on the form into read only mode.
+
