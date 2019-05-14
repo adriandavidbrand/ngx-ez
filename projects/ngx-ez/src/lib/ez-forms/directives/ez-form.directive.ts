@@ -18,7 +18,7 @@ export class EzFormDirective implements OnDestroy {
 
   readonly = false;
   @Input('readonly')
-  set setReadonly(val: any) {
+  set readonlySet(val: any) {
     if (val) {
       this.el.nativeElement.classList.add('ez-form-readonly');
     } else {

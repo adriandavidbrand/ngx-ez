@@ -45,97 +45,55 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
   @Input()
   messages: any = {};
 
-  _readonly = false;
+  readonlyVal = false;
   @Input()
   set readonly(val: any) {
-    this._readonly = val !== undefined && val !== false;
+    this.readonlyVal = val !== undefined && val !== false;
   }
 
   get readonly() {
     return (
       (this.ezForm && this.ezForm.readonly) ||
-      this._readonly ||
+      this.readonlyVal ||
       (this.ezGroup && this.ezGroup.readonly)
     );
   }
 
-  _controlClasses: string | string[];
-  @Input()
-  set controlClasses(val: string | string[]) {
-    this._controlClasses = val;
+  controlClasses = (this.ezGroup && this.ezGroup.controlClasses) || this.ezFormConfigService.controlClasses;
+  @Input('controlClasses')
+  set controlClassesSet(val: string | string[]) {
+    this.controlClasses = val || (this.ezGroup && this.ezGroup.controlClasses) || this.ezFormConfigService.controlClasses;
   }
 
-  get controlClasses(): string | string[] {
-    return (
-      this._controlClasses ||
-      (this.ezGroup && this.ezGroup.controlClasses) ||
-      this.ezFormConfigService.controlClasses
-    );
+  labelClasses = (this.ezGroup && this.ezGroup.labelClasses) || this.ezFormConfigService.labelClasses;
+  @Input('labelClasses')
+  set labelClassesSet(val: string | string[]) {
+    this.labelClasses = val || (this.ezGroup && this.ezGroup.labelClasses) || this.ezFormConfigService.labelClasses;
   }
 
-  _labelClasses: string | string[];
-  @Input()
-  set labelClasses(val: string | string[]) {
-    this._labelClasses = val;
+  controlsClasses = (this.ezGroup && this.ezGroup.controlsClasses) || this.ezFormConfigService.controlsClasses;
+  @Input('controlsClasses')
+  set controlsClassesSet(val: string | string[]) {
+    this.controlsClasses = val || (this.ezGroup && this.ezGroup.controlsClasses) || this.ezFormConfigService.controlsClasses;
   }
 
-  get labelClasses(): string | string[] {
-    return (
-      this._labelClasses ||
-      (this.ezGroup && this.ezGroup.labelClasses) ||
-      this.ezFormConfigService.labelClasses
-    );
-  }
+  checkboxLabelClasses = this.ezFormConfigService.checkboxLabelClasses;
 
-  _controlsClasses: string | string[];
-  @Input()
-  set controlsClasses(val: string | string[]) {
-    this._controlsClasses = val;
-  }
+  radioLabelClasses = this.ezFormConfigService.radioLabelClasses;
 
-  get controlsClasses(): string | string[] {
-    return (
-      this._controlsClasses ||
-      (this.ezGroup && this.ezGroup.controlsClasses) ||
-      this.ezFormConfigService.controlsClasses
-    );
-  }
+  sublabelClasses = this.ezFormConfigService.sublabelClasses;
 
-  get checkboxLabelClasses(): string | string[] {
-    return this.ezFormConfigService.checkboxLabelClasses;
-  }
+  readonlyClasses = this.ezFormConfigService.readonlyClasses;
 
-  get radioLabelClasses(): string | string[] {
-    return this.ezFormConfigService.radioLabelClasses;
-  }
+  validationClasses = this.ezFormConfigService.validationClasses;
 
-  get sublabelClasses(): string | string[] {
-    return this.ezFormConfigService.sublabelClasses;
-  }
+  inputClasses = this.ezFormConfigService.inputClasses;
 
-  get readonlyClasses(): string | string[] {
-    return this.ezFormConfigService.readonlyClasses;
-  }
+  checkboxClasses = this.ezFormConfigService.checkboxClasses;
 
-  get validationClasses(): string | string[] {
-    return this.ezFormConfigService.validationClasses;
-  }
+  radioClasses = this.ezFormConfigService.radioClasses;
 
-  get inputClasses(): string | string[] {
-    return this.ezFormConfigService.inputClasses;
-  }
-
-  get checkboxClasses(): string | string[] {
-    return this.ezFormConfigService.checkboxClasses;
-  }
-
-  get radioClasses(): string | string[] {
-    return this.ezFormConfigService.radioClasses;
-  }
-
-  get selectClasses(): string | string[] {
-    return this.ezFormConfigService.selectClasses;
-  }
+  selectClasses = this.ezFormConfigService.selectClasses;
 
   message = '';
 

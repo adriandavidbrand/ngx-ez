@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Optional } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { EzControlBase } from '../ez-control-base';
 
