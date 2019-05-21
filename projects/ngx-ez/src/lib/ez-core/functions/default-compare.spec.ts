@@ -1,6 +1,6 @@
 import { defaultCompare } from './default-compare';
 
-describe('flatten', () => {
+describe('default-compare', () => {
   it('undefined and null should be zero', () => {
     const value = defaultCompare(undefined, null);
     expect(value).toEqual(0);
