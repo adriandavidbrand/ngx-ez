@@ -1,111 +1,89 @@
 import { Input, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
+import { takeUntil, map } from 'rxjs/operators';
 
 import { EzFormDirective } from '../directives/ez-form.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 import { EzGroupComponent } from './ez-group/ez-group.component';
+import { PushStack } from '../../ez-core/rxjs/push-stack';
+import { firstTruthy } from '../../ez-core/rxjs/first-truthy';
+import { EzConfigDirective } from '../directives/ez-config.directive';
 
 export class EzControlBase implements ControlValueAccessor, OnDestroy {
   constructor(
-    public ezFormConfigService: EzFormConfigService,
+    public configService: EzFormConfigService,
+    public configDirective: EzConfigDirective,
     public ezForm: EzFormDirective,
     public ezGroup: EzGroupComponent,
     public ngControl: NgControl
   ) {
     if (ngControl) {
       ngControl.valueAccessor = this;
-      this.subscription = ngControl.valueChanges.subscribe(() => {
+      ngControl.valueChanges.pipe(takeUntil(this.finalise)).subscribe(() => {
+        this.valid$.next(ngControl.valid);
+        this.invalid$.next(ngControl.invalid);
         if (ngControl.invalid) {
           const errorType = Object.keys(ngControl.errors)[0];
           const errorValue = Object.values(ngControl.errors)[0];
-          this.message =
+          this.message$.next(
             this.messages[errorType] ||
-            ezFormConfigService.defaultMessages[errorType] ||
+            configService.defaultMessages[errorType] ||
             (typeof errorValue === 'string'
               ? errorValue
-              : ezFormConfigService.defaultMessages.invalid);
+              : configService.defaultMessages.invalid));
         } else {
-          this.message = '';
+          this.message$.next('');
         }
       });
     }
   }
 
-  subscription: Subscription;
+  finalise = new Subject<void>();
 
-  @Input()
-  name: string;
-  @Input()
-  required: string | boolean;
-  @Input()
-  maxlength: string;
-  @Input()
-  placeholder: string;
   @Input()
   messages: any = {};
 
-  readonlyVal = false;
+  name$ = new BehaviorSubject<string>(undefined);
+  @Input()
+  set name(value: string) {
+    this.name$.next(value);
+  }
+
+  maxlength$ = new BehaviorSubject<string>(undefined);
+  @Input()
+  set maxlength(value: string) {
+    this.maxlength$.next(value);
+  }
+
+  placeholder$ = new BehaviorSubject<string>(undefined);
+  @Input()
+  set placeholder(value: string) {
+    this.placeholder$.next(value);
+  }
+
+  required$ = new BehaviorSubject(false);
+  @Input()
+  set required(value: string | boolean) {
+    this.required$.next(value !== undefined && value !== false);
+  }
+
+  readonly$ = new PushStack(false, false, firstTruthy(this.ezForm && this.ezForm.readonly$, this.ezGroup && this.ezGroup.readonly$));
   @Input()
   set readonly(val: any) {
-    this.readonlyVal = val !== undefined && val !== false;
+    this.readonly$.next(val !== undefined && val !== false);
   }
 
-  get readonly() {
-    return (
-      (this.ezForm && this.ezForm.readonly) ||
-      this.readonlyVal ||
-      (this.ezGroup && this.ezGroup.readonly)
-    );
-  }
+  valid$ = new BehaviorSubject(false);
 
-  controlClasses = (this.ezGroup && this.ezGroup.controlClasses) || this.ezFormConfigService.controlClasses;
-  @Input('controlClasses')
-  set controlClassesSet(val: string | string[]) {
-    this.controlClasses = val || (this.ezGroup && this.ezGroup.controlClasses) || this.ezFormConfigService.controlClasses;
-  }
+  invalid$ = new BehaviorSubject(false);
 
-  labelClasses = (this.ezGroup && this.ezGroup.labelClasses) || this.ezFormConfigService.labelClasses;
-  @Input('labelClasses')
-  set labelClassesSet(val: string | string[]) {
-    this.labelClasses = val || (this.ezGroup && this.ezGroup.labelClasses) || this.ezFormConfigService.labelClasses;
-  }
+  message$ = new BehaviorSubject('');
 
-  controlsClasses = (this.ezGroup && this.ezGroup.controlsClasses) || this.ezFormConfigService.controlsClasses;
-  @Input('controlsClasses')
-  set controlsClassesSet(val: string | string[]) {
-    this.controlsClasses = val || (this.ezGroup && this.ezGroup.controlsClasses) || this.ezFormConfigService.controlsClasses;
-  }
-
-  checkboxLabelClasses = this.ezFormConfigService.checkboxLabelClasses;
-
-  radioLabelClasses = this.ezFormConfigService.radioLabelClasses;
-
-  sublabelClasses = this.ezFormConfigService.sublabelClasses;
-
-  readonlyClasses = this.ezFormConfigService.readonlyClasses;
-
-  validationClasses = this.ezFormConfigService.validationClasses;
-
-  inputClasses = this.ezFormConfigService.inputClasses;
-
-  checkboxClasses = this.ezFormConfigService.checkboxClasses;
-
-  radioClasses = this.ezFormConfigService.radioClasses;
-
-  selectClasses = this.ezFormConfigService.selectClasses;
-
-  message = '';
+  config$: Observable<any> = this.configDirective ?
+    this.configDirective.config$.pipe(map(config => ({ ...this.configService, ...config }))) : of(this.configService);
 
   value: any = null;
-
-  get valid(): boolean {
-    return this.ngControl && this.ngControl.valid;
-  }
-
-  get invalid(): boolean {
-    return this.ngControl && this.ngControl.invalid;
-  }
 
   writeValue(value: any) {
     this.value = value;
@@ -125,8 +103,6 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.finalise.next();
   }
 }

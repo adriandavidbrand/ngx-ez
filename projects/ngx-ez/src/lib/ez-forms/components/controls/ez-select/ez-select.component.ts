@@ -6,6 +6,7 @@ import { EzFormDirective } from '../../../directives/ez-form.directive';
 import { EzFormConfigService } from '../../../services/ez-form-config.service';
 import { EzGroupComponent } from '../../ez-group/ez-group.component';
 import { Option } from '../../../../ez-core/models/options';
+import { EzConfigDirective } from '../../../directives/ez-config.directive';
 
 @Component({
   selector: 'ez-select',
@@ -24,11 +25,12 @@ export class EzSelectComponent extends EzControlBase {
   defaultValue = null;
 
   constructor(
-    ezFormConfigService: EzFormConfigService,
+    configService: EzFormConfigService,
+    @Optional() configDirective: EzConfigDirective,
     @Optional() ezForm: EzFormDirective,
     @Optional() ezGroup: EzGroupComponent,
     @Self() @Optional() ngControl: NgControl
   ) {
-    super(ezFormConfigService, ezForm, ezGroup, ngControl);
+    super(configService, configDirective, ezForm, ezGroup, ngControl);
   }
 }

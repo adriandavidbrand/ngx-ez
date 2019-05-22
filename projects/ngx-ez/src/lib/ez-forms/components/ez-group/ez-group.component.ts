@@ -1,20 +1,16 @@
 import { Component, Input } from '@angular/core';
 
+import { BehaviorSubject } from 'rxjs';
+
 @Component({
   selector: 'ez-group',
   templateUrl: './ez-group.component.html',
   styleUrls: ['./ez-group.component.css']
 })
 export class EzGroupComponent {
+  readonly$ = new BehaviorSubject(false);
   @Input()
-  controlClasses: string | string[];
-
-  @Input()
-  labelClasses: string | string[];
-
-  @Input()
-  controlsClasses: string | string[];
-
-  @Input()
-  readonly = false;
+  set readonly(value: boolean) {
+    this.readonly$.next(value);
+  }
 }

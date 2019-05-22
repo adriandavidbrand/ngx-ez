@@ -7,7 +7,7 @@ import {
   Output
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 
 @Directive({
   selector: '[ez-form]'
@@ -16,15 +16,15 @@ export class EzFormDirective implements OnDestroy {
   @Output()
   ezSubmit: EventEmitter<void> = new EventEmitter();
 
-  readonly = false;
-  @Input('readonly')
-  set readonlySet(val: any) {
+  readonly$ = new BehaviorSubject(false);
+  @Input()
+  set readonly(val: any) {
     if (val) {
       this.el.nativeElement.classList.add('ez-form-readonly');
     } else {
       this.el.nativeElement.classList.remove('ez-form-readonly');
     }
-    this.readonly = val !== undefined && val !== false ? true : false;
+    this.readonly$.next(val !== undefined && val !== false);
   }
 
   private subscription: Subscription;

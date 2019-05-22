@@ -19,6 +19,7 @@ import { ValidatorDirective } from './validators/validator.directive';
 import { EzCoreModule } from '../ez-core/ez-core.module';
 import { EzPasswordComponent } from './components/controls/ez-password/ez-password.component';
 import { SameDirective } from './validators/same.directive';
+import { EzConfigDirective } from './directives/ez-config.directive';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { SameDirective } from './validators/same.directive';
     RangeDirective,
     ValidatorDirective,
     EzPasswordComponent,
-    SameDirective
+    SameDirective,
+    EzConfigDirective
   ],
   imports: [CommonModule, FormsModule, EzCoreModule],
   exports: [
@@ -56,7 +58,8 @@ import { SameDirective } from './validators/same.directive';
     RangeDirective,
     ValidatorDirective,
     EzPasswordComponent,
-    SameDirective
+    SameDirective,
+    EzConfigDirective
   ]
 })
 export class EzFormsModule {}

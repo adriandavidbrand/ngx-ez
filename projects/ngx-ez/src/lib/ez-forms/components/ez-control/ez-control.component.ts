@@ -1,6 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { EzControlBase } from '../ez-control-base';
+import { firstTruthy } from '../../../ez-core/rxjs/first-truthy';
 
 @Component({
   selector: 'ez-control',
@@ -11,54 +14,22 @@ export class EzControlComponent {
   @Input()
   fieldset: boolean | string = false;
 
-  private ezForm = this.ezControl.ezForm;
+  name$ = this.ezControl.name$;
 
-  get name(): string {
-    return this.ezControl.name;
-  }
+  readonly$ = this.ezControl.readonly$;
 
-  get readonly(): boolean {
-    return this.ezControl.readonly;
-  }
+  showRequired$ = combineLatest(
+    this.ezControl.required$,
+    firstTruthy(this.ezControl.ezForm && this.ezControl.ezForm.readonly$, this.readonly$))
+  .pipe(
+    map(([required, readonly]) => required && !readonly)
+  );
 
-  get showRequired(): boolean {
-    return this.ezForm && this.ezForm.readonly
-      ? false
-      : this.ezControl.required !== undefined &&
-          this.ezControl.required !== false;
-  }
+  invalid$ = this.ezControl.invalid$;
 
-  get valid(): boolean {
-    return this.ezControl.valid;
-  }
+  message$ = this.ezControl.message$;
 
-  get invalid(): boolean {
-    return this.ezControl.invalid;
-  }
-
-  get message(): string {
-    return this.ezControl.message;
-  }
-
-  get controlClasses(): string | string[] {
-    return this.ezControl.controlClasses;
-  }
-
-  get labelClasses(): string | string[] {
-    return this.ezControl.labelClasses;
-  }
-
-  get controlsClasses(): string | string[] {
-    return this.ezControl.controlsClasses;
-  }
-
-  get readonlyClasses(): string | string[] {
-    return this.ezControl.readonlyClasses;
-  }
-
-  get validationClasses(): string | string[] {
-    return this.ezControl.validationClasses;
-  }
+  config$ = this.ezControl.config$;
 
   constructor(private ezControl: EzControlBase) {}
 }
