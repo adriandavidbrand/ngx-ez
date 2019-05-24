@@ -1,0 +1,21 @@
+{
+  "beautify.ignore": ["**/*.ts"],
+  "beautify.language": {
+    "html": ["htm", "html"]
+  },
+
+  "tslint.enable": true,
+  "tslint.alwaysShowRuleFailuresAsWarnings": true,
+  "tslint.alwaysShowStatus": true,
+
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.autoIndent": true,
+
+  "files.trimTrailingWhitespace": true,
+
+  "prettier.disableLanguages": ["html"],
+
+  "html.format.wrapLineLength": 200
+}
