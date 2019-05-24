@@ -4,7 +4,7 @@ import { EzConfigDirective } from './ez-config.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 import { firstEmitted } from '../../ez-testing/first-emitted';
 
-fdescribe('EzConfigDirective', () => {
+describe('EzConfigDirective', () => {
   let config: EzFormConfigService;
 
   beforeEach(() => {

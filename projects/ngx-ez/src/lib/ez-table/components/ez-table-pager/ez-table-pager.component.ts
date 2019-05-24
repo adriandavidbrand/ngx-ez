@@ -8,7 +8,7 @@ import { EzTableComponent } from '../ez-table/ez-table.component';
   styleUrls: ['./ez-table-pager.component.css']
 })
 export class EzTablePagerComponent {
-  changeSize(pageSize) {
+  changeSize(pageSize: string) {
     if (pageSize === 'All') {
       this.table.pageSize = pageSize;
     } else {
@@ -17,5 +17,5 @@ export class EzTablePagerComponent {
     this.table.goto(1);
   }
 
-  constructor(public table: EzTableComponent) { }
+  constructor(public table: EzTableComponent) {}
 }

@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EzTableSearchComponent } from './ez-table-search.component';
+import { EzTableComponent } from '../ez-table/ez-table.component';
+
+class TableMock {
+  data = [];
+}
 
 describe('EzTableSearchComponent', () => {
   let component: EzTableSearchComponent;
@@ -8,9 +13,9 @@ describe('EzTableSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EzTableSearchComponent ]
-    })
-    .compileComponents();
+      declarations: [EzTableSearchComponent],
+      providers: [{ provide: EzTableComponent, useClass: TableMock }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -11,7 +11,7 @@ export class EzTableSearchComponent {
   @Input()
   label = 'Search';
 
-  constructor(public table: EzTableComponent) { }
+  constructor(public table: EzTableComponent) {}
 
   search(search: string) {
     this.table.search = search;

@@ -11,8 +11,8 @@ import { groupBy, GroupBy, flattenGroups } from '../../../ez-core/functions/grou
   styleUrls: ['./ez-table.component.css']
 })
 export class EzTableComponent implements OnInit, OnChanges {
-  @Input('data')
-  data: any[];
+  @Input()
+  data: any[] = [];
 
   @Input()
   tableId = 'table';
@@ -54,14 +54,13 @@ export class EzTableComponent implements OnInit, OnChanges {
     let filteredData =
       searchArray && searchArray.length
         ? this.data.filter(item =>
-          searchArray.every(
-            search =>
+            searchArray.every(search =>
               this.columns.some(c => {
                 const text = c.display ? c.display(item[c.property]) : item[c.property];
                 return text ? text.toLowerCase().includes(search) : false;
               })
+            )
           )
-        )
         : [...this.data];
     if (this.columnSort.length > 0) {
       multipleSort(
@@ -138,7 +137,8 @@ export class EzTableComponent implements OnInit, OnChanges {
     if (column.sortable) {
       const current = this.columnSort.find(c => c === column);
       if (current) {
-        column.direction = column.direction === SortDirection.ascending ? SortDirection.descending : SortDirection.ascending;
+        column.direction =
+          column.direction === SortDirection.ascending ? SortDirection.descending : SortDirection.ascending;
       } else {
         column.direction = SortDirection.ascending;
       }

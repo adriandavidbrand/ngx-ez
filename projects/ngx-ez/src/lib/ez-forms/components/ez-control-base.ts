@@ -1,7 +1,7 @@
 import { Input, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { EzFormDirective } from '../directives/ez-form.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
