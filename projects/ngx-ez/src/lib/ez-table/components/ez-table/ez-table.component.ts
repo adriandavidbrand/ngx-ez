@@ -18,11 +18,11 @@ export class EzTableComponent implements OnInit, OnChanges {
   tableId = 'table';
 
   @Input('groupBy')
-  set updateGroupBy(groupBy: string | GroupBy) {
-    if (typeof groupBy === 'string') {
-      this.groupBy = { keys: groupBy.split(' ') };
+  set groupBySet(value: string | GroupBy) {
+    if (typeof value === 'string') {
+      this.groupBy = { keys: value.split(' ') };
     } else {
-      this.groupBy = groupBy;
+      this.groupBy = value;
     }
   }
   groupBy: GroupBy;
