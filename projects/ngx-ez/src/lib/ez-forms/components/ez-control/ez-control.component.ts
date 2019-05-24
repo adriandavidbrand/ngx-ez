@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, Optional } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { EzControlBase } from '../ez-control-base';
-import { firstTruthy } from '../../../ez-core/rxjs/first-truthy';
 
 @Component({
   selector: 'ez-control',
