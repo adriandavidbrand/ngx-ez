@@ -1,11 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  OnDestroy,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Directive, ElementRef, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription, BehaviorSubject } from 'rxjs';
 
@@ -31,7 +24,7 @@ export class EzFormDirective implements OnDestroy {
 
   constructor(form: NgForm, private el: ElementRef) {
     el.nativeElement.classList.add('ez-form');
-    this.subscription = form.ngSubmit.subscribe(_ => {
+    this.subscription = form.ngSubmit.subscribe(() => {
       this.onSubmit(el.nativeElement);
       if (form.valid) {
         this.ezSubmit.emit();
@@ -56,9 +49,7 @@ export class EzFormDirective implements OnDestroy {
     if (invalid) {
       invalid.focus();
     } else {
-      const validation = elm.querySelector(
-        '.ng-invalid .ng-invalid .ez-validation'
-      );
+      const validation = elm.querySelector('.ng-invalid .ng-invalid .ez-validation');
       if (validation) {
         validation.scrollIntoView();
         validation.focus();
