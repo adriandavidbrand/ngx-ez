@@ -28,10 +28,9 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
           const errorValue = Object.values(ngControl.errors)[0];
           this.message$.next(
             this.messages[errorType] ||
-            configService.defaultMessages[errorType] ||
-            (typeof errorValue === 'string'
-              ? errorValue
-              : configService.defaultMessages.invalid));
+              configService.defaultMessages[errorType] ||
+              (typeof errorValue === 'string' ? errorValue : configService.defaultMessages.invalid)
+          );
         } else {
           this.message$.next('');
         }
@@ -68,7 +67,11 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
     this.required$.next(value !== undefined && value !== false);
   }
 
-  readonly$ = new PushStack(false, false, firstTruthy(this.ezForm && this.ezForm.readonly$, this.ezGroup && this.ezGroup.readonly$));
+  readonly$ = new PushStack(
+    false,
+    false,
+    firstTruthy(this.ezForm && this.ezForm.readonly$, this.ezGroup && this.ezGroup.readonly$)
+  );
   @Input()
   set readonly(val: any) {
     this.readonly$.next(val !== undefined && val !== false);
@@ -80,8 +83,7 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
 
   message$ = new BehaviorSubject('');
 
-  config$: Observable<any> = this.configDirective ?
-    this.configDirective.config$.pipe(map(config => ({ ...this.configService, ...config }))) : of(this.configService);
+  config$: Observable<any> = this.configDirective ? this.configDirective.config$ : of(this.configService);
 
   value: any = null;
 
