@@ -3,7 +3,8 @@
   <table id="tableId">
     <thead>
       <tr>
-        <th *ngFor="let column of columns" [attr.tabindex]="column.sortable ? '0' : null" [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, $event.shiftKey)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
+        <th *ngFor="let column of columns" [attr.tabindex]="column.sortable ? '0' : null" [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction"
+          [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, $event.shiftKey)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
       </tr>
     </thead>
     <tbody>

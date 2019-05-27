@@ -28,10 +28,17 @@ export class EzTableComponent implements OnInit, OnChanges {
   groupBy: GroupBy;
 
   @Input()
-  pageSize: string | number = 'All';
-
-  @Input()
   pageSizes: any[] = [5, 10, 25, 50, 'All'];
+
+  pageSize: string | number = 'All';
+  @Input('pageSize')
+  set pageSizeSet(value: string | number) {
+    if (value === this.pageSizes[this.pageSizes.length - 1]) {
+      this.pageSize = value;
+    } else {
+      this.pageSize = typeof value === 'string' ? parseInt(value) : value;
+    }
+  }
 
   pageData: any[];
 

@@ -6,10 +6,11 @@ export class PushStack<T> extends Observable<T> {
 
   constructor(private value: T, private defaultValue: T, private parent$?: Observable<T>) {
     super();
-    this.source = this.parent$ ?
-      combineLatest(this.behaviorSubject$, this.parent$).pipe(
-        map(([behaviorSubject, parent]) => behaviorSubject || parent || this.defaultValue)
-      ) : this.behaviorSubject$.pipe(map(behaviorSubject => behaviorSubject || this.defaultValue));
+    this.source = this.parent$
+      ? combineLatest(this.behaviorSubject$, this.parent$).pipe(
+          map(([behaviorSubject, parent]) => behaviorSubject || parent || this.defaultValue)
+        )
+      : this.behaviorSubject$.pipe(map(behaviorSubject => behaviorSubject || this.defaultValue));
   }
 
   complete() {

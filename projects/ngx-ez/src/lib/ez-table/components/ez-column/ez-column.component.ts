@@ -15,10 +15,10 @@ export class EzColumnComponent {
   heading: string;
 
   @Input('sortable')
-  set setSortable(val: string | boolean) {
+  set sortableSet(val: string | boolean) {
     this.sortable = val !== undefined && val !== false;
   }
-  sortable: boolean = true;
+  sortable = true;
 
   @Input()
   compare: (a: any, b: any) => number;

@@ -21,8 +21,12 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
     if (ngControl) {
       ngControl.valueAccessor = this;
       ngControl.valueChanges.pipe(takeUntil(this.finalise)).subscribe(() => {
-        this.valid$.next(ngControl.valid);
-        this.invalid$.next(ngControl.invalid);
+        if (ngControl.valid !== this.valid$.getValue()) {
+          this.valid$.next(ngControl.valid);
+        }
+        if (ngControl.invalid !== this.invalid$.getValue()) {
+          this.invalid$.next(ngControl.invalid);
+        }
         if (ngControl.invalid) {
           const errorType = Object.keys(ngControl.errors)[0];
           const errorValue = Object.values(ngControl.errors)[0];

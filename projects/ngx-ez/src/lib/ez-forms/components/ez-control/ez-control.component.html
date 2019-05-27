@@ -5,30 +5,26 @@
     </div>
 
     <ng-template #fieldsetTemplate>
-      <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate"
-        [attr.aria-describedby]="(invalid$ | async) ? name + '_validation_message' : null">
+      <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate" [attr.aria-describedby]="(invalid$ | async) ? name + '_validation_message' : null">
         <legend class="ez-label" [ngClass]="config.labelClasses">
           <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
         </legend>
         <div class="ez-controls" [ngClass]="config.controlsClasses">
           <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
         </div>
-        <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="config.validationClasses"
-          *ngIf="(invalid$ | async)">{{ message$ | async }}</div>
+        <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
       </fieldset>
     </ng-template>
 
     <ng-template #labelTemplate>
       <ng-container *ngIf="!(readonly$ | async) else readonlyTemplate">
-        <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_question_input_label'"
-          [for]="name + '_question_input'">
+        <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_question_input_label'" [for]="name + '_question_input'">
           <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
         </label>
         <div class="ez-controls" [ngClass]="config.controlsClasses">
           <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
         </div>
-        <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="config.validationClasses"
-          *ngIf="(invalid$ | async)">{{ message$ | async }}</div>
+        <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
       </ng-container>
     </ng-template>
 
@@ -45,7 +41,7 @@
 
     <ng-template #contentTemplate>
       <ng-content></ng-content>
-      <span class="ez-required" *ngIf="(showRequired$ | async)">*</span>
+      <span class="ez-required" *ngIf="showRequired$ | async">*</span>
     </ng-template>
 
     <ng-template #controlsTemplate>

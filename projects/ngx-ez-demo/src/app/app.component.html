@@ -9,13 +9,11 @@
     Yes/No
   </ez-yes-no>
 
-  <ez-select name="select" [(ngModel)]="model.select"
-    [options]="[{ value: 1, label: 'Select 1' }, { value: 2, label: 'Select 2' }]" required>
+  <ez-select name="select" [(ngModel)]="model.select" [options]="[{ value: 1, label: 'Select 1' }, { value: 2, label: 'Select 2' }]" required>
     Select
   </ez-select>
 
-  <ez-radio name="radio" [(ngModel)]="model.radio"
-    [options]="[{ value: 1, label: 'Radio 1' }, { value: 2, label: 'Radio 2' }]" required>
+  <ez-radio name="radio" [(ngModel)]="model.radio" [options]="[{ value: 1, label: 'Radio 1' }, { value: 2, label: 'Radio 2' }]" required>
     Radio
   </ez-radio>
 
@@ -24,8 +22,7 @@
   </ez-checkbox>
 
   <ez-checkboxes name="checkboxes" [(ngModel)]="model.checkboxes"
-    [options]="[{ property: 'prop1', label: 'Checkbox 1' }, { property: 'prop2', label: 'Checkbox 2' }, { property: 'prop3', label: 'Checkbox 3' }]"
-    checkboxes-required>
+    [options]="[{ property: 'prop1', label: 'Checkbox 1' }, { property: 'prop2', label: 'Checkbox 2' }, { property: 'prop3', label: 'Checkbox 3' }]" checkboxes-required>
     Checkboxes
   </ez-checkboxes>
 
@@ -43,7 +40,7 @@
 </form>
 
 <h2>Table</h2>
-<ez-table [data]="tableData" [pageSize]="5" groupBy="lastName">
+<ez-table [data]="tableData" pageSize="5" groupBy="lastName">
   <ez-table-search></ez-table-search>
   <ez-column heading="Last Name" property="lastName">
     <ng-template let-item>

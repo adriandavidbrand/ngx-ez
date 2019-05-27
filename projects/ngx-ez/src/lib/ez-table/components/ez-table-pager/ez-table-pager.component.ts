@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { EzTableComponent } from '../ez-table/ez-table.component';
 
@@ -8,12 +8,8 @@ import { EzTableComponent } from '../ez-table/ez-table.component';
   styleUrls: ['./ez-table-pager.component.css']
 })
 export class EzTablePagerComponent {
-  changeSize(pageSize: string) {
-    if (pageSize === 'All') {
-      this.table.pageSize = pageSize;
-    } else {
-      this.table.pageSize = parseInt(pageSize);
-    }
+  changeSize(pageSize: string | number) {
+    this.table.pageSizeSet = pageSize;
     this.table.goto(1);
   }
 
