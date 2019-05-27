@@ -8,7 +8,7 @@ npm install --save ngx-ez
 
 ## Forms
 
-Add the EzFormsModule to your module and you are ready to build so Easy Forms.
+Add the EzFormsModule to your module and you are ready to build Easy Forms.
 
 [Testbed on StackBlitz](https://stackblitz.com/edit/angular-8brst8?file=src%2Fapp%2Fapp.component.html)
 
@@ -21,18 +21,17 @@ import { EzFormsModule } from 'ngx-ez';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, EzFormsModule ],
-  declarations: [ AppComponent ],
-  bootstrap:    [ AppComponent ]
+  imports: [BrowserModule, FormsModule, EzFormsModule],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 On a form you add the ez-form directive and an (ezSubmit) event handler that will only fire if the form is valid.
 
 ```html
-<form ez-form (ezSubmit)="onSubmit()" [readonly]="readonly">
-</form>
+<form ez-form (ezSubmit)="onSubmit()" [readonly]="readonly"></form>
 ```
 
 Now you can add form controls with the directives ez-text, ez-select, ez-radio, ez-checkbox and ez-checkboxes.
@@ -47,11 +46,21 @@ Now you can add form controls with the directives ez-text, ez-select, ez-radio, 
     Yes/No
   </ez-yes-no>
 
-  <ez-select name="select" [(ngModel)]="model.select" [options]="[{ value: 1, label: 'Select 1' }, { value: 2, label: 'Select 2' }]" required>
+  <ez-select
+    name="select"
+    [(ngModel)]="model.select"
+    [options]="[{ value: 1, label: 'Select 1' }, { value: 2, label: 'Select 2' }]"
+    required
+  >
     Select
   </ez-select>
 
-  <ez-radio name="radio" [(ngModel)]="model.radio" [options]="[{ value: 1, label: 'Radio 1' }, { value: 2, label: 'Radio 2' }]" required>
+  <ez-radio
+    name="radio"
+    [(ngModel)]="model.radio"
+    [options]="[{ value: 1, label: 'Radio 1' }, { value: 2, label: 'Radio 2' }]"
+    required
+  >
     Radio
   </ez-radio>
 
@@ -59,7 +68,13 @@ Now you can add form controls with the directives ez-text, ez-select, ez-radio, 
     Checkbox
   </ez-checkbox>
 
-  <ez-checkboxes name="checkboxes" [(ngModel)]="model.checkboxes" [options]="[{ property: 'prop1', label: 'Checkbox 1' }, { property: 'prop2', label: 'Checkbox 2' }, { property: 'prop3', label: 'Checkbox 3' }]" checkboxes-required [messages]="{ required: 'Please select at least one option' }">
+  <ez-checkboxes
+    name="checkboxes"
+    [(ngModel)]="model.checkboxes"
+    [options]="[{ property: 'prop1', label: 'Checkbox 1' }, { property: 'prop2', label: 'Checkbox 2' }, { property: 'prop3', label: 'Checkbox 3' }]"
+    checkboxes-required
+    [messages]="{ required: 'Please select at least one option' }"
+  >
     Checkboxes
   </ez-checkboxes>
 
@@ -71,3 +86,51 @@ Now you can add form controls with the directives ez-text, ez-select, ez-radio, 
 
 Putting a readonly attribute on the form will place all controls on the form into read only mode.
 
+## Table
+
+Add the EzTableModule to your module and you are ready to build Easy Tables.
+
+[Testbed on StackBlitz](https://stackblitz.com/edit/angular-npn1p1?file=src%2Fapp%2Fapp.module.ts)
+
+```html
+<ez-table [data]="tableData" pageSize="5">
+  <ez-table-search></ez-table-search>
+  <ez-column heading="Full Name" property="firstName">
+    <ng-template let-item>
+      {{item.firstName}} {{item.lastName}}
+    </ng-template>
+  </ez-column>
+  <ez-column heading="Full Name" [display]="fullName"></ez-column>
+  <ez-column heading="Last Name" property="lastName"></ez-column>
+  <ez-table-pager footer></ez-table-pager>
+</ez-table>
+```
+
+```javascript
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  tableData = [
+    { firstName: 'Harry', lastName: 'Jones' },
+    { firstName: 'Billy', lastName: 'Bob' },
+    { firstName: 'Joe', lastName: 'Jones' },
+    { firstName: 'Mary', lastName: 'Joe' },
+    { firstName: 'Sue', lastName: 'Harris' },
+    { firstName: 'Bob', lastName: 'Walker' },
+    { firstName: 'Hillary', lastName: 'Smith' }
+  ];
+
+  fullName = item => `${item.firstName} ${item.lastName}`;
+}
+```
+
+data is a plain JavaScript array and columns are defined with the ez-column component.
+
+A column can display a property from the current data item with the property attribute, it can transform the current data item with a display function passed to the display attribute or it can use a custom template defined in it's content.
+
+A search can be added with the ez-table-search and a pager can be added with the ez-table-pager component.
+
+An element with the footer attribute will display in the tables footer.
