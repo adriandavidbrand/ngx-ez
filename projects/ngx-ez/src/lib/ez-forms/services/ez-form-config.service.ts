@@ -9,6 +9,8 @@ export class EzFormConfigService {
     required: 'Response required'
   };
 
+  formClasses: string | string[];
+  formSubmittedClasses: string | string[];
   controlClasses: string | string[];
   labelClasses: string | string[];
   controlsClasses: string | string[];
