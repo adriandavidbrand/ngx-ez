@@ -18,7 +18,7 @@
 
     <ng-template #labelTemplate>
       <ng-container *ngIf="!(readonly$ | async) else readonlyTemplate">
-        <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_question_input_label'" [for]="name + '_question_input'">
+        <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_control_input_label'" [for]="name + '_control_input'">
           <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
         </label>
         <div class="ez-controls" [ngClass]="config.controlsClasses">

@@ -3,8 +3,8 @@
   <ng-container question-controls>
     <ng-container *ngIf="(readonly$ | async) else elseBlock">{{ value | reference: options }}</ng-container>
     <ng-template #elseBlock>
-      <select [id]="(name$ | async) + '_question_input'" [attr.aria-describedby]="(valid$ | async) ? null : (name$ | async) + '_validationMessage'"
-        [(ngModel)]="value" (ngModelChange)="onChange(value)" [ngClass]="(config$ | async).selectClasses">
+      <select [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="(valid$ | async) ? null : (name$ | async) + '_validationMessage'" [(ngModel)]="value" (ngModelChange)="onChange(value)"
+        [ngClass]="(config$ | async).selectClasses">
         <option [ngValue]="defaultValue" *ngIf="showDefault">{{defaultText}}</option>
         <option *ngFor="let option of options" [ngValue]="option.value">{{option.label}}</option>
       </select>
