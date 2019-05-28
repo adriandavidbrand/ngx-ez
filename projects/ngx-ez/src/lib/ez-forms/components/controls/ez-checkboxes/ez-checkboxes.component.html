@@ -1,10 +1,14 @@
-<ez-control fieldset>
-  <ng-content></ng-content>
-  <ng-container question-controls>
-    <label [ngClass]="(config$ | async).checkboxLabelClasses" *ngFor="let option of options">
-      <input type="checkbox" [checked]="value && value[option.property]" [disabled]="(readonly$ | async) || option.disabled" (change)="onValueChange($event, option)"
-        [ngClass]="(config$ | async).checkboxClasses" [valid]="valid$ | async">
-      {{option.label}}
-    </label>
-  </ng-container>
-</ez-control>
+<ng-container *ngIf="config$ | async as config">
+  <ez-control fieldset>
+    <ng-content></ng-content>
+    <ng-container question-controls>
+      <div [ngClass]="config.checkboxContainerClasses" *ngFor="let option of options">
+        <label [ngClass]="config.checkboxLabelClasses">
+          <input type="checkbox" [checked]="value && value[option.property]" [disabled]="(readonly$ | async) || option.disabled" (change)="onValueChange($event, option)"
+            [ngClass]="config.checkboxClasses" [valid]="valid$ | async">
+          {{option.label}}
+        </label>
+      </div>
+    </ng-container>
+  </ez-control>
+</ng-container>

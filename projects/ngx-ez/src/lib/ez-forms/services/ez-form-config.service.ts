@@ -21,7 +21,9 @@ export class EzFormConfigService {
   validationClasses: string | string[];
   inputClasses: string | string[];
   checkboxClasses: string | string[];
+  checkboxContainerClasses: string | string[];
   radioClasses: string | string[];
+  radioContainerClasses: string | string[];
   selectClasses: string | string[];
   groupClasses: string | string[];
 }

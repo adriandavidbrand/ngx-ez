@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Optional } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { BehaviorSubject } from 'rxjs';
+import { EzFormConfigService } from '../../services/ez-form-config.service';
+import { EzConfigDirective } from '../../directives/ez-config.directive';
 
 @Component({
   selector: 'ez-group',
@@ -13,4 +15,8 @@ export class EzGroupComponent {
   set readonly(value: boolean) {
     this.readonly$.next(value);
   }
+
+  config$: Observable<any> = this.configDirective ? this.configDirective.config$ : of(this.configService);
+
+  constructor(private configService: EzFormConfigService, @Optional() private configDirective: EzConfigDirective) {}
 }
