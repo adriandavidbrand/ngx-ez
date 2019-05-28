@@ -2,8 +2,8 @@
   <ng-content></ng-content>
   <ng-container question-controls>
     <label [ngClass]="(config$ | async).checkboxLabelClasses" *ngFor="let option of options">
-      <input type="checkbox" [checked]="value && value[option.property]" [disabled]="(readonly$ | async) || option.disabled"
-        (change)="onValueChange($event, option)" [ngClass]="(config$ | async).checkboxClasses">
+      <input type="checkbox" [checked]="value && value[option.property]" [disabled]="(readonly$ | async) || option.disabled" (change)="onValueChange($event, option)"
+        [ngClass]="(config$ | async).checkboxClasses" [valid]="valid$ | async">
       {{option.label}}
     </label>
   </ng-container>

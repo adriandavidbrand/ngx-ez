@@ -4,8 +4,8 @@
     <ng-container *ngIf="(readonly$ | async) else elseBlock">{{ value | reference: options }}</ng-container>
     <ng-template #elseBlock>
       <label *ngFor="let option of options" [ngClass]="(config$ | async).radioLabelClasses">
-        <input type="radio" [name]="(name$ | async) + '_radio_input'" (change)="onChange(option.value)"
-          [checked]="value === option.value" [ngClass]="(config$ | async).radioClasses" />
+        <input type="radio" [name]="(name$ | async) + '_radio_input'" (change)="onChange(option.value)" [checked]="value === option.value" [ngClass]="(config$ | async).radioClasses"
+          [valid]="valid$ | async" />
         {{ option.label }}
       </label>
     </ng-template>

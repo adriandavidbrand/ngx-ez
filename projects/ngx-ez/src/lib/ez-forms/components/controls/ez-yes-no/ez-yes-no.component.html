@@ -4,13 +4,13 @@
     <ng-container *ngIf="(readonly$ | async) else elseBlock">{{ value === 'Y' ? 'Yes' : value === 'N' ? 'No' : '' }}</ng-container>
     <ng-template #elseBlock>
       <label [ngClass]="(config$ | async).radioLabelClasses">
-        <input type="radio" value="Y" [name]="(name$ | async) + '_radio_input'" (change)="onChange($event.target.value)"
-          [checked]="value === 'Y'" [ngClass]="(config$ | async).radioClasses" />
+        <input type="radio" value="Y" [name]="(name$ | async) + '_radio_input'" (change)="onChange($event.target.value)" [checked]="value === 'Y'" [ngClass]="(config$ | async).radioClasses"
+          [valid]="valid$ | async" />
         Yes
       </label>
       <label [ngClass]="(config$ | async).radioLabelClasses">
-        <input type="radio" value="N" [name]="(name$ | async) + '_radio_input'" (change)="onChange($event.target.value)"
-          [checked]="value === 'N'" [ngClass]="(config$ | async).radioClasses" />
+        <input type="radio" value="N" [name]="(name$ | async) + '_radio_input'" (change)="onChange($event.target.value)" [checked]="value === 'N'" [ngClass]="(config$ | async).radioClasses"
+          [valid]="valid$ | async" />
         No
       </label>
     </ng-template>
