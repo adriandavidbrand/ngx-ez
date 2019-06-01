@@ -1,4 +1,4 @@
-import { defaultCompare } from './default-compare';
+import { naturalSort } from './natural-sort';
 
 export enum SortDirection {
   ascending = 'ascending',
@@ -17,11 +17,11 @@ export const multipleSort = (array: any[], ...props: (string | SortProperty)[]):
 
     props.some(item => {
       if (typeof item === 'string') {
-        direction = defaultCompare(a[item], b[item]);
+        direction = naturalSort(a[item], b[item]);
       } else {
         direction = item.compare
           ? item.compare(a[item.property], b[item.property])
-          : defaultCompare(a[item.property], b[item.property]);
+          : naturalSort(a[item.property], b[item.property]);
         if (direction && item.direction === SortDirection.descending) {
           direction = -direction;
         }
