@@ -4,6 +4,7 @@ import { EzColumnComponent } from '../ez-column/ez-column.component';
 import { multipleSort } from '../../../ez-core/functions/multiple-sort';
 import { SortDirection } from '../../../ez-core/functions/multiple-sort';
 import { groupBy, GroupBy, flattenGroups } from '../../../ez-core/functions/group-by';
+import { EzTableConfigService } from '../../services/ez-table-config.service';
 
 @Component({
   selector: 'ez-table',
@@ -55,6 +56,8 @@ export class EzTableComponent implements OnInit, OnChanges {
 
   @ContentChildren(EzColumnComponent)
   columns: QueryList<EzColumnComponent>;
+
+  constructor(public config: EzTableConfigService) {}
 
   update() {
     const searchArray = this.search ? this.search.toLowerCase().split(' ') : null;
