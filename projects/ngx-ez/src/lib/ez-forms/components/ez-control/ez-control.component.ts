@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -7,7 +7,8 @@ import { EzControlBase } from '../ez-control-base';
 @Component({
   selector: 'ez-control',
   templateUrl: './ez-control.component.html',
-  styleUrls: ['./ez-control.component.css']
+  styleUrls: ['./ez-control.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EzControlComponent {
   @Input()
