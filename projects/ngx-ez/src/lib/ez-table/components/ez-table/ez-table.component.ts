@@ -41,6 +41,9 @@ export class EzTableComponent implements OnInit, OnChanges {
     }
   }
 
+  @Input()
+  maxPages = 10;
+
   pageData: any[];
 
   columnSort: EzColumnComponent[] = [];
@@ -92,7 +95,17 @@ export class EzTableComponent implements OnInit, OnChanges {
       this.totalPages =
         Math.floor(filteredData.length / this.pageSize) + (filteredData.length % this.pageSize === 0 ? 0 : 1);
       filteredData = filteredData.filter((_, i) => i >= this.start - 1 && i < this.finish);
-      this.pageNums = Array.from(Array(this.totalPages), (_, i) => i + 1);
+      if (this.totalPages <= this.maxPages) {
+        this.pageNums = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+      } else {
+        let startPage = this.pageNum - Math.floor(this.maxPages / 2);
+        if (startPage < 1) {
+          startPage = 1;
+        } else if (startPage > this.totalPages - this.maxPages + 1) {
+          startPage = this.totalPages - this.maxPages + 1;
+        }
+        this.pageNums = Array.from({ length: this.maxPages }, (_, i) => i + startPage);
+      }
     } else {
       this.pageNum = 1;
       this.totalPages = 1;
