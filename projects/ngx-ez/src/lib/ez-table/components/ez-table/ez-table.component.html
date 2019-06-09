@@ -18,6 +18,11 @@
           </td>
         </ng-container>
       </tr>
+      <tr *ngIf="pageData.length === 0">
+        <td [colSpan]="columns.length">
+          {{ noDataMessage }}
+        </td>
+      </tr>
     </tbody>
   </table>
   <ng-content select="[footer]"></ng-content>

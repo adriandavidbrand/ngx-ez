@@ -46,6 +46,9 @@ export class EzTableComponent implements OnInit, OnChanges {
 
   pageData: any[];
 
+  @Input()
+  noDataMessage = this.config.messages.noData;
+
   columnSort: EzColumnComponent[] = [];
 
   search = '';
