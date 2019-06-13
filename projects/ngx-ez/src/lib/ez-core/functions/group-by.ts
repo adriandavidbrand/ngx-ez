@@ -25,12 +25,15 @@ export const flattenGroup = (group: Group): any[] => {
 
   const flattenedItems = items.reduce((array, item, index) => {
     const rows = index ? -1 : items.length;
-    const merged = Object.getOwnPropertyNames(group.key).reduce((o, prop) => {
-      o[prop] = group.key[prop];
-      o._rows[prop] = rows;
-      return o;
-    }, { _rows: {} });
-    array.push({ ...merged, ...item });
+    const merged = Object.getOwnPropertyNames(group.key).reduce(
+      (o, prop) => {
+        o[prop] = group.key[prop];
+        o._rows[prop] = rows;
+        return o;
+      },
+      { _rows: {} }
+    );
+    array.push({ ...merged, ...item, _rows: { ...item._rows, ...merged._rows } });
     return array;
   }, []);
   return group.sum && flattenedItems && flattenedItems.length
@@ -43,6 +46,7 @@ export const flattenGroup = (group: Group): any[] => {
       ]
     : flattenedItems;
 };
+
 export const flattenGroups = (groups: Group[]): any[] =>
   groups
     ? groups.reduce((array, group) => {
