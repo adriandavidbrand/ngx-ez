@@ -2,15 +2,19 @@
   <ng-content></ng-content>
   <table id="tableId" [ngClass]="config.tableClasses">
     <thead>
+      <tr *ngIf="headings && headings.length">
+        <th *ngFor="let heading of headings" [attr.colspan]="heading.columns" [ngClass]="heading.class">{{heading.title}}</th>
+      </tr>
       <tr [ngClass]="config.headingRowClasses">
-        <th *ngFor="let column of columns" [attr.tabindex]="column.sortable ? '0' : null" [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction"
-          [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, $event.shiftKey)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
+        <th *ngFor="let column of columns" [ngClass]="column.headingClass" [attr.width]="column.width" [attr.tabindex]="column.sortable ? '0' : null"
+          [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property"
+          (keydown.enter)="sort(column, $event.shiftKey)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of pageData" [ngClass]="config.rowClasses">
         <ng-container *ngFor="let column of columns">
-          <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]">
+          <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
             <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item }"></ng-container>
             <ng-template #defaultColumTemplate let-item>
               {{ column.display ? column.display(item[column.property]) : item[column.property] }}

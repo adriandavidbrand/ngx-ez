@@ -26,6 +26,15 @@ export class EzColumnComponent {
   @Input()
   display: (item: any) => string;
 
+  @Input()
+  headingClass: string;
+
+  @Input()
+  cellClass: string;
+
+  @Input()
+  width: string;
+
   direction: SortDirection;
 
   @ContentChild(TemplateRef)

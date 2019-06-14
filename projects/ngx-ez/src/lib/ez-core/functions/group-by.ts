@@ -31,9 +31,9 @@ export const flattenGroup = (group: Group): any[] => {
         o._rows[prop] = rows;
         return o;
       },
-      { _rows: {} }
+      { _rows: item._rows || {} }
     );
-    array.push({ ...merged, ...item, _rows: { ...item._rows, ...merged._rows } });
+    array.push({ ...merged, ...item });
     return array;
   }, []);
   return group.sum && flattenedItems && flattenedItems.length

@@ -5,6 +5,7 @@ import { multipleSort } from '../../../ez-core/functions/multiple-sort';
 import { SortDirection } from '../../../ez-core/functions/multiple-sort';
 import { groupBy, GroupBy, flattenGroups } from '../../../ez-core/functions/group-by';
 import { EzTableConfigService } from '../../services/ez-table-config.service';
+import { EzHeadingComponent } from '../ez-heading/ez-heading.component';
 
 @Component({
   selector: 'ez-table',
@@ -60,12 +61,19 @@ export class EzTableComponent implements OnInit, OnChanges {
   start: number;
   finish: number;
 
+  @ContentChildren(EzHeadingComponent)
+  headings: QueryList<EzHeadingComponent>;
+
   @ContentChildren(EzColumnComponent)
   columns: QueryList<EzColumnComponent>;
 
   constructor(public config: EzTableConfigService) {}
 
   update() {
+    if (!this.data) {
+      this.pageData = [];
+      return;
+    }
     const searchArray = this.search ? this.search.toLowerCase().split(' ') : null;
     let filteredData =
       searchArray && searchArray.length
