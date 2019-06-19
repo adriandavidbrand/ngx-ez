@@ -127,7 +127,7 @@ export class EzTableComponent implements OnInit, OnChanges {
       this.start = 1;
       this.finish = filteredData.length;
     }
-    if (this.groupBy) {
+    if (this.groupBy && this.columnSort.map(c => c.property).every(p => this.groupBy.keys.some(k => k === p))) {
       filteredData = flattenGroups(groupBy(filteredData, this.groupBy));
     }
     this.pageData = filteredData;
