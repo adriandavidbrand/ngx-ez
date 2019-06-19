@@ -3,6 +3,7 @@ import { Component, ContentChildren, QueryList, Input, OnInit, SimpleChanges, On
 import { EzColumnComponent } from '../ez-column/ez-column.component';
 import { multipleSort } from '../../../ez-core/functions/multiple-sort';
 import { SortDirection } from '../../../ez-core/functions/multiple-sort';
+import { resolveProperty } from '../../../ez-core/functions';
 import { groupBy, GroupBy, flattenGroups } from '../../../ez-core/functions/group-by';
 import { EzTableConfigService } from '../../services/ez-table-config.service';
 import { EzHeadingComponent } from '../ez-heading/ez-heading.component';
@@ -45,10 +46,10 @@ export class EzTableComponent implements OnInit, OnChanges {
   @Input()
   maxPages = 10;
 
-  pageData: any[];
-
   @Input()
-  noDataMessage = this.config.messages.noData;
+  noDataMessage = 'No records available';
+
+  pageData: any[];
 
   columnSort: EzColumnComponent[] = [];
 
@@ -67,6 +68,8 @@ export class EzTableComponent implements OnInit, OnChanges {
   @ContentChildren(EzColumnComponent)
   columns: QueryList<EzColumnComponent>;
 
+  resolveProperty = resolveProperty;
+
   constructor(public config: EzTableConfigService) {}
 
   update() {
@@ -80,7 +83,7 @@ export class EzTableComponent implements OnInit, OnChanges {
         ? this.data.filter(item =>
             searchArray.every(search =>
               this.columns.some(c => {
-                const text = c.display ? c.display(item[c.property]) : item[c.property];
+                const text = c.display ? c.display(item) : resolveProperty(item, c.property);
                 return text ? text.toLowerCase().includes(search) : false;
               })
             )
@@ -91,6 +94,7 @@ export class EzTableComponent implements OnInit, OnChanges {
         filteredData,
         ...this.columnSort.map(c => ({
           property: c.property,
+          display: c.display,
           direction: c.direction,
           compare: c.compare
         }))
