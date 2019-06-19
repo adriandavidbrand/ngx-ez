@@ -17,7 +17,7 @@
           <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
             <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item }"></ng-container>
             <ng-template #defaultColumTemplate let-item>
-              {{ column.display ? column.display(item[column.property]) : item[column.property] }}
+              {{ column.display ? column.display(item) : resolveProperty(item, column.property) }}
             </ng-template>
           </td>
         </ng-container>
