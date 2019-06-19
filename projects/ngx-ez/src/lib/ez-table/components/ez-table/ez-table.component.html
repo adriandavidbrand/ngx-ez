@@ -7,8 +7,8 @@
       </tr>
       <tr [ngClass]="config.headingRowClasses">
         <th *ngFor="let column of columns" [ngClass]="column.headingClass" [attr.width]="column.width" [attr.tabindex]="column.sortable ? '0' : null"
-          [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property"
-          (keydown.enter)="sort(column, $event.shiftKey)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
+          [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, false)"
+          (keydown.shift.enter)="sort(column, true)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
       </tr>
     </thead>
     <tbody>
