@@ -19,7 +19,6 @@
   records
   <ng-container *ngIf="table.data && table.totalRecords !== table.data.length">(filtered from {{table.data.length}} total records)</ng-container>
 </label>
-</label>
 <div class="ez-page-select" *ngIf="table.totalPages > 1">
   <a [ngClass]="{ 'disabled': table.pageNum === 1 }" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="1" tabindex="0" (keydown.enter)="table.first()" (click)="table.first()">First</a>
 

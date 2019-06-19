@@ -5,6 +5,7 @@ import { EzTableComponent } from '../ez-table/ez-table.component';
 
 class TableMock {
   data = [];
+  pageData = [];
 }
 
 describe('EzTablePagerComponent', () => {
