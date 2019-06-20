@@ -136,16 +136,6 @@ describe('EzTableComponent', () => {
     expect(component.pageData.length).toEqual(1);
   });
 
-  it('search should filter results', () => {
-    component.data = [{ prop: 'a' }, { prop: 'b' }];
-    const column = new EzColumnComponent();
-    column.property = 'prop';
-    component.columns.reset([column]);
-    component.search = 'b';
-    component.goto(1);
-    expect(component.pageData.length).toEqual(1);
-  });
-
   it('search should ignore case', () => {
     component.data = [{ prop: 'A' }];
     const column = new EzColumnComponent();
