@@ -47,7 +47,7 @@ export class EzTableComponent implements OnInit, OnChanges {
   maxPages = 10;
 
   @Input()
-  noDataMessage = 'No records available';
+  noDataMessage = this.config.messages.noData;
 
   pageData: any[];
 
