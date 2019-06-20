@@ -8,9 +8,8 @@ describe('EzHeadingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EzHeadingComponent ]
-    })
-    .compileComponents();
+      declarations: [EzHeadingComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +20,10 @@ describe('EzHeadingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('columnsSet should parse string', () => {
+    component.columnsSet = '5';
+    expect(component.columns).toEqual(5);
   });
 });
