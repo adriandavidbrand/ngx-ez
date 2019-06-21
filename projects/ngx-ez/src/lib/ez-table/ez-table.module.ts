@@ -15,11 +15,6 @@ import { EzHeadingComponent } from './components/ez-heading/ez-heading.component
     EzHeadingComponent
   ],
   imports: [CommonModule],
-  exports: [
-    EzTableComponent,
-    EzTablePagerComponent,
-    EzTableSearchComponent,
-    EzColumnComponent
-  ]
+  exports: [EzTableComponent, EzTablePagerComponent, EzTableSearchComponent, EzColumnComponent, EzHeadingComponent]
 })
 export class EzTableModule {}
