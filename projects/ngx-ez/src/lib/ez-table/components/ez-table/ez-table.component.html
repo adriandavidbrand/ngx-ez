@@ -1,6 +1,6 @@
 <div class="ez-table">
   <ng-content></ng-content>
-  <table id="tableId" [ngClass]="config.tableClasses">
+  <table [id]="tableId" [ngClass]="config.tableClasses">
     <thead>
       <tr *ngIf="headings && headings.length">
         <th *ngFor="let heading of headings" [attr.colspan]="heading.columns" [ngClass]="heading.class">{{heading.title}}</th>
