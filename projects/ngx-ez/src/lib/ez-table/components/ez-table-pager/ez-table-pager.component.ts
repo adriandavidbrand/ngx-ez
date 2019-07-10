@@ -5,7 +5,7 @@ import { EzTableComponent } from '../ez-table/ez-table.component';
 @Component({
   selector: 'ez-table-pager',
   templateUrl: './ez-table-pager.component.html',
-  styleUrls: ['./ez-table-pager.component.css']
+  styleUrls: ['./ez-table-pager.component.scss']
 })
 export class EzTablePagerComponent {
   changeSize(pageSize: string | number) {

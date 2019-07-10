@@ -7,7 +7,7 @@ import { EzConfigDirective } from '../../directives/ez-config.directive';
 @Component({
   selector: 'ez-group',
   templateUrl: './ez-group.component.html',
-  styleUrls: ['./ez-group.component.css']
+  styleUrls: ['./ez-group.component.scss']
 })
 export class EzGroupComponent {
   readonly$ = new BehaviorSubject(false);

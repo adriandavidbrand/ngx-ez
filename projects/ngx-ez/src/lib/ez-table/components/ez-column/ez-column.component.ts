@@ -5,7 +5,7 @@ import { SortDirection } from '../../../ez-core/functions/multiple-sort';
 @Component({
   selector: 'ez-column',
   templateUrl: './ez-column.component.html',
-  styleUrls: ['./ez-column.component.css']
+  styleUrls: ['./ez-column.component.scss']
 })
 export class EzColumnComponent {
   @Input()

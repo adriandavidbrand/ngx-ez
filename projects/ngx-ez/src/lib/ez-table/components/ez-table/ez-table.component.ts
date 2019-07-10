@@ -11,7 +11,7 @@ import { EzHeadingComponent } from '../ez-heading/ez-heading.component';
 @Component({
   selector: 'ez-table',
   templateUrl: './ez-table.component.html',
-  styleUrls: ['./ez-table.component.css']
+  styleUrls: ['./ez-table.component.scss']
 })
 export class EzTableComponent implements OnInit, OnChanges {
   @Input()

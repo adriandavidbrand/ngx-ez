@@ -7,7 +7,12 @@
       "root": "projects/ngx-ez",
       "sourceRoot": "projects/ngx-ez/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "ez",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -43,7 +48,11 @@
       "sourceRoot": "projects/ngx-ez-demo/src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -115,7 +124,7 @@
             "tsConfig": "projects/ngx-ez-demo/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-ez-demo/karma.conf.js",
             "styles": [
-              "projects/ngx-ez-demo/src/styles.css"
+              "projects/ngx-ez-demo/src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -167,10 +176,5 @@
       }
     }
   },
-  "defaultProject": "ngx-ez",
-  "schematics": {
-    "@schematics/angular:component": {
-      "styleext": "scss"
-    }
-  }
+  "defaultProject": "ngx-ez"
 }

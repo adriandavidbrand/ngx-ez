@@ -10,7 +10,7 @@ import { EzConfigDirective } from '../../../directives/ez-config.directive';
 @Component({
   selector: 'ez-password',
   templateUrl: './ez-password.component.html',
-  styleUrls: ['./ez-password.component.css'],
+  styleUrls: ['./ez-password.component.scss'],
   providers: [{ provide: EzControlBase, useExisting: EzPasswordComponent }]
 })
 export class EzPasswordComponent extends EzControlBase {

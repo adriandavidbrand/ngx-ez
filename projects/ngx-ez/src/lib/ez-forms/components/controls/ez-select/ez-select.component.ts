@@ -11,7 +11,7 @@ import { EzConfigDirective } from '../../../directives/ez-config.directive';
 @Component({
   selector: 'ez-select',
   templateUrl: './ez-select.component.html',
-  styleUrls: ['./ez-select.component.css'],
+  styleUrls: ['./ez-select.component.scss'],
   providers: [{ provide: EzControlBase, useExisting: EzSelectComponent }]
 })
 export class EzSelectComponent extends EzControlBase {

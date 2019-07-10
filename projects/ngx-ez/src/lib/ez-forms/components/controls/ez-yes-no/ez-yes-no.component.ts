@@ -10,7 +10,7 @@ import { EzConfigDirective } from '../../../directives/ez-config.directive';
 @Component({
   selector: 'ez-yes-no',
   templateUrl: './ez-yes-no.component.html',
-  styleUrls: ['./ez-yes-no.component.css'],
+  styleUrls: ['./ez-yes-no.component.scss'],
   providers: [{ provide: EzControlBase, useExisting: EzYesNoComponent }]
 })
 export class EzYesNoComponent extends EzControlBase {

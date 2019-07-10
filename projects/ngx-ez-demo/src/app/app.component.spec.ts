@@ -9,9 +9,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, EzFormsModule, EzTableModule],
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AppComponent]
     }).compileComponents();
   }));
 
@@ -27,25 +25,25 @@ describe('AppComponent', () => {
 
   it('password should be invalid', async(async () => {
     const control = await helper.control('password');
-    expect(control.invalid).toBeTruthy();
+    expect(control.invalid$.value).toBeTruthy();
   }));
 
   it('password should be valid', async(async () => {
     component.model.password = 'some password';
     const control = await helper.control('password');
-    expect(control.valid).toBeTruthy();
+    expect(control.valid$.value).toBeTruthy();
   }));
 
   it('password again should be invalid', async(async () => {
     component.model.password = 'some password';
     const control = await helper.control('passwordAgain');
-    expect(control.invalid).toBeTruthy();
+    expect(control.invalid$.value).toBeTruthy();
   }));
 
   it('password again should be valid', async(async () => {
     component.model.password = 'some password';
     component.passwordAgain = 'some password';
     const control = await helper.control('passwordAgain');
-    expect(control.valid).toBeTruthy();
+    expect(control.valid$.value).toBeTruthy();
   }));
 });

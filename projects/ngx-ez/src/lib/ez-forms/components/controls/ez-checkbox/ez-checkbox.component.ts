@@ -10,7 +10,7 @@ import { EzConfigDirective } from '../../../directives/ez-config.directive';
 @Component({
   selector: 'ez-checkbox',
   templateUrl: './ez-checkbox.component.html',
-  styleUrls: ['./ez-checkbox.component.css'],
+  styleUrls: ['./ez-checkbox.component.scss'],
   providers: [{ provide: EzControlBase, useExisting: EzCheckboxComponent }]
 })
 export class EzCheckboxComponent extends EzControlBase {

@@ -11,7 +11,7 @@ import { EzConfigDirective } from '../../../directives/ez-config.directive';
 @Component({
   selector: 'ez-radio',
   templateUrl: './ez-radio.component.html',
-  styleUrls: ['./ez-radio.component.css'],
+  styleUrls: ['./ez-radio.component.scss'],
   providers: [{ provide: EzControlBase, useExisting: EzRadioComponent }]
 })
 export class EzRadioComponent extends EzControlBase {

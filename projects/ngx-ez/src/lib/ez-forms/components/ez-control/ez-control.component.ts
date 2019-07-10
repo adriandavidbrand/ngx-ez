@@ -7,7 +7,7 @@ import { EzControlBase } from '../ez-control-base';
 @Component({
   selector: 'ez-control',
   templateUrl: './ez-control.component.html',
-  styleUrls: ['./ez-control.component.css'],
+  styleUrls: ['./ez-control.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class EzControlComponent {

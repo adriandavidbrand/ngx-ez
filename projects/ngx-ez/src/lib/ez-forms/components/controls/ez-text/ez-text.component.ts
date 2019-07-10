@@ -10,7 +10,7 @@ import { EzConfigDirective } from '../../../directives/ez-config.directive';
 @Component({
   selector: 'ez-text',
   templateUrl: './ez-text.component.html',
-  styleUrls: ['./ez-text.component.css'],
+  styleUrls: ['./ez-text.component.scss'],
   providers: [{ provide: EzControlBase, useExisting: EzTextComponent }]
 })
 export class EzTextComponent extends EzControlBase {
