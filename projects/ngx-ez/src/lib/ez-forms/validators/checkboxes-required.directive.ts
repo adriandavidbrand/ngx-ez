@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 
 import { ValidatorBase } from './validator-base';
-import { Option } from '../../ez-core/models/options';
+import { Option } from '../../ez-core/models/option';
 
 @Directive({
   selector: '[checkboxes-required]',
@@ -14,8 +14,7 @@ import { Option } from '../../ez-core/models/options';
     }
   ]
 })
-export class CheckboxesRequiredDirective extends ValidatorBase
-  implements Validator {
+export class CheckboxesRequiredDirective extends ValidatorBase implements Validator {
   @Input()
   options: Option[];
 
@@ -24,11 +23,7 @@ export class CheckboxesRequiredDirective extends ValidatorBase
   }
 
   validate(c: AbstractControl): { [key: string]: any } {
-    if (
-      !c.value ||
-      (this.options &&
-        !this.options.find(option => c.value[option.property] === true))
-    ) {
+    if (!c.value || (this.options && !this.options.find(option => c.value[option.property] === true))) {
       return {
         required: true
       };
