@@ -51,7 +51,7 @@ ez-yes-no label~label {
   position: relative;
   background: white;
   border-radius: .25rem;
-  border: 1px solid red;
+  border: 1px solid #DB0000;
   padding: .375rem .75rem;
   margin-top: 1rem;
 }
@@ -73,6 +73,6 @@ ez-yes-no label~label {
 }
 
 .ez-validation:before {
-  border-color: red transparent;
+  border-color: #DB0000 transparent;
   top: -11px;
 }
