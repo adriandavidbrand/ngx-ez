@@ -5,7 +5,7 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 
 @Directive({
-  selector: '[ez-form]'
+  selector: '[ezForm]'
 })
 export class EzFormDirective implements OnDestroy {
   @Output()

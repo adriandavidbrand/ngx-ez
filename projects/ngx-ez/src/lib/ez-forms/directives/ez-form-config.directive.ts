@@ -4,12 +4,12 @@ import { BehaviorSubject } from 'rxjs';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 
 @Directive({
-  selector: '[ez-config]'
+  selector: '[ezFormConfig]'
 })
-export class EzConfigDirective {
+export class EzFormConfigDirective {
   config$ = new BehaviorSubject<any>(this.configService);
   @Input()
-  set config(value: any) {
+  set ezFormConfig(value: any) {
     this.config$.next({ ...this.configService, ...value });
   }
 

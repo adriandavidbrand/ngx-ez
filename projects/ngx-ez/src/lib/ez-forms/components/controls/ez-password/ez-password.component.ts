@@ -4,8 +4,8 @@ import { NgControl } from '@angular/forms';
 import { EzControlBase } from '../../ez-control-base';
 import { EzFormDirective } from '../../../directives/ez-form.directive';
 import { EzFormConfigService } from '../../../services/ez-form-config.service';
-import { EzGroupComponent } from '../../ez-group/ez-group.component';
-import { EzConfigDirective } from '../../../directives/ez-config.directive';
+import { EzFormConfigDirective } from '../../../directives/ez-form-config.directive';
+import { EzReadonlyDirective } from '../../../directives/ez-readonly.directive';
 
 @Component({
   selector: 'ez-password',
@@ -16,11 +16,11 @@ import { EzConfigDirective } from '../../../directives/ez-config.directive';
 export class EzPasswordComponent extends EzControlBase {
   constructor(
     configService: EzFormConfigService,
-    @Optional() configDirective: EzConfigDirective,
+    @Optional() configDirective: EzFormConfigDirective,
     @Optional() ezForm: EzFormDirective,
-    @Optional() ezGroup: EzGroupComponent,
+    @Optional() ezReadonly: EzReadonlyDirective,
     @Self() @Optional() ngControl: NgControl
   ) {
-    super(configService, configDirective, ezForm, ezGroup, ngControl);
+    super(configService, configDirective, ezForm, ezReadonly, ngControl);
   }
 }

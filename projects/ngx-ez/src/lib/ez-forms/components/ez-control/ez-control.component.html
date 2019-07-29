@@ -6,13 +6,15 @@
 
     <ng-template #fieldsetTemplate>
       <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate" [attr.aria-describedby]="(invalid$ | async) ? name + '_validationMessage' : null">
-        <legend class="ez-label" [ngClass]="config.labelClasses">
-          <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+        <legend class="ez-label" [ngClass]="config.labelContainerClasses">
+          <span [ngClass]="config.labelClasses">
+            <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+          </span>
         </legend>
-        <div class="ez-controls" [ngClass]="config.controlsClasses">
+        <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
           <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+          <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
         </div>
-        <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
       </fieldset>
     </ng-template>
 
@@ -21,7 +23,7 @@
         <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_control_input_label'" [for]="name + '_control_input'">
           <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
         </label>
-        <div class="ez-controls" [ngClass]="config.controlsClasses">
+        <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
           <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
         </div>
         <div tabindex="-1" [id]="name + '_validationMessage'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
@@ -32,7 +34,7 @@
       <div class="ez-label" [ngClass]="config.labelClasses">
         <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
       </div>
-      <div class="ez-controls" [ngClass]="config.controlsClasses">
+      <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
         <span class="ez-readonly" [ngClass]="config.readonlyClasses">
           <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
         </span>

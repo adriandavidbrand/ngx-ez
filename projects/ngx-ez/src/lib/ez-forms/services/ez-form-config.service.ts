@@ -12,8 +12,9 @@ export class EzFormConfigService {
   formClasses: string | string[];
   formSubmittedClasses: string | string[];
   controlClasses: string | string[];
+  labelContainerClasses: string | string[];
   labelClasses: string | string[];
-  controlsClasses: string | string[];
+  controlsContainerClasses: string | string[];
   checkboxLabelClasses: string | string[];
   radioLabelClasses: string | string[];
   sublabelClasses: string | string[];
@@ -25,5 +26,4 @@ export class EzFormConfigService {
   radioClasses: string | string[];
   radioContainerClasses: string | string[];
   selectClasses: string | string[];
-  groupClasses: string | string[];
 }

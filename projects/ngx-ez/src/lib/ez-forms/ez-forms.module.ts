@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { EzControlComponent } from './components/ez-control/ez-control.component';
-import { EzGroupComponent } from './components/ez-group/ez-group.component';
 import { EzCheckboxComponent } from './components/controls/ez-checkbox/ez-checkbox.component';
 import { EzCheckboxesComponent } from './components/controls/ez-checkboxes/ez-checkboxes.component';
 import { EzRadioComponent } from './components/controls/ez-radio/ez-radio.component';
@@ -19,13 +18,13 @@ import { ValidatorDirective } from './validators/validator.directive';
 import { EzCoreModule } from '../ez-core/ez-core.module';
 import { EzPasswordComponent } from './components/controls/ez-password/ez-password.component';
 import { SameDirective } from './validators/same.directive';
-import { EzConfigDirective } from './directives/ez-config.directive';
+import { EzFormConfigDirective } from './directives/ez-form-config.directive';
 import { ValidDirective } from './directives/valid.directive';
+import { EzReadonlyDirective } from './directives/ez-readonly.directive';
 
 @NgModule({
   declarations: [
     EzControlComponent,
-    EzGroupComponent,
     EzCheckboxComponent,
     EzCheckboxesComponent,
     EzRadioComponent,
@@ -40,13 +39,13 @@ import { ValidDirective } from './directives/valid.directive';
     ValidatorDirective,
     EzPasswordComponent,
     SameDirective,
-    EzConfigDirective,
-    ValidDirective
+    EzFormConfigDirective,
+    ValidDirective,
+    EzReadonlyDirective
   ],
   imports: [CommonModule, FormsModule, EzCoreModule],
   exports: [
     EzControlComponent,
-    EzGroupComponent,
     EzCheckboxComponent,
     EzCheckboxesComponent,
     EzRadioComponent,
@@ -61,8 +60,9 @@ import { ValidDirective } from './directives/valid.directive';
     ValidatorDirective,
     EzPasswordComponent,
     SameDirective,
-    EzConfigDirective,
-    ValidDirective
+    EzFormConfigDirective,
+    ValidDirective,
+    EzReadonlyDirective
   ]
 })
 export class EzFormsModule {}

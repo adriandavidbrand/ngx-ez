@@ -5,17 +5,17 @@ import { takeUntil } from 'rxjs/operators';
 
 import { EzFormDirective } from '../directives/ez-form.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
-import { EzGroupComponent } from './ez-group/ez-group.component';
 import { PushStack } from '../../ez-core/rxjs/push-stack';
 import { firstTruthy } from '../../ez-core/rxjs/first-truthy';
-import { EzConfigDirective } from '../directives/ez-config.directive';
+import { EzFormConfigDirective } from '../directives/ez-form-config.directive';
+import { EzReadonlyDirective } from '../directives/ez-readonly.directive';
 
 export class EzControlBase implements ControlValueAccessor, OnDestroy {
   constructor(
     public configService: EzFormConfigService,
-    public configDirective: EzConfigDirective,
+    public configDirective: EzFormConfigDirective,
     public ezForm: EzFormDirective,
-    public ezGroup: EzGroupComponent,
+    public ezReadonly: EzReadonlyDirective,
     public ngControl: NgControl
   ) {
     if (ngControl) {
@@ -74,7 +74,7 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
   readonly$ = new PushStack(
     false,
     false,
-    firstTruthy(this.ezForm && this.ezForm.readonly$, this.ezGroup && this.ezGroup.readonly$)
+    firstTruthy(this.ezForm && this.ezForm.readonly$, this.ezReadonly && this.ezReadonly.readonly$)
   );
   @Input()
   set readonly(val: any) {
