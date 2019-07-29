@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class EzReadonlyDirective {
   readonly$ = new BehaviorSubject<boolean>(false);
   @Input()
-  set dhsReadonly(value: boolean) {
+  set ezReadonly(value: boolean) {
     this.readonly$.next(value);
   }
 }

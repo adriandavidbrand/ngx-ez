@@ -1,6 +1,6 @@
 <h1>Easy Angular</h1>
 <h2>Forms</h2>
-<form ezForm (ezSubmit)="onSubmit()" [readonly]="readonly">
+<form ezForm (ezSubmit)="onSubmit()" [ezReadonly]="readonly">
   <ez-text name="text" [(ngModel)]="model.text" required range="4-6">
     Text
   </ez-text>

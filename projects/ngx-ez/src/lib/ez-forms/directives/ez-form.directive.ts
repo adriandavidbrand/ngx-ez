@@ -11,17 +11,6 @@ export class EzFormDirective implements OnDestroy {
   @Output()
   ezSubmit: EventEmitter<void> = new EventEmitter();
 
-  readonly$ = new BehaviorSubject(false);
-  @Input()
-  set readonly(val: any) {
-    if (val) {
-      this.el.nativeElement.classList.add('ez-form-readonly');
-    } else {
-      this.el.nativeElement.classList.remove('ez-form-readonly');
-    }
-    this.readonly$.next(val !== undefined && val !== false);
-  }
-
   private subscription: Subscription;
 
   private formSubmittedClasses: string[];

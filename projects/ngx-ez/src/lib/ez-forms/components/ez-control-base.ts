@@ -6,7 +6,6 @@ import { takeUntil } from 'rxjs/operators';
 import { EzFormDirective } from '../directives/ez-form.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 import { PushStack } from '../../ez-core/rxjs/push-stack';
-import { firstTruthy } from '../../ez-core/rxjs/first-truthy';
 import { EzFormConfigDirective } from '../directives/ez-form-config.directive';
 import { EzReadonlyDirective } from '../directives/ez-readonly.directive';
 
@@ -71,11 +70,7 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
     this.required$.next(value !== undefined && value !== false);
   }
 
-  readonly$ = new PushStack(
-    false,
-    false,
-    firstTruthy(this.ezForm && this.ezForm.readonly$, this.ezReadonly && this.ezReadonly.readonly$)
-  );
+  readonly$ = new PushStack(false, false, this.ezReadonly && this.ezReadonly.readonly$);
   @Input()
   set readonly(val: any) {
     this.readonly$.next(val !== undefined && val !== false);
