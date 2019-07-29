@@ -5,7 +5,7 @@
     </div>
 
     <ng-template #fieldsetTemplate>
-      <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate" [attr.aria-describedby]="(invalid$ | async) ? name + '_validation_message' : null">
+      <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate" [attr.aria-describedby]="(invalid$ | async) ? name + '_validationMessage' : null">
         <legend class="ez-label" [ngClass]="config.labelClasses">
           <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
         </legend>
