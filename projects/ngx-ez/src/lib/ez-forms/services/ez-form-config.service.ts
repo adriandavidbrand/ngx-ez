@@ -18,6 +18,7 @@ export class EzFormConfigService {
   checkboxLabelClasses: string | string[];
   radioLabelClasses: string | string[];
   sublabelClasses: string | string[];
+  readonlyLabelClasses: string | string[];
   readonlyClasses: string | string[];
   validationClasses: string | string[];
   inputClasses: string | string[];

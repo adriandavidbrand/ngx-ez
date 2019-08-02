@@ -31,8 +31,10 @@
     </ng-template>
 
     <ng-template #readonlyTemplate>
-      <div class="ez-label" [ngClass]="config.labelClasses">
-        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+      <div [ngClass]="config.labelContainerClasses">
+        <span class="ez-label" [ngClass]="config.readonlyLabelClasses">
+          <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+        </span>
       </div>
       <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
         <span class="ez-readonly" [ngClass]="config.readonlyClasses">
