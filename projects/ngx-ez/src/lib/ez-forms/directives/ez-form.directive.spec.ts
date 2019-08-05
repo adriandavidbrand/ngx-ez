@@ -16,40 +16,40 @@ describe('EzFormDirective', () => {
   });
 
   it('should create an instance', () => {
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     expect(directive).toBeTruthy();
   });
 
   it('should add single formClass', () => {
     configService.formClasses = 'formClass';
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     expect(form.nativeElement.classList.contains('formClass')).toBeTruthy();
   });
 
   it('should add multiple formClasses from string', () => {
     configService.formClasses = 'formClass1 formClass2';
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     expect(form.nativeElement.classList.contains('formClass1')).toBeTruthy();
     expect(form.nativeElement.classList.contains('formClass2')).toBeTruthy();
   });
 
   it('should add multiple formClasses from array', () => {
     configService.formClasses = ['formClass1', 'formClass2'];
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     expect(form.nativeElement.classList.contains('formClass1')).toBeTruthy();
     expect(form.nativeElement.classList.contains('formClass2')).toBeTruthy();
   });
 
   it('should add single formSubmittedClass on submit', () => {
     configService.formSubmittedClasses = 'formClass';
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     ngForm.ngSubmit.emit();
     expect(form.nativeElement.classList.contains('formClass')).toBeTruthy();
   });
 
   it('should remove single formSubmittedClass on reset', () => {
     configService.formSubmittedClasses = 'formClass';
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     ngForm.ngSubmit.emit();
     form.nativeElement.reset();
     expect(form.nativeElement.classList.contains('formClass')).toBeFalsy();
@@ -57,7 +57,7 @@ describe('EzFormDirective', () => {
 
   it('should add multiple formSubmittedClasses from string on submit', () => {
     configService.formSubmittedClasses = 'formClass1 formClass2';
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     ngForm.ngSubmit.emit();
     expect(form.nativeElement.classList.contains('formClass1')).toBeTruthy();
     expect(form.nativeElement.classList.contains('formClass2')).toBeTruthy();
@@ -65,7 +65,7 @@ describe('EzFormDirective', () => {
 
   it('should add multiple formSubmittedClasses from array on submit', () => {
     configService.formSubmittedClasses = ['formClass1', 'formClass2'];
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     ngForm.ngSubmit.emit();
     expect(form.nativeElement.classList.contains('formClass1')).toBeTruthy();
     expect(form.nativeElement.classList.contains('formClass2')).toBeTruthy();
@@ -73,7 +73,7 @@ describe('EzFormDirective', () => {
 
   it('should remove formSubmittedClasses on reset', () => {
     configService.formSubmittedClasses = ['formClass1', 'formClass2'];
-    const directive = new EzFormDirective(ngForm, form, configService);
+    const directive = new EzFormDirective(ngForm, form, configService, null);
     ngForm.ngSubmit.emit();
     form.nativeElement.reset();
     expect(form.nativeElement.classList.contains('formClass1')).toBeFalsy();

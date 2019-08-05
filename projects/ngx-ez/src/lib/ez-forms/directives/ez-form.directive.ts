@@ -1,8 +1,9 @@
-import { Directive, ElementRef, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { EzFormConfigService } from '../services/ez-form-config.service';
+import { EzReadonlyDirective } from './ez-readonly.directive';
 
 @Directive({
   selector: '[ezForm]'
@@ -11,11 +12,14 @@ export class EzFormDirective implements OnDestroy {
   @Output()
   ezSubmit: EventEmitter<void> = new EventEmitter();
 
+  @Output()
+  ezReadonlySubmit: EventEmitter<void> = new EventEmitter();
+
   private subscription: Subscription;
 
   private formSubmittedClasses: string[];
 
-  constructor(form: NgForm, private el: ElementRef, configService: EzFormConfigService) {
+  constructor(form: NgForm, el: ElementRef, configService: EzFormConfigService, ezReadonly: EzReadonlyDirective) {
     const elm = el.nativeElement;
     elm.classList.add('ez-form');
     if (configService.formClasses) {
@@ -40,6 +44,8 @@ export class EzFormDirective implements OnDestroy {
       this.onSubmit(el.nativeElement);
       if (form.valid) {
         this.ezSubmit.emit();
+      } else if (ezReadonly && ezReadonly.readonly$.value) {
+        this.ezReadonlySubmit.emit();
       }
     });
     elm.addEventListener('reset', () => {
