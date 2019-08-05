@@ -3,7 +3,7 @@
   <ng-container controls-container>
     <ng-container *ngIf="(readonly$ | async) else elseBlock">{{value}}</ng-container>
     <ng-template #elseBlock>
-      <input [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="(valid$ | async) ? null : (name$ | async) + '_validationMessage'" [attr.maxlength]="maxlength$ | async"
+      <input [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="(valid$ | async) ? null : (name$ | async) + '_validation_message'" [attr.maxlength]="maxlength$ | async"
         [value]="value || ''" type="text" [attr.placeholder]="placeholder$ | async" (blur)="onChange($event.target.value)" (keydown.enter)="onChange($event.target.value)"
         [ngClass]="(config$ | async).inputClasses" [valid]="valid$ | async">
     </ng-template>
