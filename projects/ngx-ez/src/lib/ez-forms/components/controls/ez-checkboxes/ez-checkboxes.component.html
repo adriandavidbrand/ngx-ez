@@ -1,7 +1,7 @@
 <ng-container *ngIf="config$ | async as config">
   <ez-control fieldset>
     <ng-content></ng-content>
-    <ng-container question-controls>
+    <ng-container controls-container>
       <div [ngClass]="config.checkboxContainerClasses" *ngFor="let option of options">
         <label [ngClass]="config.checkboxLabelClasses">
           <input type="checkbox" [checked]="value && value[option.property]" [disabled]="(readonly$ | async) || option.disabled" (change)="onValueChange($event, option)"

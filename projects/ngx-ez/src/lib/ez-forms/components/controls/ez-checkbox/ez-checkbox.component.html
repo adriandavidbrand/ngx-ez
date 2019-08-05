@@ -1,6 +1,6 @@
 <ez-control>
   <ng-content></ng-content>
-  <ng-container question-controls>
+  <ng-container controls-container>
     <div [ngClass]="(config$ | async).checkboxContainerClasses">
       <input [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="((valid$ | async) || disabled) ? null : name + '_validationMessage'" [value]="value" type="checkbox"
         [ngClass]="(config$ | async).checkboxClasses" [disabled]="(readonly$ | async) || disabled" [checked]="value" (change)="onChange($event.target.checked)" [valid]="valid$ | async">

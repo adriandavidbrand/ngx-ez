@@ -1,6 +1,6 @@
 <ez-control fieldset>
   <ng-content></ng-content>
-  <ng-container question-controls>
+  <ng-container controls-container>
     <ng-container *ngIf="(readonly$ | async) else elseBlock">{{ value === 'Y' ? 'Yes' : value === 'N' ? 'No' : '' }}</ng-container>
     <ng-template #elseBlock>
       <div [ngClass]="(config$ | async).radioContainerClasses">

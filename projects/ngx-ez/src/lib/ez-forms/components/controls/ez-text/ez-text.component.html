@@ -1,6 +1,6 @@
 <ez-control>
   <ng-content></ng-content>
-  <ng-container question-controls>
+  <ng-container controls-container>
     <ng-container *ngIf="(readonly$ | async) else elseBlock">{{value}}</ng-container>
     <ng-template #elseBlock>
       <input [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="(valid$ | async) ? null : (name$ | async) + '_validationMessage'" [attr.maxlength]="maxlength$ | async"

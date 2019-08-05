@@ -1,7 +1,7 @@
 <ng-container *ngIf="config$ | async as config">
   <ez-control fieldset>
     <ng-content></ng-content>
-    <ng-container question-controls>
+    <ng-container controls-container>
       <ng-container *ngIf="(readonly$ | async) else elseBlock">{{ value | reference: options }}</ng-container>
       <ng-template #elseBlock>
         <div [ngClass]="config.radioContainerClasses" *ngFor="let option of options">
