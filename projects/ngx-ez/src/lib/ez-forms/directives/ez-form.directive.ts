@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { EzFormConfigService } from '../services/ez-form-config.service';
-import { EzReadonlyDirective } from './ez-readonly.directive';
+import { EzFormReadonlyDirective } from './ez-form-readonly.directive';
 
 @Directive({
   selector: '[ezForm]'
@@ -19,7 +19,7 @@ export class EzFormDirective implements OnDestroy {
 
   private formSubmittedClasses: string[];
 
-  constructor(form: NgForm, el: ElementRef, configService: EzFormConfigService, ezReadonly: EzReadonlyDirective) {
+  constructor(form: NgForm, el: ElementRef, configService: EzFormConfigService, ezReadonly: EzFormReadonlyDirective) {
     const elm = el.nativeElement;
     elm.classList.add('ez-form');
     if (configService.formClasses) {

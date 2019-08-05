@@ -6,7 +6,7 @@ import { EzFormDirective } from '../../../directives/ez-form.directive';
 import { EzFormConfigService } from '../../../services/ez-form-config.service';
 import { Option } from '../../../../ez-core/models/option';
 import { EzFormConfigDirective } from '../../../directives/ez-form-config.directive';
-import { EzReadonlyDirective } from '../../../directives/ez-readonly.directive';
+import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.directive';
 
 @Component({
   selector: 'ez-checkboxes',
@@ -22,7 +22,7 @@ export class EzCheckboxesComponent extends EzControlBase {
     configService: EzFormConfigService,
     @Optional() configDirective: EzFormConfigDirective,
     @Optional() ezForm: EzFormDirective,
-    @Optional() ezReadonly: EzReadonlyDirective,
+    @Optional() ezReadonly: EzFormReadonlyDirective,
     @Self() @Optional() ngControl: NgControl
   ) {
     super(configService, configDirective, ezForm, ezReadonly, ngControl);

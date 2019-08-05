@@ -4,7 +4,7 @@ import { NgControl } from '@angular/forms';
 import { EzControlBase } from '../../ez-control-base';
 import { EzFormDirective } from '../../../directives/ez-form.directive';
 import { EzFormConfigService } from '../../../services/ez-form-config.service';
-import { EzReadonlyDirective } from '../../../directives/ez-readonly.directive';
+import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.directive';
 import { EzFormConfigDirective } from '../../../directives/ez-form-config.directive';
 
 @Component({
@@ -18,7 +18,7 @@ export class EzYesNoComponent extends EzControlBase {
     configService: EzFormConfigService,
     @Optional() configDirective: EzFormConfigDirective,
     @Optional() ezForm: EzFormDirective,
-    @Optional() ezReadonly: EzReadonlyDirective,
+    @Optional() ezReadonly: EzFormReadonlyDirective,
     @Self() @Optional() ngControl: NgControl
   ) {
     super(configService, configDirective, ezForm, ezReadonly, ngControl);

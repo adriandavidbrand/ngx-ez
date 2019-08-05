@@ -2,12 +2,12 @@ import { Directive, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Directive({
-  selector: '[ezReadonly]'
+  selector: '[ezFormReadonly]'
 })
-export class EzReadonlyDirective {
+export class EzFormReadonlyDirective {
   readonly$ = new BehaviorSubject<boolean>(false);
   @Input()
-  set ezReadonly(value: boolean) {
+  set ezFormReadonly(value: boolean) {
     this.readonly$.next(value);
   }
 }

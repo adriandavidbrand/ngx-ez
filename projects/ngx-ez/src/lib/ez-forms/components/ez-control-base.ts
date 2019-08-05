@@ -7,14 +7,14 @@ import { EzFormDirective } from '../directives/ez-form.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 import { PushStack } from '../../ez-core/rxjs/push-stack';
 import { EzFormConfigDirective } from '../directives/ez-form-config.directive';
-import { EzReadonlyDirective } from '../directives/ez-readonly.directive';
+import { EzFormReadonlyDirective } from '../directives/ez-form-readonly.directive';
 
 export class EzControlBase implements ControlValueAccessor, OnDestroy {
   constructor(
     public configService: EzFormConfigService,
     public configDirective: EzFormConfigDirective,
     public ezForm: EzFormDirective,
-    public ezReadonly: EzReadonlyDirective,
+    public ezReadonly: EzFormReadonlyDirective,
     public ngControl: NgControl
   ) {
     if (ngControl) {
