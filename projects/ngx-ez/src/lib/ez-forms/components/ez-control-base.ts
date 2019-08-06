@@ -28,7 +28,7 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
         }
         if (ngControl.invalid) {
           const errorType = Object.keys(ngControl.errors)[0];
-          const errorValue = Object.values(ngControl.errors)[0];
+          const errorValue = ngControl.errors[errorType];
           this.message$.next(
             this.messages[errorType] ||
               configService.defaultMessages[errorType] ||
