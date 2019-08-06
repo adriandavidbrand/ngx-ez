@@ -16,7 +16,7 @@
 }
 
 .ez-required {
-  color: red;
+  color: #DB0000;
 }
 
 .ez-control input,
@@ -54,6 +54,7 @@ ez-yes-no label~label {
   border: 1px solid #DB0000;
   padding: .375rem .75rem;
   margin-top: 1rem;
+  width: 170px;
 }
 
 .ez-validation:after,
