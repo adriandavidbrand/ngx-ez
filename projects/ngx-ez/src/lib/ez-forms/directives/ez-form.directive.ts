@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, EventEmitter, Output, Optional } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -19,7 +19,12 @@ export class EzFormDirective implements OnDestroy {
 
   private formSubmittedClasses: string[];
 
-  constructor(form: NgForm, el: ElementRef, configService: EzFormConfigService, ezReadonly: EzFormReadonlyDirective) {
+  constructor(
+    form: NgForm,
+    el: ElementRef,
+    configService: EzFormConfigService,
+    @Optional() ezReadonly: EzFormReadonlyDirective
+  ) {
     const elm = el.nativeElement;
     elm.classList.add('ez-form');
     if (configService.formClasses) {
