@@ -12,6 +12,8 @@ export class EzFormConfigService {
   formClasses: string | string[];
   formSubmittedClasses: string | string[];
   controlClasses: string | string[];
+  fieldsetClasses: string | string[];
+  legendClasses: string | string[];
   labelContainerClasses: string | string[];
   labelClasses: string | string[];
   controlsContainerClasses: string | string[];
