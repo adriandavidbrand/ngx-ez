@@ -5,9 +5,9 @@
     </div>
 
     <ng-template #fieldsetTemplate>
-      <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate" [attr.aria-describedby]="(invalid$ | async) ? name + '_validation_message' : null">
-        <legend class="ez-label" [ngClass]="config.labelContainerClasses">
-          <span [ngClass]="config.labelClasses">
+      <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate" [ngClass]="config.fieldsetClasses" [attr.aria-describedby]="(invalid$ | async) ? name + '_validation_message' : null">
+        <legend [ngClass]="config.legendClasses">
+          <span class="ez-label" [ngClass]="config.labelClasses">
             <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
           </span>
         </legend>
@@ -20,13 +20,15 @@
 
     <ng-template #labelTemplate>
       <ng-container *ngIf="!(readonly$ | async) else readonlyTemplate">
-        <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_control_input_label'" [for]="name + '_control_input'">
-          <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-        </label>
+        <div [ngClass]="config.labelContainerClasses">
+          <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_control_input_label'" [for]="name + '_control_input'">
+            <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+          </label>
+        </div>
         <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
           <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+          <div tabindex="-1" [id]="name + '_validation_message'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
         </div>
-        <div tabindex="-1" [id]="name + '_validation_message'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
       </ng-container>
     </ng-template>
 
