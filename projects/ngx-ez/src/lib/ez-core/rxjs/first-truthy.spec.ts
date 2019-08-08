@@ -1,7 +1,7 @@
 import { async } from '@angular/core/testing';
 
 import { firstTruthy } from './first-truthy';
-import { firstEmitted } from '../../ez-testing/first-emitted';
+import { firstEmitted } from '../functions/first-emitted';
 import { BehaviorSubject } from 'rxjs';
 
 describe('first-truthy', () => {

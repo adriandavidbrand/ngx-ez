@@ -3,3 +3,4 @@ export * from './group-by';
 export * from './multiple-sort';
 export * from './resolve-property';
 export * from './natural-sort';
+export * from './first-emitted';

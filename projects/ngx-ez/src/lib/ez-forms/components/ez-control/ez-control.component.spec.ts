@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { EzControlComponent } from './ez-control.component';
 import { EzControlBase } from '../ez-control-base';
-import { firstEmitted } from '../../../ez-testing/first-emitted';
+import { firstEmitted } from '../../../ez-core/functions/first-emitted';
 
 class EzControlBaseMock {
   required$ = new BehaviorSubject(false);

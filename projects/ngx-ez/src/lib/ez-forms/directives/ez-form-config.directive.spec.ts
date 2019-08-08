@@ -2,7 +2,7 @@ import { async } from '@angular/core/testing';
 
 import { EzFormConfigDirective } from './ez-form-config.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
-import { firstEmitted } from '../../ez-testing/first-emitted';
+import { firstEmitted } from '../../ez-core/functions/first-emitted';
 
 describe('EzFormConfigDirective', () => {
   let config: EzFormConfigService;
