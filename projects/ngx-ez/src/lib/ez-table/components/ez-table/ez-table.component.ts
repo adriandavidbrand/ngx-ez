@@ -77,7 +77,7 @@ export class EzTableComponent implements OnInit, OnChanges {
       this.pageData = [];
       return;
     }
-    const searchArray = this.search ? this.search.toLowerCase().split(' ') : null;
+    const searchArray = this.search ? this.search.split(' ') : null;
     let filteredData =
       searchArray && searchArray.length
         ? this.data.filter(item =>
@@ -85,7 +85,7 @@ export class EzTableComponent implements OnInit, OnChanges {
               const searchRegEx = new RegExp(search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'));
               return this.columns.some(c => {
                 const text = c.display ? c.display(item) : resolveProperty(item, c.property);
-                return text ? text.toString().match(searchRegEx, 'i') : false;
+                return text ? text.toString().test(searchRegEx, 'i') : false;
               });
             })
           )
