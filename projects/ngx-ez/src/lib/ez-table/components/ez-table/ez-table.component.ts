@@ -82,11 +82,10 @@ export class EzTableComponent implements OnInit, OnChanges {
       searchArray && searchArray.length
         ? this.data.filter(item =>
             searchArray.every(search => {
-              const searchRegEx = new RegExp(search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'));
-              return this.columns.some(c => {
-                const text = c.display ? c.display(item) : resolveProperty(item, c.property);
-                return text ? text.toString().test(searchRegEx, 'i') : false;
-              });
+              const searchRegEx = new RegExp(search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
+              return this.columns.some(c =>
+                searchRegEx.test(c.display ? c.display(item) : resolveProperty(item, c.property))
+              );
             })
           )
         : [...this.data];
