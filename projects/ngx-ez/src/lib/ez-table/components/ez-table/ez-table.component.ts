@@ -84,7 +84,7 @@ export class EzTableComponent implements OnInit, OnChanges {
             searchArray.every(search =>
               this.columns.some(c => {
                 const text = c.display ? c.display(item) : resolveProperty(item, c.property);
-                return text ? text.toLowerCase().includes(search) : false;
+                return text ? text.toString().match(new RegExp(search, 'i')) : false;
               })
             )
           )
