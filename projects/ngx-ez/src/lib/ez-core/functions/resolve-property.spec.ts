@@ -1,6 +1,11 @@
 import { resolveProperty } from './resolve-property';
 
 describe('resolveProperty', () => {
+  it('should be undefined for no property', () => {
+    const prop = resolveProperty(undefined, undefined);
+    expect(prop).toBeUndefined();
+  });
+
   it('should be undefined on undefined', () => {
     const prop = resolveProperty(undefined, 'prop');
     expect(prop).toBeUndefined();
