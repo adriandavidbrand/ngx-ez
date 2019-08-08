@@ -11,11 +11,12 @@
   color: #DB0000;
 }
 
+.ez-validation,
+.ez-submitted .ng-invalid .ez-validation {
+  display: table;
+}
+
 .ng-valid .ez-validation,
 .ng-pristine .ez-validation {
   display: none;
-}
-
-.ez-submitted .ng-invalid .ez-validation {
-  display: table;
 }
