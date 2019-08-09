@@ -28,16 +28,16 @@ import { AppComponent } from './app.component';
 export class AppModule {}
 ```
 
-On a form you add the ez-form directive and an (ezSubmit) event handler that will only fire if the form is valid.
+On a form you add the ezForm directive and an (ezSubmit) event handler that will only fire if the form is valid.
 
 ```html
-<form ez-form (ezSubmit)="onSubmit()" [readonly]="readonly"></form>
+<form ezForm (ezSubmit)="onSubmit()" [readonly]="readonly"></form>
 ```
 
 Now you can add form controls with the directives ez-text, ez-select, ez-radio, ez-checkbox and ez-checkboxes.
 
 ```html
-<form ez-form (ezSubmit)="onSubmit()" [readonly]="readonly">
+<form ezForm (ezSubmit)="onSubmit()" [readonly]="readonly">
   <ez-text name="text" [(ngModel)]="model.text" required range="4-6">
     Text
   </ez-text>
