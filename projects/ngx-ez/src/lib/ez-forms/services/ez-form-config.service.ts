@@ -12,7 +12,6 @@ export class EzFormConfigService {
   formClasses: string | string[];
   formSubmittedClasses: string | string[];
   controlClasses: string | string[];
-  fieldsetClasses: string | string[];
   legendClasses: string | string[];
   labelContainerClasses: string | string[];
   labelClasses: string | string[];
@@ -22,6 +21,7 @@ export class EzFormConfigService {
   sublabelClasses: string | string[];
   readonlyLabelClasses: string | string[];
   readonlyClasses: string | string[];
+  requiredClasses: string | string[];
   validationClasses: string | string[];
   inputClasses: string | string[];
   checkboxClasses: string | string[];

@@ -1,13 +1,12 @@
 <ng-container *ngIf="config$ | async as config">
   <ng-container *ngIf="name$ | async as name">
-    <div class="ez-control" [ngClass]="config.controlClasses">
-      <ng-container *ngTemplateOutlet="fieldset !== false ? fieldsetTemplate : labelTemplate"></ng-container>
-    </div>
+    <ng-container *ngTemplateOutlet="fieldset !== false ? fieldsetTemplate : labelTemplate"></ng-container>
 
     <ng-template #fieldsetTemplate>
-      <fieldset *ngIf="!(readonly$ | async) else readonlyTemplate" [ngClass]="config.fieldsetClasses" [attr.aria-describedby]="(invalid$ | async) ? name + '_validation_message' : null">
+      <fieldset class="ez-control" [ngClass]="config.controlClasses" *ngIf="!(readonly$ | async) else readonlyTemplate"
+        [attr.aria-describedby]="(invalid$ | async) ? name + '_validation_message' : null">
         <legend [ngClass]="config.legendClasses">
-          <span class="ez-label" [ngClass]="config.labelClasses">
+          <span class="ez-label" [ngClass]="config.fieldsetLabelClasses">
             <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
           </span>
         </legend>
@@ -19,7 +18,7 @@
     </ng-template>
 
     <ng-template #labelTemplate>
-      <ng-container *ngIf="!(readonly$ | async) else readonlyTemplate">
+      <div class="ez-control" [ngClass]="config.controlClasses" *ngIf="!(readonly$ | async) else readonlyTemplate">
         <div [ngClass]="config.labelContainerClasses">
           <label class="ez-label" [ngClass]="config.labelClasses" [id]="name + '_control_input_label'" [for]="name + '_control_input'">
             <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
@@ -29,25 +28,27 @@
           <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
           <div tabindex="-1" [id]="name + '_validation_message'" class="ez-validation" [ngClass]="config.validationClasses" *ngIf="invalid$ | async">{{ message$ | async }}</div>
         </div>
-      </ng-container>
+      </div>
     </ng-template>
 
     <ng-template #readonlyTemplate>
-      <div [ngClass]="config.labelContainerClasses">
-        <span class="ez-label" [ngClass]="config.readonlyLabelClasses">
-          <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-        </span>
-      </div>
-      <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
-        <span class="ez-readonly" [ngClass]="config.readonlyClasses">
-          <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
-        </span>
+      <div class="ez-control" [ngClass]="config.controlClasses">
+        <div [ngClass]="config.labelContainerClasses">
+          <span class="ez-label" [ngClass]="config.readonlyLabelClasses">
+            <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+          </span>
+        </div>
+        <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
+          <span class="ez-readonly" [ngClass]="config.readonlyClasses">
+            <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+          </span>
+        </div>
       </div>
     </ng-template>
 
     <ng-template #contentTemplate>
       <ng-content></ng-content>
-      <span class="ez-required" *ngIf="showRequired$ | async">*</span>
+      <span class="ez-required" [ngClass]="config.requiredClasses" *ngIf="showRequired$ | async">*</span>
     </ng-template>
 
     <ng-template #controlsTemplate>
