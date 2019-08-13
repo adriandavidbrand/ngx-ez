@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,10 @@ export class EzFormConfigService {
     invalid: 'Invalid response',
     required: 'Response required'
   };
+
+  fieldsetTemplate: TemplateRef<any>;
+  labelTemplate: TemplateRef<any>;
+  readonlyTemplate: TemplateRef<any>;
 
   formClasses: string | string[];
   formSubmittedClasses: string | string[];

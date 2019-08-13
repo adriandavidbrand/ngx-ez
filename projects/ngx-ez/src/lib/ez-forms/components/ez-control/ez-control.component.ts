@@ -11,8 +11,11 @@ import { EzControlBase } from '../ez-control-base';
   encapsulation: ViewEncapsulation.None
 })
 export class EzControlComponent {
-  @Input()
-  fieldset: boolean | string = false;
+  fieldset = false;
+  @Input('fieldset')
+  set fieldsetSet(fieldset: boolean | string) {
+    this.fieldset = fieldset !== false;
+  }
 
   name$ = this.ezControl.name$;
 
