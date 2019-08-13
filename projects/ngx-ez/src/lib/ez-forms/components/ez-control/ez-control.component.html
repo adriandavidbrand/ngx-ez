@@ -48,7 +48,7 @@
 
     <ng-template #contentTemplate>
       <ng-content></ng-content>
-      <span class="ez-required" [ngClass]="config.requiredClasses" *ngIf="showRequired$ | async">*</span>
+      <span class="ez-required" [ngClass]="config.requiredClasses" *ngIf="showRequired$ | async"> *</span>
     </ng-template>
 
     <ng-template #controlsTemplate>
