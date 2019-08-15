@@ -31,13 +31,13 @@ export class AppModule {}
 On a form you add the ezForm directive and an (ezSubmit) event handler that will only fire if the form is valid.
 
 ```html
-<form ezForm (ezSubmit)="onSubmit()" [readonly]="readonly"></form>
+<form ezForm (ezSubmit)="onSubmit()" [ezFormReadonly]="readonly"></form>
 ```
 
 Now you can add form controls with the directives ez-text, ez-select, ez-radio, ez-checkbox and ez-checkboxes.
 
 ```html
-<form ezForm (ezSubmit)="onSubmit()" [readonly]="readonly">
+<form ezForm (ezSubmit)="onSubmit()" [ezFormReadonly]="readonly">
   <ez-text name="text" [(ngModel)]="model.text" required range="4-6">
     Text
   </ez-text>
@@ -84,7 +84,7 @@ Now you can add form controls with the directives ez-text, ez-select, ez-radio, 
 </form>
 ```
 
-Putting a readonly attribute on the form will place all controls on the form into read only mode.
+Putting an ezFormReadonly directive on any parent element will place all child controls of the element into read only mode if a value of true is passed in as an input on the directive.
 
 ## Table
 
