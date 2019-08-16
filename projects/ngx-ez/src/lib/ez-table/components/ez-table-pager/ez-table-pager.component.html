@@ -26,8 +26,8 @@
   <a [ngClass]="{ 'disabled': table.pageNum === 1 }" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="table.pageNum === 1 ? 1 : table.pageNum - 1" [tabindex]="table.pageNum === 1 ? -1 : 0"
     (keydown.enter)="table.previous()" (click)="table.previous()">Previous</a>
 
-  <a *ngFor="let pn of table.pageNums" [ngClass]="{ 'current': table.pageNum === pn }" role="button" tabIndex="0" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="pn"
-    (keydown.enter)="table.goto(pn)" (click)="table.goto(pn)">{{pn}}</a>
+  <a *ngFor="let pn of table.pageNums" [ngClass]="{ 'current': table.pageNum === pn }" role="button" [tabIndex]="table.pageNum === pn ? -1 : 0" [attr.aria-controls]="table.tableId"
+    [attr.data-dt-idx]="pn" (keydown.enter)="table.goto(pn)" (click)="table.goto(pn)">{{pn}}</a>
 
   <a [ngClass]="{ 'disabled': table.pageNum === table.totalPages }" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="table.pageNum === table.totalPages ? table.totalPages : table.pageNum + 1"
     [tabindex]="table.pageNum === table.totalPages ? -1 : 0" (keydown.enter)="table.next()" (click)="table.next()">Next</a>
