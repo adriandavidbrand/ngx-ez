@@ -18,9 +18,9 @@ export class EzTextComponent extends EzControlBase {
     configService: EzFormConfigService,
     @Optional() configDirective: EzFormConfigDirective,
     @Optional() ezForm: EzFormDirective,
-    @Optional() ezGroup: EzFormReadonlyDirective,
+    @Optional() ezReadonly: EzFormReadonlyDirective,
     @Self() @Optional() ngControl: NgControl
   ) {
-    super(configService, configDirective, ezForm, ezGroup, ngControl);
+    super(configService, configDirective, ezForm, ezReadonly, ngControl);
   }
 }
