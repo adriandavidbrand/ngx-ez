@@ -1,8 +1,7 @@
 import { Component, ContentChildren, QueryList, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
-import { multipleSort } from '../../../ez-core/functions/multiple-sort';
-import { SortDirection } from '../../../ez-core/functions/multiple-sort';
+import { multipleSortFunction, SortDirection } from '../../../ez-core/functions/multiple-sort';
 import { resolveProperty } from '../../../ez-core/functions';
 import { groupBy, GroupBy, flattenGroups } from '../../../ez-core/functions/group-by';
 import { EzTableConfigService } from '../../services/ez-table-config.service';
@@ -90,14 +89,15 @@ export class EzTableComponent implements OnInit, OnChanges {
           )
         : [...this.data];
     if (this.columnSort.length > 0) {
-      multipleSort(
-        filteredData,
-        ...this.columnSort.map(c => ({
-          property: c.property,
-          display: c.display,
-          direction: c.direction,
-          compare: c.compare
-        }))
+      filteredData.sort(
+        multipleSortFunction(
+          ...this.columnSort.map(c => ({
+            property: c.property,
+            display: c.display,
+            direction: c.direction,
+            compare: c.compare
+          }))
+        )
       );
     }
     this.totalRecords = filteredData.length;

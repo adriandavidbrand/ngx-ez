@@ -13,8 +13,8 @@ export interface SortProperty {
   compare?: (a: any, b: any) => number;
 }
 
-export const multipleSort = (array: any[], ...props: (string | SortProperty)[]) => {
-  array.sort((a: any, b: any) => {
+export const multipleSortFunction = (...props: (string | SortProperty)[]) => {
+  return (a: any, b: any) => {
     let direction = 0;
 
     props.some(item => {
@@ -38,5 +38,5 @@ export const multipleSort = (array: any[], ...props: (string | SortProperty)[]) 
     });
 
     return direction;
-  });
+  };
 };
