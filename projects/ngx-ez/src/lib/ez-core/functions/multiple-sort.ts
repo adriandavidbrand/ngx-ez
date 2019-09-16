@@ -13,7 +13,7 @@ export interface SortProperty {
   compare?: (a: any, b: any) => number;
 }
 
-export const multipleSort = (array: any[], ...props: (string | SortProperty)[]): any[] => {
+export const multipleSort = (array: any[], ...props: (string | SortProperty)[]) => {
   array.sort((a: any, b: any) => {
     let direction = 0;
 
@@ -21,9 +21,15 @@ export const multipleSort = (array: any[], ...props: (string | SortProperty)[]):
       if (typeof item === 'string') {
         direction = naturalSort(resolveProperty(a, item), resolveProperty(b, item));
       } else {
-        const aVal = item.display ? item.display(a) : resolveProperty(a, item.property);
-        const bVal = item.display ? item.display(b) : resolveProperty(b, item.property);
-        direction = item.compare ? item.compare(aVal, bVal) : naturalSort(aVal, bVal);
+        direction = item.compare
+          ? item.display
+            ? item.compare(item.display(a), item.display(b))
+            : item.property
+            ? item.compare(resolveProperty(a, item.property), resolveProperty(b, item.property))
+            : item.compare(a, b)
+          : item.display
+          ? naturalSort(item.display(a), item.display(b))
+          : naturalSort(resolveProperty(a, item.property), resolveProperty(b, item.property));
         if (direction && item.direction === SortDirection.descending) {
           direction = -direction;
         }
@@ -33,5 +39,4 @@ export const multipleSort = (array: any[], ...props: (string | SortProperty)[]):
 
     return direction;
   });
-  return array || [];
 };
