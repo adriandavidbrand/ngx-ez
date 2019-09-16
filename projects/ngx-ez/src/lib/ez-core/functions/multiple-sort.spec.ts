@@ -42,4 +42,10 @@ describe('multipleSort', () => {
     multipleSort(array, { property: 'name' });
     expect(array).toEqual([{ name: '01' }, { name: '002' }, { name: '9' }, { name: '11' }]);
   });
+
+  it('should sort array with compare function', () => {
+    const array = [{ prop: 4 }, { prop: 2 }, { prop: 1 }, { prop: 3 }];
+    multipleSort(array, { compare: (a, b) => a.prop - b.prop });
+    expect(array).toEqual([{ prop: 1 }, { prop: 2 }, { prop: 3 }, { prop: 4 }]);
+  });
 });
