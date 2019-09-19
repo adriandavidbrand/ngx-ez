@@ -1,6 +1,6 @@
 import { naturalSort } from './natural-sort';
 
-describe('multipleSort', () => {
+describe('naturalSort', () => {
   it('empty string should equal empty string', () => {
     expect(naturalSort('', '')).toEqual(0);
   });

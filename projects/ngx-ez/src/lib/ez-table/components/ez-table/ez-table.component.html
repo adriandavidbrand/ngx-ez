@@ -12,10 +12,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of pageData" [ngClass]="config.rowClasses">
+      <tr *ngFor="let item of pageData; index as i" [ngClass]="config.rowClasses">
         <ng-container *ngFor="let column of columns">
           <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
-            <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item }"></ng-container>
+            <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item, index: i }"></ng-container>
             <ng-template #defaultColumTemplate let-item>
               {{ column.display ? column.display(item) : resolveProperty(item, column.property) }}
             </ng-template>
