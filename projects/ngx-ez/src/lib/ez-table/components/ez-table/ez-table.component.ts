@@ -74,6 +74,8 @@ export class EzTableComponent implements OnInit, OnChanges {
   update() {
     if (!this.data) {
       this.pageData = [];
+      this.totalRecords = 0;
+      this.totalPages = 1;
       return;
     }
     const searchArray = this.search ? this.search.split(' ') : null;
