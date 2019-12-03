@@ -76,6 +76,12 @@ export class EzControlBase implements ControlValueAccessor, OnDestroy {
     this.readonly$.next(val !== undefined && val !== false);
   }
 
+  labelledby$ = new BehaviorSubject<string>(undefined);
+  @Input()
+  set labelledby(val: string) {
+    this.labelledby$.next(val);
+  }
+
   valid$ = new BehaviorSubject(false);
 
   invalid$ = new BehaviorSubject(false);

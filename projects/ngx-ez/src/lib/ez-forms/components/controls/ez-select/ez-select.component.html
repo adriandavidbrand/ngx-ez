@@ -3,8 +3,8 @@
   <ng-container controls-container>
     <ng-container *ngIf="(readonly$ | async) else elseBlock">{{ value | reference: options }}</ng-container>
     <ng-template #elseBlock>
-      <select [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="(valid$ | async) ? null : (name$ | async) + '_validation_message'" [(ngModel)]="value"
-        (ngModelChange)="onChange(value)" [ngClass]="(config$ | async).selectClasses" [valid]="valid$ | async">
+      <select [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="(valid$ | async) ? null : (name$ | async) + '_validation_message'" [attr.aria-labelledby]="(labelledby$ | async)"
+        [(ngModel)]="value" (ngModelChange)="onChange(value)" [ngClass]="(config$ | async).selectClasses" [valid]="valid$ | async">
         <option [ngValue]="defaultValue" *ngIf="showDefault">{{defaultText}}</option>
         <option *ngFor="let option of options" [ngValue]="option.value">{{option.label}}</option>
       </select>

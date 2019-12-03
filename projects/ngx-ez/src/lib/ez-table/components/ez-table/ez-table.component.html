@@ -6,7 +6,7 @@
         <th *ngFor="let heading of headings" [attr.colspan]="heading.columns" [ngClass]="heading.class">{{heading.title}}</th>
       </tr>
       <tr [ngClass]="config.headingRowClasses">
-        <th *ngFor="let column of columns" [ngClass]="column.headingClass" [attr.width]="column.width" [attr.tabindex]="column.sortable ? '0' : null"
+        <th *ngFor="let column of columns" [ngClass]="column.headingClass" [attr.id]="column.headingId" [attr.width]="column.width" [attr.tabindex]="column.sortable ? '0' : null"
           [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, false)"
           (keydown.shift.enter)="sort(column, true)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
       </tr>

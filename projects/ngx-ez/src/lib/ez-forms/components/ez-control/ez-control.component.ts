@@ -27,6 +27,8 @@ export class EzControlComponent {
 
   invalid$ = this.ezControl.invalid$;
 
+  labelledby$ = this.ezControl.labelledby$;
+
   message$ = this.ezControl.message$;
 
   config$ = this.ezControl.config$;

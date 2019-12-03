@@ -30,6 +30,9 @@ export class EzColumnComponent {
   headingClass: string;
 
   @Input()
+  headingId: string;
+
+  @Input()
   cellClass: string;
 
   @Input()
