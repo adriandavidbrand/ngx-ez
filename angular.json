@@ -74,12 +74,10 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/ngx-ez-demo/src/environments/environment.ts",
-                  "with": "projects/ngx-ez-demo/src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "projects/ngx-ez-demo/src/environments/environment.ts",
+                "with": "projects/ngx-ez-demo/src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -88,8 +86,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [
-                {
+              "budgets": [{
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
@@ -164,38 +161,38 @@
         }
       }
     },
-    "ez-store-cache": {
+    "ez-state": {
       "projectType": "library",
-      "root": "projects/ez-store-cache",
-      "sourceRoot": "projects/ez-store-cache/src",
+      "root": "projects/ez-state",
+      "sourceRoot": "projects/ez-state/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ez-store-cache/tsconfig.lib.json",
-            "project": "projects/ez-store-cache/ng-package.json"
+            "tsConfig": "projects/ez-state/tsconfig.lib.json",
+            "project": "projects/ez-state/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ez-store-cache/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ez-state/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ez-store-cache/src/test.ts",
-            "tsConfig": "projects/ez-store-cache/tsconfig.spec.json",
-            "karmaConfig": "projects/ez-store-cache/karma.conf.js"
+            "main": "projects/ez-state/src/test.ts",
+            "tsConfig": "projects/ez-state/tsconfig.spec.json",
+            "karmaConfig": "projects/ez-state/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ez-store-cache/tsconfig.lib.json",
-              "projects/ez-store-cache/tsconfig.spec.json"
+              "projects/ez-state/tsconfig.lib.json",
+              "projects/ez-state/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -203,6 +200,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "ngx-ez"
 }

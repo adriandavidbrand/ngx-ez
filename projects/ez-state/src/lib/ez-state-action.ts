@@ -1,6 +1,6 @@
-export enum EzStoreCacheAction {
+export enum EzStateAction {
   load = 'load',
   save = 'save',
   update = 'update',
-  delete = 'delete'
+  delete = 'delete',
 }

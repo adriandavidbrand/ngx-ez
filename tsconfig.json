@@ -6,8 +6,7 @@
 */
 {
   "files": [],
-  "references": [
-    {
+  "references": [{
       "path": "./projects/ngx-ez/tsconfig.lib.json"
     },
     {
@@ -23,10 +22,10 @@
       "path": "./projects/ngx-ez-demo/e2e/tsconfig.json"
     },
     {
-      "path": "./projects/ez-store-cache/tsconfig.lib.json"
+      "path": "./projects/ez-state/tsconfig.lib.json"
     },
     {
-      "path": "./projects/ez-store-cache/tsconfig.spec.json"
+      "path": "./projects/ez-state/tsconfig.spec.json"
     }
-]
+  ]
 }

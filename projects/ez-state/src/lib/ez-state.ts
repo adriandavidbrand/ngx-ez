@@ -1,4 +1,4 @@
-export interface EzStoreCacheState<T> {
+export interface EzState<T> {
   value: T;
   loading?: boolean;
   loaded?: boolean;

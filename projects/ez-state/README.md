@@ -1,8 +1,8 @@
-# EzStoreCache
+# EzState
 
-A reactive store cache for JavaScript.
+A reactive state cache for JavaScript.
 
-const cache = new EzStoreCache('your object');
+const cache = new EzCache('your object');
 
 Update the cache with next
 cache.next('new value');
@@ -32,9 +32,9 @@ cache.deleting$ will emit true on calling delete and false as the delete observa
 cache.deleted$ will emit false on calling delete and true as the delete observable emits
 
 cache.unsubscribe() unsubscribes all the observable subscriptions
-cache.unsubscribe(EzStoreCacheAction.load) unsubscribes the load observable subscriptions
-cache.unsubscribe(EzStoreCacheAction.save) unsubscribes the save observable subscriptions
-cache.unsubscribe(EzStoreCacheAction.update) unsubscribes the update observable subscriptions
-cache.unsubscribe(EzStoreCacheAction.delete) unsubscribes the delete observable subscriptions
+cache.unsubscribe(EzStateAction.load) unsubscribes the load observable subscriptions
+cache.unsubscribe(EzStateAction.save) unsubscribes the save observable subscriptions
+cache.unsubscribe(EzStateAction.update) unsubscribes the update observable subscriptions
+cache.unsubscribe(EzStateAction.delete) unsubscribes the delete observable subscriptions
 
 cache.complete() unscubscribes all subscriptions and completes all observables
