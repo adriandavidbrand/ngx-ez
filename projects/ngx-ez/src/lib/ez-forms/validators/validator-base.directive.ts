@@ -1,6 +1,7 @@
-import { SimpleChanges, OnChanges } from '@angular/core';
+import { SimpleChanges, OnChanges, Directive } from '@angular/core';
 
-export class ValidatorBase implements OnChanges {
+@Directive()
+export class ValidatorBaseDirective implements OnChanges {
   inputs: string[];
 
   onChange: () => void;
@@ -10,7 +11,7 @@ export class ValidatorBase implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.inputs.some(input => input in changes) && this.onChange) {
+    if (this.inputs.some((input) => input in changes) && this.onChange) {
       this.onChange();
     }
   }

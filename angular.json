@@ -4,21 +4,21 @@
   "newProjectRoot": "projects",
   "projects": {
     "ngx-ez": {
+      "projectType": "library",
       "root": "projects/ngx-ez",
       "sourceRoot": "projects/ngx-ez/src",
-      "projectType": "library",
-      "prefix": "ez",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
+      "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/ngx-ez/tsconfig.lib.json",
             "project": "projects/ngx-ez/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-ez/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -44,15 +44,15 @@
       }
     },
     "ngx-ez-demo": {
-      "root": "projects/ngx-ez-demo/",
-      "sourceRoot": "projects/ngx-ez-demo/src",
       "projectType": "application",
-      "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
+      "root": "projects/ngx-ez-demo",
+      "sourceRoot": "projects/ngx-ez-demo/src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -62,6 +62,7 @@
             "main": "projects/ngx-ez-demo/src/main.ts",
             "polyfills": "projects/ngx-ez-demo/src/polyfills.ts",
             "tsConfig": "projects/ngx-ez-demo/tsconfig.app.json",
+            "aot": true,
             "assets": [
               "projects/ngx-ez-demo/src/favicon.ico",
               "projects/ngx-ez-demo/src/assets"
@@ -69,29 +70,36 @@
             "styles": [
               "projects/ngx-ez-demo/src/styles.scss"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "projects/ngx-ez-demo/src/environments/environment.ts",
-                "with": "projects/ngx-ez-demo/src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngx-ez-demo/src/environments/environment.ts",
+                  "with": "projects/ngx-ez-demo/src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [{
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              }]
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
           }
         },
@@ -119,14 +127,14 @@
             "polyfills": "projects/ngx-ez-demo/src/polyfills.ts",
             "tsConfig": "projects/ngx-ez-demo/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-ez-demo/karma.conf.js",
-            "styles": [
-              "projects/ngx-ez-demo/src/styles.scss"
-            ],
-            "scripts": [],
             "assets": [
               "projects/ngx-ez-demo/src/favicon.ico",
               "projects/ngx-ez-demo/src/assets"
-            ]
+            ],
+            "styles": [
+              "projects/ngx-ez-demo/src/styles.scss"
+            ],
+            "scripts": []
           }
         },
         "lint": {
@@ -134,24 +142,18 @@
           "options": {
             "tsConfig": [
               "projects/ngx-ez-demo/tsconfig.app.json",
-              "projects/ngx-ez-demo/tsconfig.spec.json"
+              "projects/ngx-ez-demo/tsconfig.spec.json",
+              "projects/ngx-ez-demo/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
           }
-        }
-      }
-    },
-    "ngx-ez-demo-e2e": {
-      "root": "projects/ngx-ez-demo-e2e/",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
+        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/ngx-ez-demo-e2e/protractor.conf.js",
+            "protractorConfig": "projects/ngx-ez-demo/e2e/protractor.conf.js",
             "devServerTarget": "ngx-ez-demo:serve"
           },
           "configurations": {
@@ -159,18 +161,8 @@
               "devServerTarget": "ngx-ez-demo:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/ngx-ez-demo-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
-    }
-  },
+    }},
   "defaultProject": "ngx-ez"
 }

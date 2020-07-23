@@ -5,7 +5,7 @@ import { SortDirection } from '../../../ez-core/functions/multiple-sort';
 @Component({
   selector: 'ez-column',
   templateUrl: './ez-column.component.html',
-  styleUrls: ['./ez-column.component.scss']
+  styleUrls: ['./ez-column.component.scss'],
 })
 export class EzColumnComponent {
   @Input()
@@ -13,6 +13,9 @@ export class EzColumnComponent {
 
   @Input()
   heading: string;
+
+  @Input()
+  id: string;
 
   @Input('sortable')
   set sortableSet(val: string | boolean) {
@@ -37,6 +40,9 @@ export class EzColumnComponent {
 
   @Input()
   width: string;
+
+  @Input()
+  breakGrouping = true;
 
   direction: SortDirection;
 

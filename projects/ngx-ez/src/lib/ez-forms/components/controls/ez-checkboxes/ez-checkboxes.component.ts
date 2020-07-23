@@ -1,7 +1,7 @@
 import { Component, Optional, Self, Input } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { EzControlBase } from '../../ez-control-base';
+import { EzControlBaseComponent } from '../../ez-control-base.component';
 import { EzFormDirective } from '../../../directives/ez-form.directive';
 import { EzFormConfigService } from '../../../services/ez-form-config.service';
 import { Option } from '../../../../ez-core/models/option';
@@ -12,9 +12,9 @@ import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.di
   selector: 'ez-checkboxes',
   templateUrl: './ez-checkboxes.component.html',
   styleUrls: ['./ez-checkboxes.component.scss'],
-  providers: [{ provide: EzControlBase, useExisting: EzCheckboxesComponent }]
+  providers: [{ provide: EzControlBaseComponent, useExisting: EzCheckboxesComponent }],
 })
-export class EzCheckboxesComponent extends EzControlBase {
+export class EzCheckboxesComponent extends EzControlBaseComponent {
   @Input()
   options: Option[];
 
@@ -32,7 +32,7 @@ export class EzCheckboxesComponent extends EzControlBase {
     if (value) {
       this.value = value;
     } else if (this.value && typeof this.value === 'object') {
-      this.options.forEach(option => {
+      this.options.forEach((option) => {
         this.value[option.property] = false;
       });
     }

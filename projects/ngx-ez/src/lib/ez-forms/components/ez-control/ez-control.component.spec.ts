@@ -2,10 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 
 import { EzControlComponent } from './ez-control.component';
-import { EzControlBase } from '../ez-control-base';
+import { EzControlBaseComponent } from '../ez-control-base.component';
 import { firstEmitted } from '../../../ez-core/functions/first-emitted';
 
-class EzControlBaseMock {
+class EzControlBaseComponentMock {
   required$ = new BehaviorSubject(false);
   readonly$ = new BehaviorSubject(false);
 }
@@ -17,7 +17,7 @@ describe('EzControlComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EzControlComponent],
-      providers: [{ provide: EzControlBase, useClass: EzControlBaseMock }]
+      providers: [{ provide: EzControlBaseComponent, useClass: EzControlBaseComponentMock }],
     }).compileComponents();
   }));
 
@@ -32,14 +32,14 @@ describe('EzControlComponent', () => {
   });
 
   it('should not show required', async(async () => {
-    const service = TestBed.get(EzControlBase);
+    const service = TestBed.get(EzControlBaseComponent);
     service.required$.next(false);
     const showRequired = await firstEmitted(component.showRequired$);
     expect(showRequired).toBeFalsy();
   }));
 
   it('should show required', async(async () => {
-    const service = TestBed.get(EzControlBase);
+    const service = TestBed.get(EzControlBaseComponent);
     service.required$.next(true);
     service.readonly$.next(false);
     const showRequired = await firstEmitted(component.showRequired$);
@@ -47,7 +47,7 @@ describe('EzControlComponent', () => {
   }));
 
   it('should not show required on read only', async(async () => {
-    const service = TestBed.get(EzControlBase);
+    const service = TestBed.get(EzControlBaseComponent);
     service.required$.next(true);
     service.readonly$.next(true);
     const showRequired = await firstEmitted(component.showRequired$);

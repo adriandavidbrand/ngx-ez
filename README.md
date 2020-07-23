@@ -23,7 +23,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   imports: [BrowserModule, FormsModule, EzFormsModule],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
 ```
@@ -110,7 +110,7 @@ Add the EzTableModule to your module and you are ready to build Easy Tables.
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   tableData = [
@@ -120,10 +120,10 @@ export class AppComponent {
     { firstName: 'Mary', lastName: 'Joe' },
     { firstName: 'Sue', lastName: 'Harris' },
     { firstName: 'Bob', lastName: 'Walker' },
-    { firstName: 'Hillary', lastName: 'Smith' }
+    { firstName: 'Hillary', lastName: 'Smith' },
   ];
 
-  fullName = item => `${item.firstName} ${item.lastName}`;
+  fullName = (item) => `${item.firstName} ${item.lastName}`;
 }
 ```
 

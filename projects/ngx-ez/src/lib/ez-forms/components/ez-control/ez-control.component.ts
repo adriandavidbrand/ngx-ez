@@ -2,13 +2,13 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { EzControlBase } from '../ez-control-base';
+import { EzControlBaseComponent } from '../ez-control-base.component';
 
 @Component({
   selector: 'ez-control',
   templateUrl: './ez-control.component.html',
   styleUrls: ['./ez-control.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class EzControlComponent {
   fieldset = false;
@@ -33,5 +33,5 @@ export class EzControlComponent {
 
   config$ = this.ezControl.config$;
 
-  constructor(private ezControl: EzControlBase) {}
+  constructor(private ezControl: EzControlBaseComponent) {}
 }

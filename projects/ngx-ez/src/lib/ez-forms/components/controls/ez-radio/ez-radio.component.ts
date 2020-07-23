@@ -1,7 +1,7 @@
 import { Component, Optional, Self, Input } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { EzControlBase } from '../../ez-control-base';
+import { EzControlBaseComponent } from '../../ez-control-base.component';
 import { EzFormDirective } from '../../../directives/ez-form.directive';
 import { EzFormConfigService } from '../../../services/ez-form-config.service';
 import { Option } from '../../../../ez-core/models/option';
@@ -12,9 +12,9 @@ import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.di
   selector: 'ez-radio',
   templateUrl: './ez-radio.component.html',
   styleUrls: ['./ez-radio.component.scss'],
-  providers: [{ provide: EzControlBase, useExisting: EzRadioComponent }]
+  providers: [{ provide: EzControlBaseComponent, useExisting: EzRadioComponent }],
 })
-export class EzRadioComponent extends EzControlBase {
+export class EzRadioComponent extends EzControlBaseComponent {
   @Input()
   options: Option[];
 

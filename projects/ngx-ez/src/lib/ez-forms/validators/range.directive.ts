@@ -1,13 +1,13 @@
 import { Directive, Input } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 
-import { ValidatorBase } from './validator-base';
+import { ValidatorBaseDirective } from './validator-base.directive';
 
 @Directive({
   selector: '[range]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: RangeDirective, multi: true }]
+  providers: [{ provide: NG_VALIDATORS, useExisting: RangeDirective, multi: true }],
 })
-export class RangeDirective extends ValidatorBase implements Validator {
+export class RangeDirective extends ValidatorBaseDirective implements Validator {
   @Input()
   set range(range: string) {
     const [lower, upper] = range.split('-');
@@ -28,7 +28,7 @@ export class RangeDirective extends ValidatorBase implements Validator {
       const value = parseFloat(c.value);
       if (isNaN(value) || value < this.lower || value > this.upper) {
         return {
-          range: `Should be between ${this.lower} and ${this.upper}`
+          range: `Should be between ${this.lower} and ${this.upper}`,
         };
       }
     }

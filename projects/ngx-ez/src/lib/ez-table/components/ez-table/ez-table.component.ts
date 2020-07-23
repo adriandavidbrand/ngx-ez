@@ -1,23 +1,40 @@
-import { Component, ContentChildren, QueryList, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
+import {
+  Component,
+  ContentChildren,
+  QueryList,
+  Input,
+  Output,
+  AfterContentInit,
+  OnDestroy,
+  EventEmitter,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
+import { EzFooterComponent } from '../ez-footer/ez-footer.component';
 import { multipleSortFunction, SortDirection } from '../../../ez-core/functions/multiple-sort';
 import { resolveProperty } from '../../../ez-core/functions';
 import { groupBy, GroupBy, flattenGroups } from '../../../ez-core/functions/group-by';
+import { EzTableState } from '../../models/ez-table-state';
 import { EzTableConfigService } from '../../services/ez-table-config.service';
 import { EzHeadingComponent } from '../ez-heading/ez-heading.component';
+import { pageNums } from '../../functions/page-nums';
 
 @Component({
   selector: 'ez-table',
   templateUrl: './ez-table.component.html',
-  styleUrls: ['./ez-table.component.scss']
+  styleUrls: ['./ez-table.component.scss'],
 })
-export class EzTableComponent implements OnInit, OnChanges {
+export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges {
   @Input()
   data: any[] = [];
 
   @Input()
   tableId = 'table';
+
+  @Input()
+  sortable = true;
 
   @Input('groupBy')
   set groupBySet(value: string | GroupBy) {
@@ -48,6 +65,15 @@ export class EzTableComponent implements OnInit, OnChanges {
   @Input()
   noDataMessage = this.config.messages.noData;
 
+  @Input()
+  state: EzTableState;
+
+  @Input()
+  breakGrouping = true;
+
+  @Output()
+  stateChange = new EventEmitter<EzTableState>();
+
   pageData: any[];
 
   columnSort: EzColumnComponent[] = [];
@@ -60,6 +86,7 @@ export class EzTableComponent implements OnInit, OnChanges {
   totalRecords: number;
   start: number;
   finish: number;
+  initialised = false;
 
   @ContentChildren(EzHeadingComponent)
   headings: QueryList<EzHeadingComponent>;
@@ -67,11 +94,14 @@ export class EzTableComponent implements OnInit, OnChanges {
   @ContentChildren(EzColumnComponent)
   columns: QueryList<EzColumnComponent>;
 
+  @ContentChildren(EzFooterComponent)
+  footers: QueryList<EzFooterComponent>;
+
   resolveProperty = resolveProperty;
 
   constructor(public config: EzTableConfigService) {}
 
-  update() {
+  update(): void {
     if (!this.data) {
       this.pageData = [];
       this.totalRecords = 0;
@@ -81,10 +111,10 @@ export class EzTableComponent implements OnInit, OnChanges {
     const searchArray = this.search ? this.search.split(' ') : null;
     let filteredData =
       searchArray && searchArray.length
-        ? this.data.filter(item =>
-            searchArray.every(search => {
+        ? this.data.filter((item) =>
+            searchArray.every((search) => {
               const searchRegEx = new RegExp(search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
-              return this.columns.some(c =>
+              return this.columns.some((c) =>
                 searchRegEx.test((c.display ? c.display(item) : resolveProperty(item, c.property)) || '')
               );
             })
@@ -93,11 +123,11 @@ export class EzTableComponent implements OnInit, OnChanges {
     if (this.columnSort.length > 0) {
       filteredData.sort(
         multipleSortFunction(
-          ...this.columnSort.map(c => ({
+          ...this.columnSort.map((c) => ({
             property: c.property,
             display: c.display,
             direction: c.direction,
-            compare: c.compare
+            compare: c.compare,
           }))
         )
       );
@@ -112,70 +142,66 @@ export class EzTableComponent implements OnInit, OnChanges {
       this.totalPages =
         Math.floor(filteredData.length / this.pageSize) + (filteredData.length % this.pageSize === 0 ? 0 : 1);
       filteredData = filteredData.filter((_, i) => i >= this.start - 1 && i < this.finish);
-      if (this.totalPages <= this.maxPages) {
-        this.pageNums = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-      } else {
-        let startPage = this.pageNum - Math.floor(this.maxPages / 2);
-        if (startPage < 1) {
-          startPage = 1;
-        } else if (startPage > this.totalPages - this.maxPages + 1) {
-          startPage = this.totalPages - this.maxPages + 1;
-        }
-        this.pageNums = Array.from({ length: this.maxPages }, (_, i) => i + startPage);
-      }
+      this.pageNums = pageNums(this.pageNum, this.totalPages, this.maxPages);
     } else {
       this.pageNum = 1;
       this.totalPages = 1;
       this.start = 1;
       this.finish = filteredData.length;
     }
-    if (this.groupBy && this.columnSort.every(column => this.groupBy.keys.some(key => key === column.property))) {
+    if (
+      this.groupBy &&
+      (!this.breakGrouping ||
+        this.columnSort.every(
+          (column) => !column.breakGrouping || this.groupBy.keys.some((key) => key === column.property)
+        ))
+    ) {
       filteredData = flattenGroups(groupBy(filteredData, this.groupBy));
     }
     this.pageData = filteredData;
   }
 
-  goto(pageNum: number) {
+  goto(pageNum: number): void {
     this.pageNum = pageNum;
     this.update();
   }
 
-  next() {
+  next(): void {
     if (this.pageNum < this.totalPages) {
       this.pageNum++;
       this.update();
     }
   }
 
-  last() {
+  last(): void {
     if (this.pageNum < this.totalPages) {
       this.pageNum = this.totalPages;
       this.update();
     }
   }
 
-  previous() {
+  previous(): void {
     if (this.pageNum > 1) {
       this.pageNum--;
       this.update();
     }
   }
 
-  first() {
+  first(): void {
     if (this.pageNum !== 1) {
       this.pageNum = 1;
       this.update();
     }
   }
 
-  headerClick(column: EzColumnComponent, event: MouseEvent) {
+  headerClick(column: EzColumnComponent, event: MouseEvent): void {
     (event.target as HTMLElement).focus();
     this.sort(column, event.shiftKey);
   }
 
-  sort(column: EzColumnComponent, multi: boolean) {
-    if (column.sortable) {
-      const current = this.columnSort.find(c => c === column);
+  sort(column: EzColumnComponent, multi: boolean): void {
+    if (this.sortable && column.sortable) {
+      const current = this.columnSort.find((c) => c === column);
       if (current) {
         column.direction =
           column.direction === SortDirection.ascending ? SortDirection.descending : SortDirection.ascending;
@@ -183,7 +209,7 @@ export class EzTableComponent implements OnInit, OnChanges {
         column.direction = SortDirection.ascending;
       }
       if (!multi) {
-        this.columnSort.forEach(c => {
+        this.columnSort.forEach((c) => {
           if (c !== column && c.direction) {
             delete c.direction;
           }
@@ -196,11 +222,39 @@ export class EzTableComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit() {
-    this.update();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.initialised) {
+      this.goto(1);
+    }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.goto(1);
+  ngAfterContentInit(): void {
+    if (this.state) {
+      this.pageSize = this.state.pageSize;
+      this.pageNum = this.state.pageNum;
+      this.columnSort = Object.keys(this.state.columnSort).reduce((columnSort, id) => {
+        const column = this.columns.find((c) => c.id === id);
+        if (column) {
+          column.direction = this.state.columnSort[id];
+          columnSort.push(column);
+        }
+        return columnSort;
+      }, []);
+    }
+    this.update();
+    this.initialised = true;
+  }
+
+  ngOnDestroy(): void {
+    this.stateChange.emit({
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+      columnSort: this.columnSort.reduce((columnSort, column) => {
+        if (column.id) {
+          columnSort[column.id] = column.direction;
+        }
+        return columnSort;
+      }, {}),
+    });
   }
 }

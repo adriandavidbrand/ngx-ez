@@ -12,21 +12,31 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of pageData; index as i" [ngClass]="config.rowClasses">
-        <ng-container *ngFor="let column of columns">
-          <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
-            <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item, index: i }"></ng-container>
-            <ng-template #defaultColumTemplate let-item>
-              {{ column.display ? column.display(item) : resolveProperty(item, column.property) }}
-            </ng-template>
-          </td>
-        </ng-container>
-      </tr>
-      <tr *ngIf="pageData.length === 0">
+      <tr *ngIf="pageData.length === 0 else pageDataTemplate">
         <td [colSpan]="columns.length">
           {{ noDataMessage }}
         </td>
       </tr>
+      <ng-template #pageDataTemplate>
+        <tr *ngFor="let item of pageData; index as i" [ngClass]="config.rowClasses">
+          <ng-container *ngFor="let column of columns">
+            <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
+              <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item, index: i }"></ng-container>
+              <ng-template #defaultColumTemplate let-item>
+                {{ column.display ? column.display(item) : resolveProperty(item, column.property) }}
+              </ng-template>
+            </td>
+          </ng-container>
+        </tr>
+        <tr *ngIf="footers && footers.length" class="dhs-table-footer" [ngClass]="config.footerRowClasses">
+          <td *ngFor="let footer of footers" [attr.colspan]="footer.columns" [ngClass]="footer.cellClass">
+            <ng-container *ngTemplateOutlet="footer.template || defaultFooterTemplate;context:{ data: data, pageData: pageData, search: search }"></ng-container>
+            <ng-template #defaultFooterTemplate>
+              {{ footer.display ? footer.display(pageData, data) : footer.value }}
+            </ng-template>
+          </td>
+        </tr>
+      </ng-template>
     </tbody>
   </table>
   <ng-content select="[footer]"></ng-content>

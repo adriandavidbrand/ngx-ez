@@ -10,7 +10,7 @@ describe('EzTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EzTableComponent]
+      declarations: [EzTableComponent],
     }).compileComponents();
   }));
 
@@ -119,6 +119,66 @@ describe('EzTableComponent', () => {
   it('groupBySet with string should create groupBy object', () => {
     component.groupBySet = 'prop1 prop2';
     expect(component.groupBy.keys.length).toEqual(2);
+  });
+
+  it('groupBy should group data', () => {
+    component.data = [{ prop: 'a' }, { prop: 'a' }];
+    const column = new EzColumnComponent();
+    column.property = 'prop';
+    component.columns.reset([column]);
+    component.groupBySet = 'prop';
+    component.goto(1);
+    expect(component.pageData[0]._rows.prop).toEqual(2);
+  });
+
+  it('sort by grouped data should break group', () => {
+    component.data = [
+      { prop1: 'a', prop2: '1' },
+      { prop1: 'a', prop2: '2' },
+    ];
+    const column1 = new EzColumnComponent();
+    column1.property = 'prop1';
+    const column2 = new EzColumnComponent();
+    column2.property = 'prop2';
+    component.columns.reset([column1, column2]);
+    component.groupBySet = 'prop1';
+    component.sort(column2, false);
+    component.goto(1);
+    expect(component.pageData[0]._rows).toBeFalsy();
+  });
+
+  it('sort by grouped data should not break group if breakGrouping is false on table', () => {
+    component.data = [
+      { prop1: 'a', prop2: '1' },
+      { prop1: 'a', prop2: '2' },
+    ];
+    const column1 = new EzColumnComponent();
+    column1.property = 'prop1';
+    const column2 = new EzColumnComponent();
+    column2.property = 'prop2';
+    component.columns.reset([column1, column2]);
+    component.groupBySet = 'prop1';
+    component.sort(column2, false);
+    component.breakGrouping = false;
+    component.goto(1);
+    expect(component.pageData[0]._rows.prop1).toEqual(2);
+  });
+
+  it('sort by grouped data should not break group if breakGrouping is false on column', () => {
+    component.data = [
+      { prop1: 'a', prop2: '1' },
+      { prop1: 'a', prop2: '2' },
+    ];
+    const column1 = new EzColumnComponent();
+    column1.property = 'prop1';
+    const column2 = new EzColumnComponent();
+    column2.property = 'prop2';
+    component.columns.reset([column1, column2]);
+    component.groupBySet = 'prop1';
+    component.sort(column2, false);
+    column2.breakGrouping = false;
+    component.goto(1);
+    expect(component.pageData[0]._rows.prop1).toEqual(2);
   });
 
   it('pageSizeSet should parse string', () => {

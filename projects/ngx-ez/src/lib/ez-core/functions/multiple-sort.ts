@@ -3,7 +3,7 @@ import { resolveProperty } from './resolve-property';
 
 export enum SortDirection {
   ascending = 'ascending',
-  descending = 'descending'
+  descending = 'descending',
 }
 
 export interface SortProperty {
@@ -17,7 +17,7 @@ export const multipleSortFunction = (...props: (string | SortProperty)[]) => {
   return (a: any, b: any) => {
     let direction = 0;
 
-    props.some(item => {
+    props.some((item) => {
       if (typeof item === 'string') {
         direction = naturalSort(resolveProperty(a, item), resolveProperty(b, item));
       } else {

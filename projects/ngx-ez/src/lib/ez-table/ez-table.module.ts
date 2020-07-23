@@ -5,6 +5,7 @@ import { EzTablePagerComponent } from './components/ez-table-pager/ez-table-page
 import { EzTableSearchComponent } from './components/ez-table-search/ez-table-search.component';
 import { EzColumnComponent } from './components/ez-column/ez-column.component';
 import { EzHeadingComponent } from './components/ez-heading/ez-heading.component';
+import { EzFooterComponent } from './components/ez-footer/ez-footer.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { EzHeadingComponent } from './components/ez-heading/ez-heading.component
     EzTablePagerComponent,
     EzTableSearchComponent,
     EzColumnComponent,
-    EzHeadingComponent
+    EzHeadingComponent,
+    EzFooterComponent
   ],
   imports: [CommonModule],
   exports: [EzTableComponent, EzTablePagerComponent, EzTableSearchComponent, EzColumnComponent, EzHeadingComponent]

@@ -1,4 +1,4 @@
-import { Input, OnDestroy } from '@angular/core';
+import { Input, OnDestroy, Component } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,7 +9,8 @@ import { PushStack } from '../../ez-core/rxjs/push-stack';
 import { EzFormConfigDirective } from '../directives/ez-form-config.directive';
 import { EzFormReadonlyDirective } from '../directives/ez-form-readonly.directive';
 
-export class EzControlBase implements ControlValueAccessor, OnDestroy {
+@Component({ template: '' })
+export class EzControlBaseComponent implements ControlValueAccessor, OnDestroy {
   constructor(
     public configService: EzFormConfigService,
     public configDirective: EzFormConfigDirective,
