@@ -21,6 +21,12 @@
     },
     {
       "path": "./projects/ngx-ez-demo/e2e/tsconfig.json"
+    },
+    {
+      "path": "./projects/ez-store-cache/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ez-store-cache/tsconfig.spec.json"
     }
 ]
 }

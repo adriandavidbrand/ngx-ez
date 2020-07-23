@@ -19,6 +19,10 @@
       "ngx-ez": [
         "dist/ngx-ez/ngx-ez",
         "dist/ngx-ez"
+      ],
+      "ez-store-cache": [
+        "dist/ez-store-cache/ez-store-cache",
+        "dist/ez-store-cache"
       ]
     }
   }

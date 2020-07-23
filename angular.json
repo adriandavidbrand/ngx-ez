@@ -163,6 +163,46 @@
           }
         }
       }
+    },
+    "ez-store-cache": {
+      "projectType": "library",
+      "root": "projects/ez-store-cache",
+      "sourceRoot": "projects/ez-store-cache/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ez-store-cache/tsconfig.lib.json",
+            "project": "projects/ez-store-cache/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ez-store-cache/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ez-store-cache/src/test.ts",
+            "tsConfig": "projects/ez-store-cache/tsconfig.spec.json",
+            "karmaConfig": "projects/ez-store-cache/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ez-store-cache/tsconfig.lib.json",
+              "projects/ez-store-cache/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "ngx-ez"
 }
