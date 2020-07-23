@@ -4,10 +4,15 @@
 
 export * from './lib/ez-core/functions/';
 export * from './lib/ez-core/models/option';
-export * from './lib/ez-core/pipes/reference.pipe';
+
+export * from './lib/ez-core/pipes/clone.pipe/clone.pipe';
+export * from './lib/ez-core/pipes/clone.pipe/clone.pipe.module';
+
+export * from './lib/ez-core/pipes/reference.pipe/reference.pipe';
+export * from './lib/ez-core/pipes/reference.pipe/reference.pipe.module';
+
 export * from './lib/ez-core/rxjs/first-truthy';
 export * from './lib/ez-core/rxjs/push-stack';
-export * from './lib/ez-core/ez-core.module';
 
 export * from './lib/ez-forms/components/controls/ez-checkbox/ez-checkbox.component';
 export * from './lib/ez-forms/components/controls/ez-checkboxes/ez-checkboxes.component';

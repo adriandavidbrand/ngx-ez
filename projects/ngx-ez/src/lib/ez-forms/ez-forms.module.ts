@@ -15,7 +15,7 @@ import { AlphaStartDirective } from './validators/alpha-start.directive';
 import { CheckboxesRequiredDirective } from './validators/checkboxes-required.directive';
 import { RangeDirective } from './validators/range.directive';
 import { ValidatorDirective } from './validators/validator.directive';
-import { EzCoreModule } from '../ez-core/ez-core.module';
+import { ReferencePipeModule } from '../ez-core/pipes/reference.pipe/reference.pipe.module';
 import { EzPasswordComponent } from './components/controls/ez-password/ez-password.component';
 import { SameDirective } from './validators/same.directive';
 import { EzFormConfigDirective } from './directives/ez-form-config.directive';
@@ -41,9 +41,9 @@ import { EzFormReadonlyDirective } from './directives/ez-form-readonly.directive
     SameDirective,
     EzFormConfigDirective,
     ValidDirective,
-    EzFormReadonlyDirective
+    EzFormReadonlyDirective,
   ],
-  imports: [CommonModule, FormsModule, EzCoreModule],
+  imports: [CommonModule, FormsModule, ReferencePipeModule],
   exports: [
     EzControlComponent,
     EzCheckboxComponent,
@@ -62,7 +62,7 @@ import { EzFormReadonlyDirective } from './directives/ez-form-readonly.directive
     SameDirective,
     EzFormConfigDirective,
     ValidDirective,
-    EzFormReadonlyDirective
-  ]
+    EzFormReadonlyDirective,
+  ],
 })
 export class EzFormsModule {}

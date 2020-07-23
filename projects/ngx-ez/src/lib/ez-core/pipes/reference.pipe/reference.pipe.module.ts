@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ReferencePipe } from './pipes/reference.pipe';
+import { ReferencePipe } from './reference.pipe';
 
 @NgModule({
   declarations: [ReferencePipe],
   imports: [CommonModule],
-  exports: [ReferencePipe]
+  exports: [ReferencePipe],
 })
-export class EzCoreModule {}
+export class ReferencePipeModule {}
