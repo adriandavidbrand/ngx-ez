@@ -215,4 +215,15 @@ describe('EzTableComponent', () => {
     component.goto(1);
     expect(component.pageData.length).toEqual(1);
   });
+
+  it('should parse state', () => {
+    component.data = [{}];
+    const column = new EzColumnComponent();
+    column.id = 'columnId';
+    component.columns.reset([column]);
+    component.state = { pageNum: 1, pageSize: 5, columnSort: { columnId: SortDirection.ascending } };
+    component.ngAfterContentInit();
+    expect(component.columnSort.length).toEqual(1);
+    expect(component.columnSort[0].direction).toEqual(SortDirection.ascending);
+  });
 });
