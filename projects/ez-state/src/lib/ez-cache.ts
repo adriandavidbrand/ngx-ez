@@ -169,7 +169,7 @@ export class EzCache<T> {
   }
 
   save(save$: Observable<T>): void;
-  save(save$: Observable<any>, ignoreResponse?: boolean): void;
+  save(save$: Observable<any>, ignoreResponse: boolean): void;
   save(save$: Observable<any>, ignoreResponse?: boolean): void {
     this.unsubscribe(EzStateAction.save);
     this.state$.next({ value: this.value, saving: true });
@@ -184,7 +184,7 @@ export class EzCache<T> {
   }
 
   update(update$: Observable<T>): void;
-  update(update$: Observable<any>, ignoreResponse?: boolean): void;
+  update(update$: Observable<any>, ignoreResponse: boolean): void;
   update(update$: Observable<any>, ignoreResponse?: boolean): void {
     this.unsubscribe(EzStateAction.update);
     this.state$.next({ value: this.value, updating: true });
@@ -199,7 +199,7 @@ export class EzCache<T> {
   }
 
   delete(delete$: Observable<T>): void;
-  delete(delete$: Observable<any>, ignoreResponse?: boolean): void;
+  delete(delete$: Observable<any>, ignoreResponse: boolean): void;
   delete(delete$: Observable<any>, ignoreResponse?: boolean): void {
     this.unsubscribe(EzStateAction.delete);
     this.state$.next({ value: this.value, deleting: true });
