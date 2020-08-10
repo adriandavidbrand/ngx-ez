@@ -1,14 +1,32 @@
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { resolveProperty } from 'ngx-ez';
 import { EzStateAction } from './ez-state-action';
 import { EzCacheBase } from './ez-cache-base';
 
-export class EzCache<T> extends EzCacheBase<T> {
+export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
+  private id$ = new BehaviorSubject<P>(undefined);
+
+  items$ = this.value$;
+
+  item$ = combineLatest([this.id$, this.value$]).pipe(
+    map(([id, value]) =>
+      id && value ? value.find((item) => id === resolveProperty(item, this.idProperty)) : this.defaultObj
+    )
+  );
+
   constructor(
-    valueOrErrorHandler?: T | ((error?: any, action?: EzStateAction) => any),
+    private idProperty: string,
+    private defaultObj?: T,
+    valueOrErrorHandler?: T[] | ((error?: any, action?: EzStateAction) => any),
     errorHandler?: (error?: any, action?: EzStateAction) => any
   ) {
     super(valueOrErrorHandler, errorHandler);
+  }
+
+  select(id: P): void {
+    this.id$.next(id);
   }
 
   save(save$: Observable<T>): void;
@@ -18,7 +36,7 @@ export class EzCache<T> extends EzCacheBase<T> {
     this.cache$.next({ value: this.value, saving: true });
     this.subscriptions.save = save$.subscribe(
       (value) => {
-        this.cache$.next({ value: ignoreResponse ? this.value : value, saved: true });
+        this.cache$.next({ value: ignoreResponse ? this.value : [...this.value, value], saved: true });
       },
       (error) => {
         this.cache$.next({ value: this.value, saveError: this.generateError(error, EzStateAction.save) });
@@ -33,7 +51,14 @@ export class EzCache<T> extends EzCacheBase<T> {
     this.cache$.next({ value: this.value, updating: true });
     this.subscriptions.save = update$.subscribe(
       (value) => {
-        this.cache$.next({ value: ignoreResponse ? this.value : value, updated: true });
+        this.cache$.next({
+          value: ignoreResponse
+            ? this.value
+            : this.value.map((item) =>
+                resolveProperty(item, this.idProperty) === resolveProperty(value, this.idProperty) ? value : item
+              ),
+          updated: true,
+        });
       },
       (error) => {
         this.cache$.next({ value: this.value, updateError: this.generateError(error, EzStateAction.update) });
@@ -48,7 +73,14 @@ export class EzCache<T> extends EzCacheBase<T> {
     this.cache$.next({ value: this.value, deleting: true });
     this.subscriptions.save = delete$.subscribe(
       (value) => {
-        this.cache$.next({ value: ignoreResponse ? this.value : value, deleted: true });
+        this.cache$.next({
+          value: ignoreResponse
+            ? this.value
+            : this.value.filter(
+                (item) => resolveProperty(item, this.idProperty) !== resolveProperty(value, this.idProperty)
+              ),
+          deleted: true,
+        });
       },
       (error) => {
         this.cache$.next({ value: this.value, deleteError: this.generateError(error, EzStateAction.delete) });

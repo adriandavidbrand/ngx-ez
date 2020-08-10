@@ -3,8 +3,24 @@ import { of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { EzCache } from './ez-cache';
+import { EzState } from './ez-state';
 
 describe('EzCache', () => {
+  it('state$ should emit state', () => {
+    const cache = new EzCache('value');
+    let state: EzState<string>;
+    const subscription = cache.state$.subscribe((v) => {
+      state = v;
+    });
+    subscription.unsubscribe();
+    expect(state.value).toEqual('value');
+  });
+
+  it('snapshot should return state', () => {
+    const cache = new EzCache('value');
+    expect(cache.snapshot.value).toEqual('value');
+  });
+
   it('value should be undefined', () => {
     const cache = new EzCache();
     expect(cache.value).toBeUndefined();
@@ -230,6 +246,17 @@ describe('EzCache save', () => {
     expect(saving).toBeTruthy();
   });
 
+  it('should be savingOrUpdating for 5ms', () => {
+    const cache = new EzCache('');
+    cache.save(of('value').pipe(delay(5)));
+    let savingOrUpdating: boolean;
+    const subscription = cache.savingOrUpdating$.subscribe((s) => {
+      savingOrUpdating = s;
+    });
+    subscription.unsubscribe();
+    expect(savingOrUpdating).toBeTruthy();
+  });
+
   it('should not be saving after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
@@ -240,6 +267,18 @@ describe('EzCache save', () => {
     tick(6);
     subscription.unsubscribe();
     expect(saving).toBeFalsy();
+  }));
+
+  it('should not be savingOrUpdating after 5ms', fakeAsync(() => {
+    const cache = new EzCache('');
+    cache.save(of('value').pipe(delay(5)));
+    let savingOrUpdating: boolean;
+    const subscription = cache.savingOrUpdating$.subscribe((s) => {
+      savingOrUpdating = s;
+    });
+    tick(6);
+    subscription.unsubscribe();
+    expect(savingOrUpdating).toBeFalsy();
   }));
 
   it('should not be saved for 5ms', () => {
@@ -253,6 +292,17 @@ describe('EzCache save', () => {
     expect(saved).toBeFalsy();
   });
 
+  it('should not be savedOrUpdated for 5ms', () => {
+    const cache = new EzCache('');
+    cache.save(of('value').pipe(delay(5)));
+    let savedOrUpdated: boolean;
+    const subscription = cache.savedOrUpdated$.subscribe((s) => {
+      savedOrUpdated = s;
+    });
+    subscription.unsubscribe();
+    expect(savedOrUpdated).toBeFalsy();
+  });
+
   it('should be saved after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
@@ -263,6 +313,18 @@ describe('EzCache save', () => {
     tick(6);
     subscription.unsubscribe();
     expect(saved).toBeTruthy();
+  }));
+
+  it('should be savedOrUpdated after 5ms', fakeAsync(() => {
+    const cache = new EzCache('');
+    cache.save(of('value').pipe(delay(5)));
+    let savedOrUpdated: boolean;
+    const subscription = cache.savedOrUpdated$.subscribe((s) => {
+      savedOrUpdated = s;
+    });
+    tick(6);
+    subscription.unsubscribe();
+    expect(savedOrUpdated).toBeTruthy();
   }));
 
   it('resetState should reset saved', () => {
@@ -336,6 +398,17 @@ describe('EzCache update', () => {
     expect(updating).toBeTruthy();
   });
 
+  it('should be savingOrUpdating for 5ms', () => {
+    const cache = new EzCache('');
+    cache.update(of('value').pipe(delay(5)));
+    let savingOrUpdating: boolean;
+    const subscription = cache.savingOrUpdating$.subscribe((u) => {
+      savingOrUpdating = u;
+    });
+    subscription.unsubscribe();
+    expect(savingOrUpdating).toBeTruthy();
+  });
+
   it('should not be updating after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
@@ -346,6 +419,18 @@ describe('EzCache update', () => {
     tick(6);
     subscription.unsubscribe();
     expect(updating).toBeFalsy();
+  }));
+
+  it('should not be savingOrUpdating after 5ms', fakeAsync(() => {
+    const cache = new EzCache('');
+    cache.update(of('value').pipe(delay(5)));
+    let savingOrUpdating: boolean;
+    const subscription = cache.savingOrUpdating$.subscribe((u) => {
+      savingOrUpdating = u;
+    });
+    tick(6);
+    subscription.unsubscribe();
+    expect(savingOrUpdating).toBeFalsy();
   }));
 
   it('should not be updated for 5ms', () => {
@@ -359,6 +444,17 @@ describe('EzCache update', () => {
     expect(updated).toBeFalsy();
   });
 
+  it('should not be savedOrUpdated for 5ms', () => {
+    const cache = new EzCache('');
+    cache.update(of('value').pipe(delay(5)));
+    let savedOrUpdated: boolean;
+    const subscription = cache.savedOrUpdated$.subscribe((u) => {
+      savedOrUpdated = u;
+    });
+    subscription.unsubscribe();
+    expect(savedOrUpdated).toBeFalsy();
+  });
+
   it('should be updated after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
@@ -369,6 +465,18 @@ describe('EzCache update', () => {
     tick(6);
     subscription.unsubscribe();
     expect(updated).toBeTruthy();
+  }));
+
+  it('should be savedOrUpdated after 5ms', fakeAsync(() => {
+    const cache = new EzCache('');
+    cache.update(of('value').pipe(delay(5)));
+    let savedOrUpdated: boolean;
+    const subscription = cache.savedOrUpdated$.subscribe((u) => {
+      savedOrUpdated = u;
+    });
+    tick(6);
+    subscription.unsubscribe();
+    expect(savedOrUpdated).toBeTruthy();
   }));
 
   it('resetState should reset updated', () => {
