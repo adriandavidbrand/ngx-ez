@@ -26,6 +26,12 @@
     },
     {
       "path": "./projects/ez-state/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ez-functions/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ez-functions/tsconfig.spec.json"
     }
   ]
 }

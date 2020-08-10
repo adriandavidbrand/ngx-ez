@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { clone } from '../../functions/clone';
+import { clone } from 'ez-functions';
 
 @Pipe({
   name: 'clone',

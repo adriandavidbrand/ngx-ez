@@ -23,6 +23,10 @@
       "ez-state": [
         "dist/ez-state/ez-state",
         "dist/ez-state"
+      ],
+      "ez-functions": [
+        "dist/ez-functions/ez-functions",
+        "dist/ez-functions"
       ]
     }
   }

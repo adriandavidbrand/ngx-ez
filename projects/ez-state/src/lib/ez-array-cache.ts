@@ -1,7 +1,7 @@
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { resolveProperty } from 'ngx-ez';
+import { resolveProperty } from 'ez-functions';
 import { EzStateAction } from './ez-state-action';
 import { EzCacheBase } from './ez-cache-base';
 

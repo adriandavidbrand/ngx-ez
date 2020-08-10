@@ -1,6 +1,6 @@
 import { Component, Input, TemplateRef, ContentChild } from '@angular/core';
 
-import { SortDirection } from '../../../ez-core/functions/multiple-sort';
+import { SortDirection } from 'ez-functions';
 
 @Component({
   selector: 'ez-column',

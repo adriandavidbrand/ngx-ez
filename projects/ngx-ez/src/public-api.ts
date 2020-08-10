@@ -2,7 +2,6 @@
  * Public API Surface of ngx-ez
  */
 
-export * from './lib/ez-core/functions/';
 export * from './lib/ez-core/models/option';
 
 export * from './lib/ez-core/pipes/clone.pipe/clone.pipe';

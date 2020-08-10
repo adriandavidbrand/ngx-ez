@@ -13,9 +13,9 @@ import {
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
 import { EzFooterComponent } from '../ez-footer/ez-footer.component';
-import { multipleSortFunction, SortDirection } from '../../../ez-core/functions/multiple-sort';
-import { resolveProperty } from '../../../ez-core/functions';
-import { groupBy, GroupBy, flattenGroups } from '../../../ez-core/functions/group-by';
+import { multipleSortFunction, SortDirection } from 'ez-functions';
+import { resolveProperty } from 'ez-functions';
+import { groupBy, GroupBy, flattenGroups } from 'ez-functions';
 import { EzTableState } from '../../models/ez-table-state';
 import { EzTableConfigService } from '../../services/ez-table-config.service';
 import { EzHeadingComponent } from '../ez-heading/ez-heading.component';

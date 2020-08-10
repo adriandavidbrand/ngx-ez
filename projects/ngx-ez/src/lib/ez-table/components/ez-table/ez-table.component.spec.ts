@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EzTableComponent } from './ez-table.component';
 import { EzColumnComponent } from '../ez-column/ez-column.component';
-import { SortDirection } from '../../../ez-core/functions/multiple-sort';
+import { SortDirection } from 'ez-functions';
 
 describe('EzTableComponent', () => {
   let component: EzTableComponent;

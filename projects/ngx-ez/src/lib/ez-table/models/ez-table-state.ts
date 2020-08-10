@@ -1,4 +1,4 @@
-import { SortDirection } from '../../ez-core/functions';
+import { SortDirection } from 'ez-functions';
 
 export interface EzTableState {
   pageNum: number;
