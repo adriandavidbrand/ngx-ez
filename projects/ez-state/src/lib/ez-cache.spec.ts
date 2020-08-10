@@ -75,6 +75,18 @@ describe('EzCache', () => {
     expect(cache.value).toBeUndefined();
   });
 
+  it('setState should leave value', () => {
+    const cache = new EzCache('value');
+    cache.setState();
+    expect(cache.snapshot.value).toEqual('value');
+  });
+
+  it('setState should set state', () => {
+    const cache = new EzCache('value');
+    cache.setState({ loading: true });
+    expect(cache.snapshot.loading).toBeTruthy();
+  });
+
   it('complete should finalise', () => {
     const cache = new EzCache('');
     cache.load(of(''));
@@ -106,10 +118,10 @@ describe('EzCache load', () => {
     expect(error).toEqual('load error');
   });
 
-  it('resetState should reset loadError$', () => {
+  it('setState should reset loadError$', () => {
     const cache = new EzCache();
     cache.load(throwError('load error'));
-    cache.resetState();
+    cache.setState();
     let error: string;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
@@ -175,10 +187,10 @@ describe('EzCache load', () => {
     expect(loaded).toBeTruthy();
   }));
 
-  it('resetState should reset loaded', () => {
+  it('setState should reset loaded', () => {
     const cache = new EzCache();
     cache.load(of('value'));
-    cache.resetState();
+    cache.setState();
     let loaded: boolean;
     const subscription = cache.loaded$.subscribe((l) => {
       loaded = l;
@@ -212,10 +224,10 @@ describe('EzCache save', () => {
     expect(error).toEqual('save error');
   });
 
-  it('resetState should reset saveError$', () => {
+  it('setState should reset saveError$', () => {
     const cache = new EzCache();
     cache.save(throwError('save error'));
-    cache.resetState();
+    cache.setState();
     let error: string;
     const subscription = cache.saveError$.subscribe((e) => {
       error = e;
@@ -327,10 +339,10 @@ describe('EzCache save', () => {
     expect(savedOrUpdated).toBeTruthy();
   }));
 
-  it('resetState should reset saved', () => {
+  it('setState should reset saved', () => {
     const cache = new EzCache();
     cache.save(of('value'));
-    cache.resetState();
+    cache.setState();
     let saved: boolean;
     const subscription = cache.saved$.subscribe((s) => {
       saved = s;
@@ -364,10 +376,10 @@ describe('EzCache update', () => {
     expect(error).toEqual('update error');
   });
 
-  it('resetState should reset updateError$', () => {
+  it('setState should reset updateError$', () => {
     const cache = new EzCache();
     cache.update(throwError('update error'));
-    cache.resetState();
+    cache.setState();
     let error: string;
     const subscription = cache.updateError$.subscribe((e) => {
       error = e;
@@ -479,10 +491,10 @@ describe('EzCache update', () => {
     expect(savedOrUpdated).toBeTruthy();
   }));
 
-  it('resetState should reset updated', () => {
+  it('setState should reset updated', () => {
     const cache = new EzCache();
     cache.update(of('value'));
-    cache.resetState();
+    cache.setState();
     let updated: boolean;
     const subscription = cache.updated$.subscribe((s) => {
       updated = s;
@@ -516,10 +528,10 @@ describe('EzCache delete', () => {
     expect(error).toEqual('delete error');
   });
 
-  it('resetState should reset deleteError$', () => {
+  it('setState should reset deleteError$', () => {
     const cache = new EzCache();
     cache.delete(throwError('delete error'));
-    cache.resetState();
+    cache.setState();
     let error: string;
     const subscription = cache.deleteError$.subscribe((e) => {
       error = e;
@@ -585,10 +597,10 @@ describe('EzCache delete', () => {
     expect(deleted).toBeTruthy();
   }));
 
-  it('resetState should reset deleted', () => {
+  it('setState should reset deleted', () => {
     const cache = new EzCache();
     cache.delete(of('value'));
-    cache.resetState();
+    cache.setState();
     let deleted: boolean;
     const subscription = cache.deleted$.subscribe((s) => {
       deleted = s;
