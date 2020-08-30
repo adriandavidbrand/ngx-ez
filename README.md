@@ -2,6 +2,9 @@
 
 Easy Angular is a collection of components to help build Angular apps in a template driven style.
 
+## Why?
+Easy Angular removes a lot of the repetition and boilerplate from building Angular apps. New junior devs will be building WCAG compliant components that pass accessibility testing the first time without even knowing it.
+
 ## Usage
 
 npm install --save ngx-ez
