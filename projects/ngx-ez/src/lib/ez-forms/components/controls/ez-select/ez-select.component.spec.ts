@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { EzSelectComponent } from './ez-select.component';
@@ -8,7 +8,7 @@ describe('EzSelectComponent', () => {
   let component: EzSelectComponent;
   let fixture: ComponentFixture<EzSelectComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EzSelectComponent ],
       imports: [ EzTestingModule, FormsModule ]

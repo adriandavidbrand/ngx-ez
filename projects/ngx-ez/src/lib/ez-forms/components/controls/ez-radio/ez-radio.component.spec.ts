@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { EzRadioComponent } from './ez-radio.component';
@@ -8,7 +8,7 @@ describe('EzRadioComponent', () => {
   let component: EzRadioComponent;
   let fixture: ComponentFixture<EzRadioComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EzRadioComponent ],
       imports: [ EzTestingModule, FormsModule ]

@@ -1,4 +1,4 @@
-import { async } from '@angular/core/testing';
+import { waitForAsync } from '@angular/core/testing';
 
 import { EzFormConfigDirective } from './ez-form-config.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
@@ -16,7 +16,7 @@ describe('EzFormConfigDirective', () => {
     expect(directive).toBeTruthy();
   });
 
-  it('should override property', async(async () => {
+  it('should override property', waitForAsync(async () => {
     const directive = new EzFormConfigDirective(config);
     directive.ezFormConfig = { prop: 'value' };
     const overriddenConfig = await firstEmitted(directive.config$);

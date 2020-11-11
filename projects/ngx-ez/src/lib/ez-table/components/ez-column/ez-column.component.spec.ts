@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EzColumnComponent } from './ez-column.component';
 
@@ -6,7 +6,7 @@ describe('EzColumnComponent', () => {
   let component: EzColumnComponent;
   let fixture: ComponentFixture<EzColumnComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EzColumnComponent]
     }).compileComponents();

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EzTableSearchComponent } from './ez-table-search.component';
 import { EzTableComponent } from '../ez-table/ez-table.component';
@@ -11,7 +11,7 @@ describe('EzTableSearchComponent', () => {
   let component: EzTableSearchComponent;
   let fixture: ComponentFixture<EzTableSearchComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EzTableSearchComponent],
       providers: [{ provide: EzTableComponent, useClass: TableMock }]

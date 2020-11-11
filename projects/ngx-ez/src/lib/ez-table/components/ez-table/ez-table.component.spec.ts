@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EzTableComponent } from './ez-table.component';
 import { EzColumnComponent } from '../ez-column/ez-column.component';
@@ -8,7 +8,7 @@ describe('EzTableComponent', () => {
   let component: EzTableComponent;
   let fixture: ComponentFixture<EzTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EzTableComponent],
     }).compileComponents();

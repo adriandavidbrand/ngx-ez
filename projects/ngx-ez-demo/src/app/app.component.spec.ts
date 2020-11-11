@@ -1,13 +1,12 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { EzTestHelper, EzFormsModule } from 'ngx-ez';
 import { EzTableModule } from 'ngx-ez';
-import { firstEmitted } from 'ngx-ez';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, EzFormsModule, EzTableModule],
       declarations: [AppComponent]
@@ -24,24 +23,24 @@ describe('AppComponent', () => {
     helper = new EzTestHelper(fixture);
   });
 
-  it('password should be invalid without value', async(async () => {
+  it('password should be invalid without value', waitForAsync(async () => {
     const control = await helper.control('password');
     expect(control.ngControl.invalid).toBeTruthy();
   }));
 
-  it('password should be valid with value', async(async () => {
+  it('password should be valid with value', waitForAsync(async () => {
     component.model.password = 'some password';
     const control = await helper.control('password');
     expect(control.ngControl.valid).toBeTruthy();
   }));
 
-  it('password again should be invalid when not matching password', async(async () => {
+  it('password again should be invalid when not matching password', waitForAsync(async () => {
     component.model.password = 'some password';
     const control = await helper.control('passwordAgain');
     expect(control.ngControl.invalid).toBeTruthy();
   }));
 
-  it('password again should be valid', async(async () => {
+  it('password again should be valid', waitForAsync(async () => {
     component.model.password = 'some password';
     component.passwordAgain = 'some password';
     const control = await helper.control('passwordAgain');

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EzTextComponent } from './ez-text.component';
 import { EzTestingModule } from '../../../../ez-testing/ez-testing.module';
@@ -7,7 +7,7 @@ describe('EzTextComponent', () => {
   let component: EzTextComponent;
   let fixture: ComponentFixture<EzTextComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EzTextComponent ],
       imports: [ EzTestingModule ]
