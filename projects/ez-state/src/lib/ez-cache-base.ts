@@ -16,7 +16,6 @@ export class EzCacheBase<T> {
 
   protected errorHandler: (error?: any, action?: EzStateAction) => any;
 
-
   static generalErrorHandler(error: any, action: EzStateAction): any {
     return error;
   }
