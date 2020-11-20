@@ -14,11 +14,12 @@ export class EzCacheBase<T> {
     delete?: Subscription;
   } = {};
 
+  protected errorHandler: (error?: any, action?: EzStateAction) => any;
+
+
   static generalErrorHandler(error: any, action: EzStateAction): any {
     return error;
   }
-
-  protected errorHandler: (error?: any, action?: EzStateAction) => any;
 
   constructor(
     valueOrErrorHandler?: T | ((error?: any, action?: EzStateAction) => any),
