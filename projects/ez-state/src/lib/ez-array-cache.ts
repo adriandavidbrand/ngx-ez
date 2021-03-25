@@ -49,7 +49,7 @@ export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
   update(update$: Observable<any>, ignoreResponse = false): void {
     this.unsubscribe(EzStateAction.update);
     this.cache$.next({ value: this.value, updating: true });
-    this.subscriptions.save = update$.subscribe(
+    this.subscriptions.update = update$.subscribe(
       (value) => {
         this.cache$.next({
           value: ignoreResponse
@@ -71,7 +71,7 @@ export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
   delete(delete$: Observable<any>, ignoreResponse = false): void {
     this.unsubscribe(EzStateAction.delete);
     this.cache$.next({ value: this.value, deleting: true });
-    this.subscriptions.save = delete$.subscribe(
+    this.subscriptions.delete = delete$.subscribe(
       (value) => {
         this.cache$.next({
           value: ignoreResponse
