@@ -142,7 +142,6 @@
             "main": "projects/ngx-ez-demo/src/main.ts",
             "polyfills": "projects/ngx-ez-demo/src/polyfills.ts",
             "tsConfig": "projects/ngx-ez-demo/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/ngx-ez-demo/src/favicon.ico",
               "projects/ngx-ez-demo/src/assets"
@@ -150,7 +149,13 @@
             "styles": [
               "projects/ngx-ez-demo/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -180,7 +185,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
