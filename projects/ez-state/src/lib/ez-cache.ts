@@ -16,14 +16,18 @@ export class EzCache<T> extends EzCacheBase<T> {
   save(save$: Observable<any>, ignoreResponse = false): void {
     this.unsubscribe(EzStateAction.save);
     this.cache$.next({ value: this.value, saving: true });
-    this.subscriptions.save = save$.subscribe(
-      (value) => {
+    this.subscriptions.save = save$.subscribe({
+      next: (value) => {
         this.cache$.next({ value: ignoreResponse ? this.value : value, saved: true });
       },
-      (error) => {
+      error: (error) => {
         this.cache$.next({ value: this.value, saveError: this.generateError(error, EzStateAction.save) });
-      }
-    );
+      },
+    });
+  }
+
+  saveIgnoreResponse(save$: Observable<any>): void {
+    this.save(save$, true);
   }
 
   update(update$: Observable<T>): void;
@@ -31,14 +35,18 @@ export class EzCache<T> extends EzCacheBase<T> {
   update(update$: Observable<any>, ignoreResponse = false): void {
     this.unsubscribe(EzStateAction.update);
     this.cache$.next({ value: this.value, updating: true });
-    this.subscriptions.update = update$.subscribe(
-      (value) => {
+    this.subscriptions.update = update$.subscribe({
+      next: (value) => {
         this.cache$.next({ value: ignoreResponse ? this.value : value, updated: true });
       },
-      (error) => {
+      error: (error) => {
         this.cache$.next({ value: this.value, updateError: this.generateError(error, EzStateAction.update) });
-      }
-    );
+      },
+    });
+  }
+
+  updateIgnoreResponse(update$: Observable<any>): void {
+    this.save(update$, true);
   }
 
   delete(delete$: Observable<T>): void;
@@ -46,13 +54,17 @@ export class EzCache<T> extends EzCacheBase<T> {
   delete(delete$: Observable<any>, ignoreResponse = false): void {
     this.unsubscribe(EzStateAction.delete);
     this.cache$.next({ value: this.value, deleting: true });
-    this.subscriptions.delete = delete$.subscribe(
-      (value) => {
+    this.subscriptions.delete = delete$.subscribe({
+      next: (value) => {
         this.cache$.next({ value: ignoreResponse ? this.value : value, deleted: true });
       },
-      (error) => {
+      error: (error) => {
         this.cache$.next({ value: this.value, deleteError: this.generateError(error, EzStateAction.delete) });
-      }
-    );
+      },
+    });
+  }
+
+  deleteIgnoreResponse(delete$: Observable<any>): void {
+    this.save(delete$, true);
   }
 }

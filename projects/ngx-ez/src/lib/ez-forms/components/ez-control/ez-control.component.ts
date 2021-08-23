@@ -21,7 +21,7 @@ export class EzControlComponent {
 
   readonly$ = this.ezControl.readonly$;
 
-  showRequired$ = combineLatest(this.ezControl.required$, this.readonly$).pipe(
+  showRequired$ = combineLatest([this.ezControl.required$, this.readonly$]).pipe(
     map(([required, readonly]) => required && !readonly)
   );
 

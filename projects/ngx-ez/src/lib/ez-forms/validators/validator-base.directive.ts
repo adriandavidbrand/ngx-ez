@@ -1,6 +1,6 @@
 import { SimpleChanges, OnChanges, Directive } from '@angular/core';
 
-@Directive()
+@Directive({ selector: '[validator-base]' })
 export class ValidatorBaseDirective implements OnChanges {
   inputs: string[];
 

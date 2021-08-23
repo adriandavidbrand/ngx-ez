@@ -1,10 +1,10 @@
 {
   "name": "ngx-ez",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "peerDependencies": {
-    "@angular/common": "^10.2.0",
-    "@angular/core": "^10.2.0",
-    "ez-functions": "0.0.2"
+    "@angular/common": "^12.2.2",
+    "@angular/core": "^12.2.2",
+    "ez-functions": "1.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"

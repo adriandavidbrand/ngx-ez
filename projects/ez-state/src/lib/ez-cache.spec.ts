@@ -49,7 +49,7 @@ describe('EzCache', () => {
 
   it('should run custom error handler as second constructor paramater', () => {
     const cache = new EzCache('', () => 'custom error');
-    cache.load(throwError('custom error'));
+    cache.load(throwError(() => 'custom error'));
     let error: string;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
@@ -60,7 +60,7 @@ describe('EzCache', () => {
 
   it('should run custom error handler as first constructor paramater', () => {
     const cache = new EzCache(() => 'custom error');
-    cache.load(throwError('custom error'));
+    cache.load(throwError(() => 'custom error'));
     let error: string;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
@@ -109,7 +109,7 @@ describe('EzCache load', () => {
 
   it('load error should update loadError$', () => {
     const cache = new EzCache('');
-    cache.load(throwError('load error'));
+    cache.load(throwError(() => 'load error'));
     let error: string;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
@@ -120,7 +120,7 @@ describe('EzCache load', () => {
 
   it('setState should reset loadError$', () => {
     const cache = new EzCache();
-    cache.load(throwError('load error'));
+    cache.load(throwError(() => 'load error'));
     cache.setState();
     let error: string;
     const subscription = cache.loadError$.subscribe((e) => {
@@ -132,7 +132,7 @@ describe('EzCache load', () => {
 
   it('load error should update error$', () => {
     const cache = new EzCache('');
-    cache.load(throwError('load error'));
+    cache.load(throwError(() => 'load error'));
     let error: string;
     const subscription = cache.error$.subscribe((e) => {
       error = e;
@@ -215,7 +215,7 @@ describe('EzCache save', () => {
 
   it('save error should update saveError$', () => {
     const cache = new EzCache('');
-    cache.save(throwError('save error'));
+    cache.save(throwError(() => 'save error'));
     let error: string;
     const subscription = cache.saveError$.subscribe((e) => {
       error = e;
@@ -226,7 +226,7 @@ describe('EzCache save', () => {
 
   it('setState should reset saveError$', () => {
     const cache = new EzCache();
-    cache.save(throwError('save error'));
+    cache.save(throwError(() => 'save error'));
     cache.setState();
     let error: string;
     const subscription = cache.saveError$.subscribe((e) => {
@@ -238,7 +238,7 @@ describe('EzCache save', () => {
 
   it('save error should update error$', () => {
     const cache = new EzCache('');
-    cache.save(throwError('save error'));
+    cache.save(throwError(() => 'save error'));
     let error: string;
     const subscription = cache.error$.subscribe((e) => {
       error = e;
@@ -367,7 +367,7 @@ describe('EzCache update', () => {
 
   it('update error should update updateError$', () => {
     const cache = new EzCache('');
-    cache.update(throwError('update error'));
+    cache.update(throwError(() => 'update error'));
     let error: string;
     const subscription = cache.updateError$.subscribe((e) => {
       error = e;
@@ -378,7 +378,7 @@ describe('EzCache update', () => {
 
   it('setState should reset updateError$', () => {
     const cache = new EzCache();
-    cache.update(throwError('update error'));
+    cache.update(throwError(() => 'update error'));
     cache.setState();
     let error: string;
     const subscription = cache.updateError$.subscribe((e) => {
@@ -390,7 +390,7 @@ describe('EzCache update', () => {
 
   it('update error should update error$', () => {
     const cache = new EzCache('');
-    cache.update(throwError('update error'));
+    cache.update(throwError(() => 'update error'));
     let error: string;
     const subscription = cache.error$.subscribe((e) => {
       error = e;
@@ -519,7 +519,7 @@ describe('EzCache delete', () => {
 
   it('delete error should update deleteError$', () => {
     const cache = new EzCache('');
-    cache.delete(throwError('delete error'));
+    cache.delete(throwError(() => 'delete error'));
     let error: string;
     const subscription = cache.deleteError$.subscribe((e) => {
       error = e;
@@ -530,7 +530,7 @@ describe('EzCache delete', () => {
 
   it('setState should reset deleteError$', () => {
     const cache = new EzCache();
-    cache.delete(throwError('delete error'));
+    cache.delete(throwError(() => 'delete error'));
     cache.setState();
     let error: string;
     const subscription = cache.deleteError$.subscribe((e) => {
@@ -542,7 +542,7 @@ describe('EzCache delete', () => {
 
   it('delete error should update error$', () => {
     const cache = new EzCache('');
-    cache.delete(throwError('delete error'));
+    cache.delete(throwError(() => 'delete error'));
     let error: string;
     const subscription = cache.error$.subscribe((e) => {
       error = e;

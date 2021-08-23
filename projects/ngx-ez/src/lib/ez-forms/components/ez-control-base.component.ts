@@ -9,7 +9,7 @@ import { PushStack } from '../../ez-core/rxjs/push-stack';
 import { EzFormConfigDirective } from '../directives/ez-form-config.directive';
 import { EzFormReadonlyDirective } from '../directives/ez-form-readonly.directive';
 
-@Component({ template: '' })
+@Component({ selector: 'ez-control-base', template: '' })
 export class EzControlBaseComponent implements ControlValueAccessor, OnDestroy {
   constructor(
     public configService: EzFormConfigService,

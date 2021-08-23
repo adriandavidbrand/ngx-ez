@@ -22,7 +22,7 @@ describe('EzArrayCache', () => {
 
   it('save error should update saveError$', () => {
     const cache = new EzArrayCache('id');
-    cache.save(throwError('save error'));
+    cache.save(throwError(() => 'save error'));
     let error: string;
     const subscription = cache.saveError$.subscribe((e) => {
       error = e;
@@ -48,7 +48,36 @@ describe('EzArrayCache', () => {
 
   it('update error should update updateError$', () => {
     const cache = new EzArrayCache('id');
-    cache.update(throwError('update error'));
+    cache.update(throwError(() => 'update error'));
+    let error: string;
+    const subscription = cache.updateError$.subscribe((e) => {
+      error = e;
+    });
+    subscription.unsubscribe();
+    expect(error).toEqual('update error');
+  });
+
+  it('updateBulk should update item', () => {
+    const cache = new EzArrayCache('id', { id: undefined }, [
+      { id: 1, value: 'initial' },
+      { id: 2, value: 'initial' },
+    ]);
+    cache.updateBulk(of([{ id: 1, value: 'updated' }]));
+    expect(cache.value[0].value).toEqual('updated');
+  });
+
+  it('updateBulk should add item', () => {
+    const cache = new EzArrayCache('id', { id: undefined }, [
+      { id: 1, value: 'initial' },
+      { id: 2, value: 'initial' },
+    ]);
+    cache.updateBulk(of([{ id: 3, value: 'updated' }]));
+    expect(cache.value[2].value).toEqual('updated');
+  });
+
+  it('updateBulk error should update updateError$', () => {
+    const cache = new EzArrayCache('id');
+    cache.updateBulk(throwError(() => 'update error'));
     let error: string;
     const subscription = cache.updateError$.subscribe((e) => {
       error = e;
@@ -71,7 +100,7 @@ describe('EzArrayCache', () => {
 
   it('delete error should update deleteError$', () => {
     const cache = new EzArrayCache('id');
-    cache.delete(throwError('delete error'));
+    cache.delete(throwError(() => 'delete error'));
     let error: string;
     const subscription = cache.deleteError$.subscribe((e) => {
       error = e;

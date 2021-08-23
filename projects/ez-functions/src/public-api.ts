@@ -3,6 +3,7 @@
  */
 
 export * from './lib/clone';
+export * from './lib/deep-merge';
 export * from './lib/default-compare';
 export * from './lib/group-by';
 export * from './lib/multiple-sort';
