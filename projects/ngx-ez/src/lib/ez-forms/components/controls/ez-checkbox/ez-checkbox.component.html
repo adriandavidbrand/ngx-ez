@@ -1,11 +1,11 @@
 <ez-control>
   <ng-content></ng-content>
   <ng-container controls-container>
-    <div [ngClass]="(config$ | async).checkboxContainerClasses">
-      <input [id]="(name$ | async) + '_control_input'" [attr.aria-describedby]="((valid$ | async) || disabled) ? null : (name$ | async) + '_validation_message'"
-        [attr.aria-labelledby]="(labelledby$ | async)" [value]="value" type="checkbox" [ngClass]="(config$ | async).checkboxClasses" [disabled]="(readonly$ | async) || disabled" [checked]="value"
-        (change)="onChange($event.target.checked)" [valid]="valid$ | async">
-      <span class="ez-sublabel" [ngClass]="(config$ | async).sublabelClasses" *ngIf="sublabel">{{sublabel}}</span>
+    <div [ngClass]="config.checkboxContainerClasses">
+      <input [id]="properties.name + '_control_input'" [attr.aria-describedby]="properties.name + '_validation_message'" [attr.aria-labelledby]="properties.labelledby"
+        [value]="value" type="checkbox" [ngClass]="config.checkboxClasses" [disabled]="properties.readonly || disabled" [checked]="value"
+        (change)="onChange($any($event.target).checked)" [valid]="properties.valid">
+      <span class="ez-sublabel" [ngClass]="config.sublabelClasses" *ngIf="sublabel">{{sublabel}}</span>
     </div>
   </ng-container>
 </ez-control>

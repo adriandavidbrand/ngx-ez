@@ -1,6 +1,6 @@
 # NgxEz
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0-next.0.
 
 ## Code scaffolding
 

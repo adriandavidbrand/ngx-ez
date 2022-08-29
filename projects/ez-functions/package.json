@@ -1,8 +1,8 @@
 {
   "name": "ez-functions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "peerDependencies": {},
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   }
 }

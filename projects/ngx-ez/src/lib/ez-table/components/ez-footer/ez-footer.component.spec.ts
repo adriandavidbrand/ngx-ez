@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EzFooterComponent } from './ez-footer.component';
 
@@ -6,11 +6,11 @@ describe('EzFooterComponent', () => {
   let component: EzFooterComponent;
   let fixture: ComponentFixture<EzFooterComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [EzFooterComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EzFooterComponent);

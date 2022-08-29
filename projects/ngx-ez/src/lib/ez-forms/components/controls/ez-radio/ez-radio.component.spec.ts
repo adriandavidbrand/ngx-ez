@@ -1,19 +1,17 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 
+import { EzFormsModule } from '../../../ez-forms.module';
 import { EzRadioComponent } from './ez-radio.component';
-import { EzTestingModule } from '../../../../ez-testing/ez-testing.module';
 
 describe('EzRadioComponent', () => {
-  let component: EzRadioComponent;
-  let fixture: ComponentFixture<EzRadioComponent>;
+  let component: EzRadioComponent<any>;
+  let fixture: ComponentFixture<EzRadioComponent<any>>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EzRadioComponent ],
-      imports: [ EzTestingModule, FormsModule ]
-    })
-    .compileComponents();
+      declarations: [EzRadioComponent],
+      imports: [EzFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -5,29 +5,33 @@ import { Subscription } from 'rxjs';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 
 @Directive({
-  selector: '[ezForm]'
+  selector: '[ezForm]',
+  exportAs: 'ezForm',
 })
 export class EzFormDirective implements OnDestroy {
   @Output()
-  ezSubmit: EventEmitter<void> = new EventEmitter();
+  ezSubmit: EventEmitter<any> = new EventEmitter();
 
   @Output()
-  ezSubmitInvalid: EventEmitter<void> = new EventEmitter();
+  ezSubmitInvalid: EventEmitter<any> = new EventEmitter();
+
+  @Output()
+  ezReset: EventEmitter<any> = new EventEmitter();
 
   private subscription: Subscription;
 
-  private formSubmittedClasses: string[];
+  private formSubmittedClasses!: string[];
 
-  constructor(form: NgForm, el: ElementRef, configService: EzFormConfigService) {
+  constructor(private form: NgForm, private el: ElementRef, configService: EzFormConfigService) {
     const elm = el.nativeElement;
     elm.classList.add('ez-form');
     if (configService.formClasses) {
       if (typeof configService.formClasses === 'string') {
-        configService.formClasses.split(' ').forEach(formClass => {
+        configService.formClasses.split(' ').forEach((formClass) => {
           elm.classList.add(formClass);
         });
       } else if (Array.isArray(configService.formClasses)) {
-        configService.formClasses.forEach(formClass => {
+        configService.formClasses.forEach((formClass) => {
           elm.classList.add(formClass);
         });
       }
@@ -42,31 +46,24 @@ export class EzFormDirective implements OnDestroy {
     this.subscription = form.ngSubmit.subscribe(() => {
       this.onSubmit(el.nativeElement);
       if (form.valid) {
-        this.ezSubmit.emit();
+        this.ezSubmit.emit(form.value);
       } else {
-        this.ezSubmitInvalid.emit();
+        this.ezSubmitInvalid.emit(form.value);
       }
     });
     elm.addEventListener('reset', () => {
-      elm.classList.remove('ez-submitted');
-      if (this.formSubmittedClasses) {
-        this.formSubmittedClasses.forEach(formClass => {
-          elm.classList.remove(formClass);
-        });
-      }
+      this.reset();
     });
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription?.unsubscribe();
   }
 
-  onSubmit(elm) {
+  private onSubmit(elm: any) {
     elm.classList.add('ez-submitted');
     if (this.formSubmittedClasses) {
-      this.formSubmittedClasses.forEach(formClass => {
+      this.formSubmittedClasses.forEach((formClass) => {
         elm.classList.add(formClass);
       });
     }
@@ -82,5 +79,17 @@ export class EzFormDirective implements OnDestroy {
         validation.focus();
       }
     }
+  }
+
+  reset(value?: any) {
+    const elm = this.el.nativeElement;
+    elm.classList.remove('ez-submitted');
+    if (this.formSubmittedClasses) {
+      this.formSubmittedClasses.forEach((formClass) => {
+        elm.classList.remove(formClass);
+      });
+    }
+    this.form.resetForm(value);
+    this.ezReset.emit(value);
   }
 }

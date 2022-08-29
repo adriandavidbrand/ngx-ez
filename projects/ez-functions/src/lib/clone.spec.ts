@@ -24,7 +24,7 @@ describe('clone', () => {
   it('clone object should not be the same instance', () => {
     const obj = { prop1: 'prop1' };
     const copy = clone(obj);
-    expect(obj === copy).toBeFalsy();
+    expect(obj === copy).toBeFalse();
   });
 
   it('clone should copy property', () => {
@@ -36,7 +36,7 @@ describe('clone', () => {
   it('clone array should not be the same instance', () => {
     const array = [1, 2, 3, 4, 5];
     const copy = clone(array);
-    expect(array === copy).toBeFalsy();
+    expect(array === copy).toBeFalse();
   });
 
   it('clone should copy array', () => {
@@ -48,7 +48,7 @@ describe('clone', () => {
   it('clone date should not be the same instance', () => {
     const date = new Date();
     const copy = clone(date);
-    expect(date === copy).toBeFalsy();
+    expect(date === copy).toBeFalse();
   });
 
   it('clone date should have the same time', () => {

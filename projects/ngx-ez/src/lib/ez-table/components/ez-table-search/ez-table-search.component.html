@@ -1,3 +1,5 @@
 <label class="ez-table-search">
-  {{label}} <input type="search" [value]="searchStr" (keyup)="search($event.target.value)" [attr.aria-controls]="table.tableId">
+  {{ label }}
+  <input type="search" [value]="searchStr" (keyup)="search($any($event.target).value)"
+    [attr.aria-controls]="table.tableId" />
 </label>

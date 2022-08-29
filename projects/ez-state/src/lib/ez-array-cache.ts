@@ -1,12 +1,12 @@
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { resolveProperty } from 'ez-functions';
+
 import { EzStateAction } from './ez-state-action';
 import { EzCacheBase } from './ez-cache-base';
 
-export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
-  private id$ = new BehaviorSubject<P>(undefined);
+export class EzArrayCache<T> extends EzCacheBase<T[]> {
+  private id$ = new BehaviorSubject<any>(undefined);
 
   items$ = this.value$;
 
@@ -19,13 +19,13 @@ export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
   constructor(
     private idProperty: string,
     private defaultObj?: T,
-    valueOrErrorHandler?: T[] | ((error?: any, action?: EzStateAction) => any),
+    value: T[] = [],
     errorHandler?: (error?: any, action?: EzStateAction) => any
   ) {
-    super(valueOrErrorHandler, errorHandler);
+    super(value, errorHandler);
   }
 
-  select(id: P): void {
+  select(id: any): void {
     this.id$.next(id);
   }
 
@@ -36,10 +36,16 @@ export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
     this.cache$.next({ value: this.value, saving: true });
     this.subscriptions.save = save$.subscribe({
       next: (value) => {
-        this.cache$.next({ value: ignoreResponse ? this.value : [...this.value, value], saved: true });
+        this.cache$.next({
+          value: ignoreResponse ? this.value : [...this.value, value],
+          saved: true,
+        });
       },
       error: (error) => {
-        this.cache$.next({ value: this.value, saveError: this.generateError(error, EzStateAction.save) });
+        this.cache$.next({
+          value: this.value,
+          saveError: this.generateError(error, EzStateAction.save),
+        });
       },
     });
   }
@@ -65,7 +71,10 @@ export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
         });
       },
       error: (error) => {
-        this.cache$.next({ value: this.value, updateError: this.generateError(error, EzStateAction.update) });
+        this.cache$.next({
+          value: this.value,
+          updateError: this.generateError(error, EzStateAction.update),
+        });
       },
     });
   }
@@ -95,7 +104,10 @@ export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
         });
       },
       error: (error) => {
-        this.cache$.next({ value: this.value, updateError: this.generateError(error, EzStateAction.update) });
+        this.cache$.next({
+          value: this.value,
+          updateError: this.generateError(error, EzStateAction.update),
+        });
       },
     });
   }
@@ -117,7 +129,10 @@ export class EzArrayCache<T, P> extends EzCacheBase<T[]> {
         });
       },
       error: (error) => {
-        this.cache$.next({ value: this.value, deleteError: this.generateError(error, EzStateAction.delete) });
+        this.cache$.next({
+          value: this.value,
+          deleteError: this.generateError(error, EzStateAction.delete),
+        });
       },
     });
   }

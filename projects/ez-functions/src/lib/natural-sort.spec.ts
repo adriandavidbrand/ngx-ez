@@ -13,11 +13,11 @@ describe('naturalSort', () => {
     expect(naturalSort(null, '')).toEqual(0);
   });
 
-  it('empty string should be greater than non empty string', () => {
-    expect(naturalSort('', 'a')).toEqual(1);
+  it('empty string should be less than non empty string', () => {
+    expect(naturalSort('', 'a')).toEqual(-1);
   });
 
-  it('non empty string should be less than empty string', () => {
-    expect(naturalSort('a', '')).toEqual(-1);
+  it('non empty string should be greater than empty string', () => {
+    expect(naturalSort('a', '')).toEqual(1);
   });
 });

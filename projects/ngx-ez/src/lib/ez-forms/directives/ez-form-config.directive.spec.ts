@@ -1,8 +1,5 @@
-import { waitForAsync } from '@angular/core/testing';
-
 import { EzFormConfigDirective } from './ez-form-config.directive';
 import { EzFormConfigService } from '../services/ez-form-config.service';
-import { firstEmitted } from '../../ez-core/functions/first-emitted';
 
 describe('EzFormConfigDirective', () => {
   let config: EzFormConfigService;
@@ -16,10 +13,12 @@ describe('EzFormConfigDirective', () => {
     expect(directive).toBeTruthy();
   });
 
-  it('should override property', waitForAsync(async () => {
+  it('should override property', () => {
     const directive = new EzFormConfigDirective(config);
-    directive.ezFormConfig = { prop: 'value' };
-    const overriddenConfig = await firstEmitted(directive.config$);
-    expect(overriddenConfig.prop).toEqual('value');
-  }));
+    directive.ezFormConfig = { checkboxClasses: 'value' };
+    const sub = directive.config$.subscribe((overriddenConfig) => {
+      expect(overriddenConfig?.checkboxClasses).toEqual('value');
+    });
+    sub.unsubscribe();
+  });
 });

@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { EzFormsModule } from '../../../ez-forms.module';
 
 import { EzTextComponent } from './ez-text.component';
-import { EzTestingModule } from '../../../../ez-testing/ez-testing.module';
 
 describe('EzTextComponent', () => {
   let component: EzTextComponent;
@@ -9,15 +9,15 @@ describe('EzTextComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EzTextComponent ],
-      imports: [ EzTestingModule ]
-    })
-    .compileComponents();
+      declarations: [EzTextComponent],
+      imports: [EzFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EzTextComponent);
     component = fixture.componentInstance;
+    component.config = {} as any;
     fixture.detectChanges();
   });
 

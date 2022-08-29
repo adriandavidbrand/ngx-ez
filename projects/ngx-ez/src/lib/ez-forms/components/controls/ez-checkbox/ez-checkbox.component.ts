@@ -1,11 +1,6 @@
-import { Component, Optional, Self, Input } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 
 import { EzControlBaseComponent } from '../../ez-control-base.component';
-import { EzFormDirective } from '../../../directives/ez-form.directive';
-import { EzFormConfigService } from '../../../services/ez-form-config.service';
-import { EzFormConfigDirective } from '../../../directives/ez-form-config.directive';
-import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.directive';
 
 @Component({
   selector: 'ez-checkbox',
@@ -13,20 +8,10 @@ import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.di
   styleUrls: ['./ez-checkbox.component.scss'],
   providers: [{ provide: EzControlBaseComponent, useExisting: EzCheckboxComponent }],
 })
-export class EzCheckboxComponent extends EzControlBaseComponent {
+export class EzCheckboxComponent extends EzControlBaseComponent<boolean> {
   @Input()
-  sublabel: string;
+  sublabel?: string;
 
   @Input()
   disabled = false;
-
-  constructor(
-    configService: EzFormConfigService,
-    @Optional() configDirective: EzFormConfigDirective,
-    @Optional() ezForm: EzFormDirective,
-    @Optional() ezReadonly: EzFormReadonlyDirective,
-    @Self() @Optional() ngControl: NgControl
-  ) {
-    super(configService, configDirective, ezForm, ezReadonly, ngControl);
-  }
 }

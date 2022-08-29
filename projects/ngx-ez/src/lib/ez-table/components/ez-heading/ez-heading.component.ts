@@ -3,14 +3,14 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'ez-heading',
   templateUrl: './ez-heading.component.html',
-  styleUrls: ['./ez-heading.component.scss']
+  styleUrls: ['./ez-heading.component.scss'],
 })
 export class EzHeadingComponent {
   @Input()
-  title: string;
+  title = '';
 
   @Input()
-  class: string;
+  class = '';
 
   @Input('columns')
   set columnsSet(value: string | number) {

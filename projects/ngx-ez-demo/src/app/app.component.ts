@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   model = {
@@ -13,7 +13,7 @@ export class AppComponent {
     radio: null,
     checkbox: false,
     checkboxes: { prop1: false, prop2: true, prop3: false },
-    password: null
+    password: '',
   };
 
   passwordAgain = '';
@@ -27,7 +27,7 @@ export class AppComponent {
     { firstName: 'Bob', lastName: 'Walker' },
     { firstName: 'Harry', lastName: 'Jones' },
     { firstName: 'Hillary', lastName: 'Smith' },
-    { firstName: 'Joe', lastName: 'Jones' }
+    { firstName: 'Joe', lastName: 'Jones' },
   ];
 
   onSubmit() {

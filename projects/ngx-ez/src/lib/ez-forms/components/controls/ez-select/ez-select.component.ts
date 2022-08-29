@@ -1,12 +1,7 @@
-import { Component, Optional, Self, Input } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 
 import { EzControlBaseComponent } from '../../ez-control-base.component';
-import { EzFormDirective } from '../../../directives/ez-form.directive';
-import { EzFormConfigService } from '../../../services/ez-form-config.service';
-import { Option } from '../../../../ez-core/models/option';
-import { EzFormConfigDirective } from '../../../directives/ez-form-config.directive';
-import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.directive';
+import { Option } from '../../../models/option';
 
 @Component({
   selector: 'ez-select',
@@ -14,23 +9,16 @@ import { EzFormReadonlyDirective } from '../../../directives/ez-form-readonly.di
   styleUrls: ['./ez-select.component.scss'],
   providers: [{ provide: EzControlBaseComponent, useExisting: EzSelectComponent }],
 })
-export class EzSelectComponent extends EzControlBaseComponent {
+export class EzSelectComponent<T> extends EzControlBaseComponent<T | undefined> {
   @Input()
-  options: Option[];
+  options!: Option<T>[];
+
   @Input()
   showDefault = true;
+
   @Input()
   defaultText = 'Please select..';
-  @Input()
-  defaultValue = null;
 
-  constructor(
-    configService: EzFormConfigService,
-    @Optional() configDirective: EzFormConfigDirective,
-    @Optional() ezForm: EzFormDirective,
-    @Optional() ezReadonly: EzFormReadonlyDirective,
-    @Self() @Optional() ngControl: NgControl
-  ) {
-    super(configService, configDirective, ezForm, ezReadonly, ngControl);
-  }
+  @Input()
+  defaultValue = undefined;
 }

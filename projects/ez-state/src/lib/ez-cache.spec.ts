@@ -8,12 +8,12 @@ import { EzState } from './ez-state';
 describe('EzCache', () => {
   it('state$ should emit state', () => {
     const cache = new EzCache('value');
-    let state: EzState<string>;
+    let state: EzState<string> | undefined;
     const subscription = cache.state$.subscribe((v) => {
       state = v;
     });
     subscription.unsubscribe();
-    expect(state.value).toEqual('value');
+    expect(state?.value).toEqual('value');
   });
 
   it('snapshot should return state', () => {
@@ -22,7 +22,7 @@ describe('EzCache', () => {
   });
 
   it('value should be undefined', () => {
-    const cache = new EzCache();
+    const cache = new EzCache(undefined);
     expect(cache.value).toBeUndefined();
   });
 
@@ -33,7 +33,7 @@ describe('EzCache', () => {
 
   it('value$ should return constructed value', () => {
     const cache = new EzCache('value');
-    let value: string;
+    let value: string | undefined;
     const subscription = cache.value$.subscribe((v) => {
       value = v;
     });
@@ -50,7 +50,7 @@ describe('EzCache', () => {
   it('should run custom error handler as second constructor paramater', () => {
     const cache = new EzCache('', () => 'custom error');
     cache.load(throwError(() => 'custom error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
     });
@@ -61,7 +61,7 @@ describe('EzCache', () => {
   it('should run custom error handler as first constructor paramater', () => {
     const cache = new EzCache(() => 'custom error');
     cache.load(throwError(() => 'custom error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
     });
@@ -84,7 +84,7 @@ describe('EzCache', () => {
   it('setState should set state', () => {
     const cache = new EzCache('value');
     cache.setState({ loading: true });
-    expect(cache.snapshot.loading).toBeTruthy();
+    expect(cache.snapshot.loading).toBeTrue();
   });
 
   it('complete should finalise', () => {
@@ -96,7 +96,7 @@ describe('EzCache', () => {
       called = true;
     });
     subscription.unsubscribe();
-    expect(called).toBeFalsy();
+    expect(called).toBeFalse();
   });
 });
 
@@ -110,7 +110,7 @@ describe('EzCache load', () => {
   it('load error should update loadError$', () => {
     const cache = new EzCache('');
     cache.load(throwError(() => 'load error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
     });
@@ -119,10 +119,10 @@ describe('EzCache load', () => {
   });
 
   it('setState should reset loadError$', () => {
-    const cache = new EzCache();
+    const cache = new EzCache(undefined);
     cache.load(throwError(() => 'load error'));
     cache.setState();
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.loadError$.subscribe((e) => {
       error = e;
     });
@@ -133,7 +133,7 @@ describe('EzCache load', () => {
   it('load error should update error$', () => {
     const cache = new EzCache('');
     cache.load(throwError(() => 'load error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.error$.subscribe((e) => {
       error = e;
     });
@@ -144,59 +144,59 @@ describe('EzCache load', () => {
   it('should be loading for 5ms', () => {
     const cache = new EzCache('');
     cache.load(of('value').pipe(delay(5)));
-    let loading: boolean;
+    let loading: boolean | undefined;
     const subscription = cache.loading$.subscribe((l) => {
       loading = l;
     });
     subscription.unsubscribe();
-    expect(loading).toBeTruthy();
+    expect(loading).toBeTrue();
   });
 
   it('should not be loading after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.load(of('value').pipe(delay(5)));
-    let loading: boolean;
+    let loading: boolean | undefined;
     const subscription = cache.loading$.subscribe((l) => {
       loading = l;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(loading).toBeFalsy();
+    expect(loading).toBeFalse();
   }));
 
   it('should not be loaded for 5ms', () => {
     const cache = new EzCache('');
     cache.load(of('value').pipe(delay(5)));
-    let loaded: boolean;
+    let loaded: boolean | undefined;
     const subscription = cache.loaded$.subscribe((l) => {
       loaded = l;
     });
     subscription.unsubscribe();
-    expect(loaded).toBeFalsy();
+    expect(loaded).toBeFalse();
   });
 
   it('should be loaded after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.load(of('value').pipe(delay(5)));
-    let loaded: boolean;
+    let loaded: boolean | undefined;
     const subscription = cache.loaded$.subscribe((l) => {
       loaded = l;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(loaded).toBeTruthy();
+    expect(loaded).toBeTrue();
   }));
 
   it('setState should reset loaded', () => {
-    const cache = new EzCache();
+    const cache = new EzCache('');
     cache.load(of('value'));
     cache.setState();
-    let loaded: boolean;
+    let loaded: boolean | undefined;
     const subscription = cache.loaded$.subscribe((l) => {
       loaded = l;
     });
     subscription.unsubscribe();
-    expect(loaded).toBeFalsy();
+    expect(loaded).toBeFalse();
   });
 });
 
@@ -216,7 +216,7 @@ describe('EzCache save', () => {
   it('save error should update saveError$', () => {
     const cache = new EzCache('');
     cache.save(throwError(() => 'save error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.saveError$.subscribe((e) => {
       error = e;
     });
@@ -225,10 +225,10 @@ describe('EzCache save', () => {
   });
 
   it('setState should reset saveError$', () => {
-    const cache = new EzCache();
+    const cache = new EzCache('');
     cache.save(throwError(() => 'save error'));
     cache.setState();
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.saveError$.subscribe((e) => {
       error = e;
     });
@@ -239,7 +239,7 @@ describe('EzCache save', () => {
   it('save error should update error$', () => {
     const cache = new EzCache('');
     cache.save(throwError(() => 'save error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.error$.subscribe((e) => {
       error = e;
     });
@@ -250,105 +250,105 @@ describe('EzCache save', () => {
   it('should be saving for 5ms', () => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let saving: boolean;
+    let saving: boolean | undefined;
     const subscription = cache.saving$.subscribe((s) => {
       saving = s;
     });
     subscription.unsubscribe();
-    expect(saving).toBeTruthy();
+    expect(saving).toBeTrue();
   });
 
   it('should be savingOrUpdating for 5ms', () => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let savingOrUpdating: boolean;
+    let savingOrUpdating: boolean | undefined;
     const subscription = cache.savingOrUpdating$.subscribe((s) => {
       savingOrUpdating = s;
     });
     subscription.unsubscribe();
-    expect(savingOrUpdating).toBeTruthy();
+    expect(savingOrUpdating).toBeTrue();
   });
 
   it('should not be saving after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let saving: boolean;
+    let saving: boolean | undefined;
     const subscription = cache.saving$.subscribe((s) => {
       saving = s;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(saving).toBeFalsy();
+    expect(saving).toBeFalse();
   }));
 
   it('should not be savingOrUpdating after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let savingOrUpdating: boolean;
+    let savingOrUpdating: boolean | undefined;
     const subscription = cache.savingOrUpdating$.subscribe((s) => {
       savingOrUpdating = s;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(savingOrUpdating).toBeFalsy();
+    expect(savingOrUpdating).toBeFalse();
   }));
 
   it('should not be saved for 5ms', () => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let saved: boolean;
+    let saved: boolean | undefined;
     const subscription = cache.saved$.subscribe((s) => {
       saved = s;
     });
     subscription.unsubscribe();
-    expect(saved).toBeFalsy();
+    expect(saved).toBeFalse();
   });
 
   it('should not be savedOrUpdated for 5ms', () => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let savedOrUpdated: boolean;
+    let savedOrUpdated: boolean | undefined;
     const subscription = cache.savedOrUpdated$.subscribe((s) => {
       savedOrUpdated = s;
     });
     subscription.unsubscribe();
-    expect(savedOrUpdated).toBeFalsy();
+    expect(savedOrUpdated).toBeFalse();
   });
 
   it('should be saved after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let saved: boolean;
+    let saved: boolean | undefined;
     const subscription = cache.saved$.subscribe((s) => {
       saved = s;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(saved).toBeTruthy();
+    expect(saved).toBeTrue();
   }));
 
   it('should be savedOrUpdated after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.save(of('value').pipe(delay(5)));
-    let savedOrUpdated: boolean;
+    let savedOrUpdated: boolean | undefined;
     const subscription = cache.savedOrUpdated$.subscribe((s) => {
       savedOrUpdated = s;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(savedOrUpdated).toBeTruthy();
+    expect(savedOrUpdated).toBeTrue();
   }));
 
   it('setState should reset saved', () => {
-    const cache = new EzCache();
+    const cache = new EzCache('');
     cache.save(of('value'));
     cache.setState();
-    let saved: boolean;
+    let saved: boolean | undefined;
     const subscription = cache.saved$.subscribe((s) => {
       saved = s;
     });
     subscription.unsubscribe();
-    expect(saved).toBeFalsy();
+    expect(saved).toBeFalse();
   });
 });
 
@@ -368,7 +368,7 @@ describe('EzCache update', () => {
   it('update error should update updateError$', () => {
     const cache = new EzCache('');
     cache.update(throwError(() => 'update error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.updateError$.subscribe((e) => {
       error = e;
     });
@@ -377,10 +377,10 @@ describe('EzCache update', () => {
   });
 
   it('setState should reset updateError$', () => {
-    const cache = new EzCache();
+    const cache = new EzCache('');
     cache.update(throwError(() => 'update error'));
     cache.setState();
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.updateError$.subscribe((e) => {
       error = e;
     });
@@ -391,7 +391,7 @@ describe('EzCache update', () => {
   it('update error should update error$', () => {
     const cache = new EzCache('');
     cache.update(throwError(() => 'update error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.error$.subscribe((e) => {
       error = e;
     });
@@ -402,105 +402,105 @@ describe('EzCache update', () => {
   it('should be updating for 5ms', () => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let updating: boolean;
+    let updating: boolean | undefined;
     const subscription = cache.updating$.subscribe((u) => {
       updating = u;
     });
     subscription.unsubscribe();
-    expect(updating).toBeTruthy();
+    expect(updating).toBeTrue();
   });
 
   it('should be savingOrUpdating for 5ms', () => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let savingOrUpdating: boolean;
+    let savingOrUpdating: boolean | undefined;
     const subscription = cache.savingOrUpdating$.subscribe((u) => {
       savingOrUpdating = u;
     });
     subscription.unsubscribe();
-    expect(savingOrUpdating).toBeTruthy();
+    expect(savingOrUpdating).toBeTrue();
   });
 
   it('should not be updating after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let updating: boolean;
+    let updating: boolean | undefined;
     const subscription = cache.updating$.subscribe((u) => {
       updating = u;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(updating).toBeFalsy();
+    expect(updating).toBeFalse();
   }));
 
   it('should not be savingOrUpdating after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let savingOrUpdating: boolean;
+    let savingOrUpdating: boolean | undefined;
     const subscription = cache.savingOrUpdating$.subscribe((u) => {
       savingOrUpdating = u;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(savingOrUpdating).toBeFalsy();
+    expect(savingOrUpdating).toBeFalse();
   }));
 
   it('should not be updated for 5ms', () => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let updated: boolean;
+    let updated: boolean | undefined;
     const subscription = cache.updated$.subscribe((u) => {
       updated = u;
     });
     subscription.unsubscribe();
-    expect(updated).toBeFalsy();
+    expect(updated).toBeFalse();
   });
 
   it('should not be savedOrUpdated for 5ms', () => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let savedOrUpdated: boolean;
+    let savedOrUpdated: boolean | undefined;
     const subscription = cache.savedOrUpdated$.subscribe((u) => {
       savedOrUpdated = u;
     });
     subscription.unsubscribe();
-    expect(savedOrUpdated).toBeFalsy();
+    expect(savedOrUpdated).toBeFalse();
   });
 
   it('should be updated after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let updated: boolean;
+    let updated: boolean | undefined;
     const subscription = cache.updated$.subscribe((u) => {
       updated = u;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(updated).toBeTruthy();
+    expect(updated).toBeTrue();
   }));
 
   it('should be savedOrUpdated after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.update(of('value').pipe(delay(5)));
-    let savedOrUpdated: boolean;
+    let savedOrUpdated: boolean | undefined;
     const subscription = cache.savedOrUpdated$.subscribe((u) => {
       savedOrUpdated = u;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(savedOrUpdated).toBeTruthy();
+    expect(savedOrUpdated).toBeTrue();
   }));
 
   it('setState should reset updated', () => {
-    const cache = new EzCache();
+    const cache = new EzCache('');
     cache.update(of('value'));
     cache.setState();
-    let updated: boolean;
+    let updated: boolean | undefined;
     const subscription = cache.updated$.subscribe((s) => {
       updated = s;
     });
     subscription.unsubscribe();
-    expect(updated).toBeFalsy();
+    expect(updated).toBeFalse();
   });
 });
 
@@ -520,7 +520,7 @@ describe('EzCache delete', () => {
   it('delete error should update deleteError$', () => {
     const cache = new EzCache('');
     cache.delete(throwError(() => 'delete error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.deleteError$.subscribe((e) => {
       error = e;
     });
@@ -529,10 +529,10 @@ describe('EzCache delete', () => {
   });
 
   it('setState should reset deleteError$', () => {
-    const cache = new EzCache();
+    const cache = new EzCache('');
     cache.delete(throwError(() => 'delete error'));
     cache.setState();
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.deleteError$.subscribe((e) => {
       error = e;
     });
@@ -543,7 +543,7 @@ describe('EzCache delete', () => {
   it('delete error should update error$', () => {
     const cache = new EzCache('');
     cache.delete(throwError(() => 'delete error'));
-    let error: string;
+    let error: string | undefined;
     const subscription = cache.error$.subscribe((e) => {
       error = e;
     });
@@ -554,58 +554,58 @@ describe('EzCache delete', () => {
   it('should be deleting for 5ms', () => {
     const cache = new EzCache('');
     cache.delete(of('value').pipe(delay(5)));
-    let deleting: boolean;
+    let deleting: boolean | undefined;
     const subscription = cache.deleting$.subscribe((d) => {
       deleting = d;
     });
     subscription.unsubscribe();
-    expect(deleting).toBeTruthy();
+    expect(deleting).toBeTrue();
   });
 
   it('should not be deleting after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.delete(of('value').pipe(delay(5)));
-    let deleting: boolean;
+    let deleting: boolean | undefined;
     const subscription = cache.deleting$.subscribe((d) => {
       deleting = d;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(deleting).toBeFalsy();
+    expect(deleting).toBeFalse();
   }));
 
   it('should not be deleted for 5ms', () => {
     const cache = new EzCache('');
     cache.delete(of('value').pipe(delay(5)));
-    let deleted: boolean;
+    let deleted: boolean | undefined;
     const subscription = cache.deleted$.subscribe((d) => {
       deleted = d;
     });
     subscription.unsubscribe();
-    expect(deleted).toBeFalsy();
+    expect(deleted).toBeFalse();
   });
 
   it('should be deleted after 5ms', fakeAsync(() => {
     const cache = new EzCache('');
     cache.delete(of('value').pipe(delay(5)));
-    let deleted: boolean;
+    let deleted: boolean | undefined;
     const subscription = cache.deleted$.subscribe((d) => {
       deleted = d;
     });
     tick(6);
     subscription.unsubscribe();
-    expect(deleted).toBeTruthy();
+    expect(deleted).toBeTrue();
   }));
 
   it('setState should reset deleted', () => {
-    const cache = new EzCache();
+    const cache = new EzCache('');
     cache.delete(of('value'));
     cache.setState();
-    let deleted: boolean;
+    let deleted: boolean | undefined;
     const subscription = cache.deleted$.subscribe((s) => {
       deleted = s;
     });
     subscription.unsubscribe();
-    expect(deleted).toBeFalsy();
+    expect(deleted).toBeFalse();
   });
 });

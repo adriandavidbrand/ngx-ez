@@ -12,14 +12,17 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ez-functions/tsconfig.lib.json",
             "project": "projects/ez-functions/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "projects/ez-functions/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ez-functions/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -30,14 +33,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ez-functions/tsconfig.lib.json",
-              "projects/ez-functions/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ez-functions/**/*.ts",
+              "projects/ez-functions/**/*.html"
             ]
           }
         }
@@ -52,14 +52,17 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ez-state/tsconfig.lib.json",
             "project": "projects/ez-state/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "projects/ez-state/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ez-state/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -70,14 +73,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ez-state/tsconfig.lib.json",
-              "projects/ez-state/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ez-state/**/*.ts",
+              "projects/ez-state/**/*.html"
             ]
           }
         }
@@ -92,14 +92,17 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ngx-ez/tsconfig.lib.json",
             "project": "projects/ngx-ez/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "projects/ngx-ez/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-ez/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -110,14 +113,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-ez/tsconfig.lib.json",
-              "projects/ngx-ez/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-ez/**/*.ts",
+              "projects/ngx-ez/**/*.html"
             ]
           }
         }
@@ -142,6 +142,7 @@
             "main": "projects/ngx-ez-demo/src/main.ts",
             "polyfills": "projects/ngx-ez-demo/src/polyfills.ts",
             "tsConfig": "projects/ngx-ez-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/ngx-ez-demo/src/favicon.ico",
               "projects/ngx-ez-demo/src/assets"
@@ -149,55 +150,52 @@
             "styles": [
               "projects/ngx-ez-demo/src/styles.scss"
             ],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/ngx-ez-demo/src/environments/environment.ts",
                   "with": "projects/ngx-ez-demo/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "ngx-ez-demo:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "ngx-ez-demo:build:production"
+            },
+            "development": {
+              "browserTarget": "ngx-ez-demo:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -212,6 +210,7 @@
             "polyfills": "projects/ngx-ez-demo/src/polyfills.ts",
             "tsConfig": "projects/ngx-ez-demo/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-ez-demo/karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/ngx-ez-demo/src/favicon.ico",
               "projects/ngx-ez-demo/src/assets"
@@ -223,31 +222,21 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-ez-demo/tsconfig.app.json",
-              "projects/ngx-ez-demo/tsconfig.spec.json",
-              "projects/ngx-ez-demo/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-ez-demo/**/*.ts",
+              "projects/ngx-ez-demo/**/*.html"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/ngx-ez-demo/e2e/protractor.conf.js",
-            "devServerTarget": "ngx-ez-demo:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ngx-ez-demo:serve:production"
-            }
           }
         }
       }
-    }},
-  "defaultProject": "ez-functions"
+    }
+  },
+  "cli": {
+    "analytics": "66fb47e5-521d-4548-b217-cba3dfa96e2e",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
+  }
 }

@@ -2,42 +2,57 @@
   <ng-content></ng-content>
   <table [id]="tableId" [ngClass]="config.tableClasses">
     <thead>
-      <tr *ngIf="headings && headings.length">
-        <th *ngFor="let heading of headings" [attr.colspan]="heading.columns" [ngClass]="heading.class">{{heading.title}}</th>
+      <tr *ngIf="headings?.length">
+        <th *ngFor="let heading of headings" [attr.colspan]="heading.columns" [ngClass]="heading.class">
+          {{ heading.title }}
+        </th>
       </tr>
       <tr [ngClass]="config.headingRowClasses">
         <th *ngFor="let column of columns" [ngClass]="column.headingClass" [attr.id]="column.headingId" [attr.width]="column.width" [attr.tabindex]="column.sortable ? '0' : null"
           [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, false)"
-          (keydown.shift.enter)="sort(column, true)" (click)="headerClick(column, $event)">{{column.heading || column.property}}</th>
+          (keydown.shift.enter)="sort(column, true)" (click)="headerClick(column, $event)">
+          <span>{{ column.heading ?? column.property }}</span>
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="pageData.length === 0 else pageDataTemplate">
-        <td [colSpan]="columns.length">
-          {{ noDataMessage }}
-        </td>
-      </tr>
-      <ng-template #pageDataTemplate>
-        <tr *ngFor="let item of pageData; index as i" [ngClass]="config.rowClasses">
-          <ng-container *ngFor="let column of columns">
-            <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
-              <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate;context:{ $implicit: item, index: i }"></ng-container>
-              <ng-template #defaultColumTemplate let-item>
-                {{ column.display ? column.display(item) : resolveProperty(item, column.property) }}
-              </ng-template>
-            </td>
-          </ng-container>
+      <ng-container *ngIf="loading else dataRows">
+        <tr *ngFor="let row of loadingRows | iterable" class="ez-loading-row">
+          <td *ngFor="let column of columns"><span>&nbsp;</span></td>
         </tr>
-        <tr *ngIf="footers && footers.length" class="dhs-table-footer" [ngClass]="config.footerRowClasses">
-          <td *ngFor="let footer of footers" [attr.colspan]="footer.columns" [ngClass]="footer.cellClass">
-            <ng-container *ngTemplateOutlet="footer.template || defaultFooterTemplate;context:{ data: data, pageData: pageData, search: search }"></ng-container>
-            <ng-template #defaultFooterTemplate>
-              {{ footer.display ? footer.display(pageData, data) : footer.value }}
-            </ng-template>
+      </ng-container>
+      <ng-template #dataRows>
+        <tr *ngIf="pageData.length === 0; else pageDataTemplate">
+          <td [colSpan]="columns.length">
+            {{ noDataMessage }}
           </td>
         </tr>
+        <ng-template #pageDataTemplate>
+          <tr *ngFor="let item of pageData; index as i" [ngClass]="config.rowClasses" (click)="rowClick.emit(item)">
+            <ng-container *ngFor="let column of columns">
+              <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
+                <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate; context: { $implicit: item, index: i }" (click)="cellClick.emit(item)">
+                </ng-container>
+                <ng-template #defaultColumTemplate let-item>
+                  {{ column.display ? column.display(item) : resolveProperty(item, column.property) }}
+                </ng-template>
+              </td>
+            </ng-container>
+          </tr>
+        </ng-template>
       </ng-template>
     </tbody>
+    <tfoot *ngIf="footers?.length">
+      <tr [ngClass]="config.footerRowClasses">
+        <td *ngFor="let footer of footers" [attr.colspan]="footer.columns" [ngClass]="footer.cellClass">
+          <ng-container *ngTemplateOutlet="footer.template || defaultFooterTemplate; context: { data: data, pageData: pageData, search: search }">
+          </ng-container>
+          <ng-template #defaultFooterTemplate>
+            {{ footer.display ? footer.display(pageData, data) : footer.value }}
+          </ng-template>
+        </td>
+      </tr>
+    </tfoot>
   </table>
   <ng-content select="[footer]"></ng-content>
 </div>

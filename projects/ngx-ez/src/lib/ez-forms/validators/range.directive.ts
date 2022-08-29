@@ -4,6 +4,7 @@ import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 import { ValidatorBaseDirective } from './validator-base.directive';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[range]',
   providers: [{ provide: NG_VALIDATORS, useExisting: RangeDirective, multi: true }],
 })
@@ -15,15 +16,15 @@ export class RangeDirective extends ValidatorBaseDirective implements Validator 
     this.upper = parseFloat(upper);
   }
 
-  private lower: number;
+  private lower!: number;
 
-  private upper: number;
+  private upper!: number;
 
   constructor() {
     super('range');
   }
 
-  validate(c: AbstractControl): { [key: string]: any } {
+  validate(c: AbstractControl): { [key: string]: any } | null {
     if (c.value) {
       const value = parseFloat(c.value);
       if (isNaN(value) || value < this.lower || value > this.upper) {

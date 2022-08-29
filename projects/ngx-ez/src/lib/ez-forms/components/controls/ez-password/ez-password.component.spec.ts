@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { EzFormsModule } from '../../../ez-forms.module';
 
 import { EzPasswordComponent } from './ez-password.component';
-import { EzTestingModule } from '../../../../ez-testing/ez-testing.module';
 
 describe('EzPasswordComponent', () => {
   let component: EzPasswordComponent;
@@ -9,15 +9,15 @@ describe('EzPasswordComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EzPasswordComponent ],
-      imports: [ EzTestingModule ]
-    })
-    .compileComponents();
+      declarations: [EzPasswordComponent],
+      imports: [EzFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EzPasswordComponent);
     component = fixture.componentInstance;
+    component.config = {} as any;
     fixture.detectChanges();
   });
 

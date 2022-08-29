@@ -14,27 +14,37 @@ export class EzCacheBase<T> {
     delete?: Subscription;
   } = {};
 
-  protected errorHandler: (error?: any, action?: EzStateAction) => any;
+  protected observables: {
+    state$?: Observable<EzState<T>>;
+    value$?: Observable<T>;
+    loading$?: Observable<boolean>;
+    loaded$?: Observable<boolean>;
+    loadError$?: Observable<any>;
+    saving$?: Observable<boolean>;
+    saved$?: Observable<boolean>;
+    saveError$?: Observable<any>;
+    updating$?: Observable<boolean>;
+    updated$?: Observable<boolean>;
+    updateError$?: Observable<any>;
+    savingOrUpdating$?: Observable<boolean>;
+    savedOrUpdated$?: Observable<boolean>;
+    deleting$?: Observable<boolean>;
+    deleted$?: Observable<boolean>;
+    deleteError$?: Observable<any>;
+    error$?: Observable<any>;
+  } = {};
 
-  static generalErrorHandler(error: any, action: EzStateAction): any {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  generalErrorHandler(error: any, action: EzStateAction): any {
     return error;
   }
 
-  constructor(
-    valueOrErrorHandler?: T | ((error?: any, action?: EzStateAction) => any),
-    errorHandler?: (error?: any, action?: EzStateAction) => any
-  ) {
-    if (typeof valueOrErrorHandler === 'function') {
-      this.errorHandler = valueOrErrorHandler as (error?: any, action?: EzStateAction) => any;
-      this.cache$ = new BehaviorSubject({ value: undefined });
-    } else {
-      this.cache$ = new BehaviorSubject({ value: valueOrErrorHandler });
-      this.errorHandler = errorHandler;
-    }
+  constructor(value: T, protected errorHandler?: (error?: any, action?: EzStateAction) => any) {
+    this.cache$ = new BehaviorSubject({ value: value });
   }
 
   get state$(): Observable<EzState<T>> {
-    return this.cache$.asObservable();
+    return this.observables.state$ ?? (this.observables.state$ = this.cache$.asObservable());
   }
 
   get snapshot(): EzState<T> {
@@ -42,9 +52,12 @@ export class EzCacheBase<T> {
   }
 
   get value$(): Observable<T> {
-    return this.cache$.pipe(
-      map((state) => state.value),
-      distinctUntilChanged()
+    return (
+      this.observables.value$ ??
+      (this.observables.value$ = this.cache$.pipe(
+        map((state) => state.value),
+        distinctUntilChanged()
+      ))
     );
   }
 
@@ -60,100 +73,142 @@ export class EzCacheBase<T> {
   }
 
   get loaded$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.loaded || false),
-      distinctUntilChanged()
+    return (
+      this.observables.loaded$ ??
+      (this.observables.loaded$ = this.cache$.pipe(
+        map((state) => state.loaded || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get loadError$(): Observable<any> {
-    return this.cache$.pipe(
-      map((state) => state.loadError),
-      distinctUntilChanged()
+    return (
+      this.observables.loadError$ ??
+      (this.observables.loadError$ = this.cache$.pipe(
+        map((state) => state.loadError),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get saving$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.saving || false),
-      distinctUntilChanged()
+    return (
+      this.observables.saving$ ??
+      (this.observables.saving$ = this.cache$.pipe(
+        map((state) => state.saving || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get saved$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.saved || false),
-      distinctUntilChanged()
+    return (
+      this.observables.saved$ ??
+      (this.observables.saved$ = this.cache$.pipe(
+        map((state) => state.saved || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get saveError$(): Observable<any> {
-    return this.cache$.pipe(
-      map((state) => state.saveError),
-      distinctUntilChanged()
+    return (
+      this.observables.saveError$ ??
+      (this.observables.saveError$ = this.cache$.pipe(
+        map((state) => state.saveError),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get updating$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.updating || false),
-      distinctUntilChanged()
+    return (
+      this.observables.updated$ ??
+      (this.observables.updated$ = this.cache$.pipe(
+        map((state) => state.updating || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get updated$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.updated || false),
-      distinctUntilChanged()
+    return (
+      this.observables.updated$ ??
+      (this.observables.updated$ = this.cache$.pipe(
+        map((state) => state.updated || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get updateError$(): Observable<any> {
-    return this.cache$.pipe(
-      map((state) => state.updateError),
-      distinctUntilChanged()
+    return (
+      this.observables.updateError$ ??
+      (this.observables.updateError$ = this.cache$.pipe(
+        map((state) => state.updateError),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get savingOrUpdating$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.saving || state.updating || false),
-      distinctUntilChanged()
+    return (
+      this.observables.savingOrUpdating$ ??
+      (this.observables.savingOrUpdating$ = this.cache$.pipe(
+        map((state) => state.saving || state.updating || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get savedOrUpdated$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.saved || state.updated || false),
-      distinctUntilChanged()
+    return (
+      this.observables.savedOrUpdated$ ??
+      (this.observables.savedOrUpdated$ = this.cache$.pipe(
+        map((state) => state.saved || state.updated || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get deleting$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.deleting || false),
-      distinctUntilChanged()
+    return (
+      this.observables.deleting$ ??
+      (this.observables.deleting$ = this.cache$.pipe(
+        map((state) => state.deleting || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get deleted$(): Observable<boolean> {
-    return this.cache$.pipe(
-      map((state) => state.deleted || false),
-      distinctUntilChanged()
+    return (
+      this.observables.deleted$ ??
+      (this.observables.deleted$ = this.cache$.pipe(
+        map((state) => state.deleted || false),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get deleteError$(): Observable<any> {
-    return this.cache$.pipe(
-      map((state) => state.deleteError),
-      distinctUntilChanged()
+    return (
+      this.observables.deleteError$ ??
+      (this.observables.deleteError$ = this.cache$.pipe(
+        map((state) => state.deleteError),
+        distinctUntilChanged()
+      ))
     );
   }
 
   get error$(): Observable<any> {
-    return this.cache$.pipe(
-      map((state) => state.loadError || state.saveError || state.updateError || state.deleteError),
-      distinctUntilChanged()
+    return (
+      this.observables.error$ ??
+      (this.observables.error$ = this.cache$.pipe(
+        map((state) => state.loadError || state.saveError || state.updateError || state.deleteError),
+        distinctUntilChanged()
+      ))
     );
   }
 
@@ -164,7 +219,7 @@ export class EzCacheBase<T> {
 
   reset(): void {
     this.unsubscribe();
-    this.cache$.next({ value: undefined });
+    this.cache$.next({ value: undefined } as any);
   }
 
   setState(state?: Partial<EzState<T>>): void {
@@ -180,14 +235,17 @@ export class EzCacheBase<T> {
   load(load$: Observable<T>): void {
     this.unsubscribe(EzStateAction.load);
     this.cache$.next({ value: this.value, loading: true });
-    this.subscriptions.load = load$.subscribe(
-      (value) => {
+    this.subscriptions.load = load$.subscribe({
+      next: (value) => {
         this.cache$.next({ value, loaded: true });
       },
-      (error) => {
-        this.cache$.next({ value: this.value, loadError: this.generateError(error, EzStateAction.load) });
-      }
-    );
+      error: (error) => {
+        this.cache$.next({
+          value: this.value,
+          loadError: this.generateError(error, EzStateAction.load),
+        });
+      },
+    });
   }
 
   unsubscribe(action?: EzStateAction): void {
@@ -206,6 +264,6 @@ export class EzCacheBase<T> {
   }
 
   protected generateError(error: any, action: EzStateAction): any {
-    return (this.errorHandler && this.errorHandler(error, action)) || EzCacheBase.generalErrorHandler(error, action);
+    return (this.errorHandler && this.errorHandler(error, action)) || this.generalErrorHandler(error, action);
   }
 }

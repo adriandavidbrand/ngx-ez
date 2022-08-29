@@ -1,17 +1,15 @@
-<ng-container *ngIf="config$ | async as config">
-  <ez-control fieldset>
-    <ng-content></ng-content>
-    <ng-container controls-container>
-      <ng-container *ngIf="(readonly$ | async) else elseBlock">{{ value | reference: options }}</ng-container>
-      <ng-template #elseBlock>
-        <div [ngClass]="config.radioContainerClasses" *ngFor="let option of options">
-          <label [ngClass]="config.radioLabelClasses">
-            <input type="radio" [name]="(name$ | async) + '_radio_input'" (change)="onChange(option.value)" [checked]="value === option.value" [ngClass]="config.radioClasses"
-              [valid]="valid$ | async" />
-            {{ option.label }}
-          </label>
-        </div>
-      </ng-template>
-    </ng-container>
-  </ez-control>
-</ng-container>
+<ez-control fieldset>
+  <ng-content></ng-content>
+  <ng-container controls-container>
+    <ng-container *ngIf="properties.readonly else elseBlock">{{ value | reference: options }}</ng-container>
+    <ng-template #elseBlock>
+      <div [ngClass]="config.radioContainerClasses" *ngFor="let option of options">
+        <label [ngClass]="config.radioLabelClasses">
+          <input type="radio" [name]="properties.name + '_radio_input'" (change)="onChange(option.value)" [checked]="value === option.value" [ngClass]="config.radioClasses"
+            [valid]="properties.valid" />
+          {{ option.label }}
+        </label>
+      </div>
+    </ng-template>
+  </ng-container>
+</ez-control>

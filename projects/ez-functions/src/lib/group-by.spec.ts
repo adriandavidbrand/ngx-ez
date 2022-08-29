@@ -1,63 +1,59 @@
-import { groupBy, flattenGroups } from './group-by';
+import { groupBy } from './group-by';
 
 describe('groupBy', () => {
-  it('should be undefined', () => {
-    const groups = groupBy(undefined, { keys: [] });
-    expect(groups).toBeUndefined();
+  it('should return empty array', () => {
+    const groups = groupBy([], '');
+    expect(groups).toEqual([]);
   });
 
-  it('should be null', () => {
-    const groups = groupBy(null, { keys: [] });
-    expect(groups).toBeNull();
+  it('should group by key', () => {
+    const groups = groupBy(
+      [
+        { a: 1, b: 1 },
+        { a: 1, b: 2 },
+      ],
+      'a'
+    );
+    expect(groups).toEqual([
+      { key: { a: 1 }, items: [{ b: 1 }, { b: 2 }], totalItems: 2 },
+    ]);
   });
 
-  it('empty array should return empty array', () => {
-    const groups = groupBy([], { keys: [] });
-    expect(groups.length).toEqual(0);
+  it('should group by keys', () => {
+    const groups = groupBy(
+      [
+        { a: 1, b: 1, c: 1 },
+        { a: 1, b: 1, c: 2 },
+        { a: 2, b: 1, c: 3 },
+      ],
+      ['a', 'b']
+    );
+    expect(groups).toEqual([
+      { key: { a: 1, b: 1 }, items: [{ c: 1 }, { c: 2 }], totalItems: 2 },
+      { key: { a: 2, b: 1 }, items: [{ c: 3 }], totalItems: 1 },
+    ]);
   });
 
-  it('there should be 1 group', () => {
-    const groups = groupBy([{ prop1: 1 }, { prop1: 1 }], { keys: ['prop1'] });
-    expect(groups.length).toEqual(1);
-  });
-
-  it('there should be 2 groups', () => {
-    const groups = groupBy([{ prop1: 1 }, { prop1: 2 }], { keys: ['prop1'] });
-    expect(groups.length).toEqual(2);
-  });
-});
-
-describe('flattenGroups', () => {
-  it('should be undefined', () => {
-    const array = flattenGroups(undefined);
-    expect(array).toBeUndefined();
-  });
-
-  it('should be null', () => {
-    const array = flattenGroups(null);
-    expect(array).toBeNull();
-  });
-
-  it('empty array should return empty array', () => {
-    const array = flattenGroups([]);
-    expect(array.length).toEqual(0);
-  });
-
-  it('should span 2 rows', () => {
-    const groups = groupBy([{ prop1: 1 }, { prop1: 1 }], { keys: ['prop1'] });
-    const array = flattenGroups(groups);
-    expect(array[0]._rows.prop1).toEqual(2);
-  });
-
-  it('should span -1 rows', () => {
-    const groups = groupBy([{ prop1: 1 }, { prop1: 1 }], { keys: ['prop1'] });
-    const array = flattenGroups(groups);
-    expect(array[1]._rows.prop1).toEqual(-1);
-  });
-
-  it('should span 1 row', () => {
-    const groups = groupBy([{ prop1: 1 }, { prop1: 2 }], { keys: ['prop1'] });
-    const array = flattenGroups(groups);
-    expect(array[0]._rows.prop1).toEqual(1);
+  it('should group by thenby', () => {
+    const groups = groupBy(
+      [
+        { a: 1, b: 1, c: 1, d: 1 },
+        { a: 1, b: 1, c: 1, d: 2 },
+        { a: 1, b: 2, c: 1, d: 3 },
+      ],
+      { keys: ['a', 'b'], thenby: { keys: ['c'] } }
+    );
+    expect(groups).toEqual([
+      {
+        key: { a: 1, b: 1 },
+        groups: [{ key: { c: 1 }, items: [{ d: 1 }, { d: 2 }], totalItems: 2 }],
+        totalItems: 2,
+      },
+      {
+        key: { a: 1, b: 2 },
+        groups: [{ key: { c: 1 }, items: [{ d: 3 }], totalItems: 1 }],
+        totalItems: 1,
+      },
+    ]);
   });
 });

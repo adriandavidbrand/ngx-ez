@@ -1,23 +1,24 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EzTablePagerComponent } from './ez-table-pager.component';
 import { EzTableComponent } from '../ez-table/ez-table.component';
+import { EzTablePagerComponent } from './ez-table-pager.component';
 
 class TableMock {
   data = [];
   pageData = [];
+  config = {};
 }
 
 describe('EzTablePagerComponent', () => {
   let component: EzTablePagerComponent;
   let fixture: ComponentFixture<EzTablePagerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [EzTablePagerComponent],
-      providers: [{ provide: EzTableComponent, useClass: TableMock }]
+      providers: [{ provide: EzTableComponent, useClass: TableMock }],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EzTablePagerComponent);

@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
-  selector: '[valid]'
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[valid]',
 })
 export class ValidDirective {
   @Input()

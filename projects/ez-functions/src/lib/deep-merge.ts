@@ -1,5 +1,12 @@
-export const deepMerge = <T>(source: T, data: any): T => {
-  if (typeof data !== 'object' || !data || !source || Array.isArray(source) || source instanceof Date) {
+export function deepMerge<T>(source: T, data: any): T;
+export function deepMerge(source: any, data: any): any {
+  if (
+    typeof data !== 'object' ||
+    !data ||
+    !source ||
+    Array.isArray(source) ||
+    source instanceof Date
+  ) {
     return data;
   }
   const sourceProps = Object.getOwnPropertyNames(source);
@@ -12,8 +19,10 @@ export const deepMerge = <T>(source: T, data: any): T => {
         return result;
       },
       sourceProps.reduce((result, prop) => {
-        result[prop] = dataProps.includes(prop) ? deepMerge(source[prop], data[prop]) : source[prop];
+        result[prop] = dataProps.includes(prop)
+          ? deepMerge((source as any)[prop], (data as any)[prop])
+          : (source as any)[prop];
         return result;
-      }, {})
-    ) as T;
-};
+      }, {} as any)
+    );
+}

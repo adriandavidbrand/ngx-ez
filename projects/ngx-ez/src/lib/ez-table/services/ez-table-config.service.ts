@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EzTableConfigService {
   messages = {
-    noData: 'No records available'
+    noData: 'No records available',
   };
 
-  tableClasses: string | string[];
-  headingRowClasses: string | string[];
-  rowClasses: string | string[];
+  tableClasses: string | string[] = '';
+  headingRowClasses: string | string[] = '';
+  footerRowClasses: string | string[] = '';
+  rowClasses: string | string[] = '';
+  pageSizeClasses: string | string[] = '';
+  pageSizeSelectClasses: string | string[] = '';
 }

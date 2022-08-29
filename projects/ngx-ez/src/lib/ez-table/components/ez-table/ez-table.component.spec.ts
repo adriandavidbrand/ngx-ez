@@ -1,18 +1,18 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { EzTableComponent } from './ez-table.component';
-import { EzColumnComponent } from '../ez-column/ez-column.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SortDirection } from 'ez-functions';
+
+import { EzColumnComponent } from '../ez-column/ez-column.component';
+import { EzTableComponent } from './ez-table.component';
 
 describe('EzTableComponent', () => {
   let component: EzTableComponent;
   let fixture: ComponentFixture<EzTableComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [EzTableComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EzTableComponent);
@@ -118,7 +118,7 @@ describe('EzTableComponent', () => {
 
   it('groupBySet with string should create groupBy object', () => {
     component.groupBySet = 'prop1 prop2';
-    expect(component.groupBy.keys.length).toEqual(2);
+    expect(component.groupBy?.keys.length).toEqual(2);
   });
 
   it('groupBy should group data', () => {
@@ -221,7 +221,11 @@ describe('EzTableComponent', () => {
     const column = new EzColumnComponent();
     column.id = 'columnId';
     component.columns.reset([column]);
-    component.state = { pageNum: 1, pageSize: 5, columnSort: { columnId: SortDirection.ascending } };
+    component.state = {
+      pageNum: 1,
+      pageSize: 5,
+      columnSort: { columnId: SortDirection.ascending },
+    };
     component.ngAfterContentInit();
     expect(component.columnSort.length).toEqual(1);
     expect(component.columnSort[0].direction).toEqual(SortDirection.ascending);

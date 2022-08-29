@@ -1,5 +1,4 @@
 import { Component, Input, TemplateRef, ContentChild } from '@angular/core';
-
 import { SortDirection } from 'ez-functions';
 
 @Component({
@@ -9,13 +8,13 @@ import { SortDirection } from 'ez-functions';
 })
 export class EzColumnComponent {
   @Input()
-  property: string;
+  property = '';
 
   @Input()
-  heading: string;
+  heading?: string;
 
   @Input()
-  id: string;
+  id?: string;
 
   @Input('sortable')
   set sortableSet(val: string | boolean) {
@@ -24,28 +23,28 @@ export class EzColumnComponent {
   sortable = true;
 
   @Input()
-  compare: (a: any, b: any) => number;
+  compare?: (a: any, b: any) => number;
 
   @Input()
-  display: (item: any) => string;
+  display?: (item: any) => string;
 
   @Input()
-  headingClass: string;
+  headingClass = '';
 
   @Input()
-  headingId: string;
+  headingId?: string;
 
   @Input()
-  cellClass: string;
+  cellClass = '';
 
   @Input()
-  width: string;
+  width?: string;
 
   @Input()
   breakGrouping = true;
 
-  direction: SortDirection;
+  direction?: SortDirection;
 
   @ContentChild(TemplateRef)
-  template: TemplateRef<any>;
+  template?: TemplateRef<any>;
 }

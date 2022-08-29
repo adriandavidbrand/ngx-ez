@@ -1,14 +1,8 @@
 {
-  // See http://go.microsoft.com/fwlink/?LinkId=827846
-  // for the documentation about the extensions.json format
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
   "recommendations": [
-    // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
-    "HookyQR.beautify",
-    "michelemelluso.code-beautifier",
-    "eamodio.gitlens",
+    "angular.ng-template",
     "esbenp.prettier-vscode",
-    "msjsdiag.debugger-for-chrome",
-    "salbert.comment-ts",
-    "eg2.tslint"
+    "dbaeumer.vscode-eslint"
   ]
 }

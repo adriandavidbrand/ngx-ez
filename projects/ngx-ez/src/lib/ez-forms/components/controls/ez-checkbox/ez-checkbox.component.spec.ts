@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { EzFormsModule } from '../../../ez-forms.module';
 
 import { EzCheckboxComponent } from './ez-checkbox.component';
-import { EzTestingModule } from '../../../../ez-testing/ez-testing.module';
 
 describe('EzCheckboxComponent', () => {
   let component: EzCheckboxComponent;
@@ -9,15 +9,15 @@ describe('EzCheckboxComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EzCheckboxComponent ],
-      imports: [ EzTestingModule ]
-    })
-    .compileComponents();
+      declarations: [EzCheckboxComponent],
+      imports: [EzFormsModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EzCheckboxComponent);
     component = fixture.componentInstance;
+    component.config = {} as any;
     fixture.detectChanges();
   });
 

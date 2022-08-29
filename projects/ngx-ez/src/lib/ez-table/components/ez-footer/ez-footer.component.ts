@@ -7,16 +7,16 @@ import { Component, Input, ContentChild, TemplateRef } from '@angular/core';
 })
 export class EzFooterComponent {
   @Input()
-  value: string;
+  value?: string;
 
   @Input()
-  cellClass: string;
+  cellClass = '';
 
   @Input()
-  display: (pageData: any[], data: any[]) => string;
+  display?: (pageData: any[], data: any[]) => string;
 
   @ContentChild(TemplateRef, { static: false })
-  template: TemplateRef<any>;
+  template!: TemplateRef<any>;
 
   @Input('columns')
   set columnsSet(value: string | number) {

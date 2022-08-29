@@ -1,116 +1,89 @@
-import { Input, OnDestroy, Component } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, Input } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 
-import { EzFormDirective } from '../directives/ez-form.directive';
-import { EzFormConfigService } from '../services/ez-form-config.service';
-import { PushStack } from '../../ez-core/rxjs/push-stack';
-import { EzFormConfigDirective } from '../directives/ez-form-config.directive';
-import { EzFormReadonlyDirective } from '../directives/ez-form-readonly.directive';
+import { EzControlProperties } from '../models/ez-controls-properties';
+import { EzFormConfig } from '../models/ez-form-config';
 
 @Component({ selector: 'ez-control-base', template: '' })
-export class EzControlBaseComponent implements ControlValueAccessor, OnDestroy {
-  constructor(
-    public configService: EzFormConfigService,
-    public configDirective: EzFormConfigDirective,
-    public ezForm: EzFormDirective,
-    public ezReadonly: EzFormReadonlyDirective,
-    public ngControl: NgControl
-  ) {
-    if (ngControl) {
-      ngControl.valueAccessor = this;
-      ngControl.valueChanges.pipe(takeUntil(this.finalise)).subscribe(() => {
-        if (ngControl.valid !== this.valid$.getValue()) {
-          this.valid$.next(ngControl.valid);
-        }
-        if (ngControl.invalid !== this.invalid$.getValue()) {
-          this.invalid$.next(ngControl.invalid);
-        }
-        if (ngControl.invalid) {
-          const errorType = Object.keys(ngControl.errors)[0];
-          const errorValue = ngControl.errors[errorType];
-          this.message$.next(
-            this.messages[errorType] ||
-              configService.defaultMessages[errorType] ||
-              (typeof errorValue === 'string' ? errorValue : configService.defaultMessages.invalid)
-          );
-        } else {
-          this.message$.next('');
-        }
-      });
-    }
-  }
+export class EzControlBaseComponent<T> implements ControlValueAccessor {
+  properties: EzControlProperties = {
+    dirty: false,
+    fieldset: false,
+    invalid: false,
+    labelledby: '',
+    maxlength: '',
+    message: '',
+    name: '',
+    placeholder: '',
+    pristine: true,
+    readonly: false,
+    required: false,
+    submitted: false,
+    valid: true,
+  };
 
-  finalise = new Subject<void>();
+  config!: EzFormConfig;
+
+  metaData = {
+    localReadonly: false,
+    directiveReadonly: false,
+  };
 
   @Input()
-  messages: any = {};
+  set fieldset(value: boolean | string) {
+    this.properties.fieldset = value !== false && value !== 'false';
+  }
 
-  name$ = new BehaviorSubject<string>(undefined);
+  @Input()
+  set labelledby(value: string) {
+    this.properties.labelledby = `${value}`;
+  }
+
+  @Input()
+  set maxlength(value: string | number) {
+    this.properties.name = `${value}`;
+  }
+
   @Input()
   set name(value: string) {
-    this.name$.next(value);
+    this.properties.name = value;
   }
 
-  maxlength$ = new BehaviorSubject<string>(undefined);
-  @Input()
-  set maxlength(value: string) {
-    this.maxlength$.next(value);
-  }
-
-  placeholder$ = new BehaviorSubject<string>(undefined);
   @Input()
   set placeholder(value: string) {
-    this.placeholder$.next(value);
+    this.properties.placeholder = value;
   }
 
-  required$ = new BehaviorSubject(false);
   @Input()
-  set required(value: string | boolean) {
-    this.required$.next(value !== undefined && value !== false);
+  set readonly(value: boolean | string) {
+    this.metaData.localReadonly = value !== false && value !== 'false';
+    this.properties.readonly = this.metaData.localReadonly || this.metaData.directiveReadonly;
   }
 
-  readonly$ = new PushStack(false, false, this.ezReadonly && this.ezReadonly.readonly$);
   @Input()
-  set readonly(val: any) {
-    this.readonly$.next(val !== undefined && val !== false);
+  set required(value: boolean | string) {
+    this.properties.required = value !== false && value !== 'false';
   }
 
-  labelledby$ = new BehaviorSubject<string>(undefined);
   @Input()
-  set labelledby(val: string) {
-    this.labelledby$.next(val);
-  }
+  messages: { [key: string]: string } = {};
 
-  valid$ = new BehaviorSubject(false);
+  value?: T = undefined;
 
-  invalid$ = new BehaviorSubject(false);
-
-  message$ = new BehaviorSubject('');
-
-  config$: Observable<any> = this.configDirective ? this.configDirective.config$ : of(this.configService);
-
-  value: any = null;
-
-  writeValue(value: any) {
+  writeValue(value: T) {
     this.value = value;
   }
 
-  propagateChange = (_: any) => {};
+  propagateChange: (value: T) => void = (_: T) => {};
 
-  registerOnChange(fn: (_: any) => void) {
+  registerOnChange(fn: (value: T) => void) {
     this.propagateChange = fn;
   }
 
   registerOnTouched() {}
 
-  onChange(value: any) {
+  onChange(value: T) {
     this.value = value;
     this.propagateChange(this.value);
-  }
-
-  ngOnDestroy() {
-    this.finalise.next();
   }
 }

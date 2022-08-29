@@ -5,10 +5,10 @@ import { EzCacheBase } from './ez-cache-base';
 
 export class EzCache<T> extends EzCacheBase<T> {
   constructor(
-    valueOrErrorHandler?: T | ((error?: any, action?: EzStateAction) => any),
+    value: T,
     errorHandler?: (error?: any, action?: EzStateAction) => any
   ) {
-    super(valueOrErrorHandler, errorHandler);
+    super(value, errorHandler);
   }
 
   save(save$: Observable<T>): void;
@@ -18,10 +18,16 @@ export class EzCache<T> extends EzCacheBase<T> {
     this.cache$.next({ value: this.value, saving: true });
     this.subscriptions.save = save$.subscribe({
       next: (value) => {
-        this.cache$.next({ value: ignoreResponse ? this.value : value, saved: true });
+        this.cache$.next({
+          value: ignoreResponse ? this.value : value,
+          saved: true,
+        });
       },
       error: (error) => {
-        this.cache$.next({ value: this.value, saveError: this.generateError(error, EzStateAction.save) });
+        this.cache$.next({
+          value: this.value,
+          saveError: this.generateError(error, EzStateAction.save),
+        });
       },
     });
   }
@@ -37,10 +43,16 @@ export class EzCache<T> extends EzCacheBase<T> {
     this.cache$.next({ value: this.value, updating: true });
     this.subscriptions.update = update$.subscribe({
       next: (value) => {
-        this.cache$.next({ value: ignoreResponse ? this.value : value, updated: true });
+        this.cache$.next({
+          value: ignoreResponse ? this.value : value,
+          updated: true,
+        });
       },
       error: (error) => {
-        this.cache$.next({ value: this.value, updateError: this.generateError(error, EzStateAction.update) });
+        this.cache$.next({
+          value: this.value,
+          updateError: this.generateError(error, EzStateAction.update),
+        });
       },
     });
   }
@@ -56,10 +68,16 @@ export class EzCache<T> extends EzCacheBase<T> {
     this.cache$.next({ value: this.value, deleting: true });
     this.subscriptions.delete = delete$.subscribe({
       next: (value) => {
-        this.cache$.next({ value: ignoreResponse ? this.value : value, deleted: true });
+        this.cache$.next({
+          value: ignoreResponse ? this.value : value,
+          deleted: true,
+        });
       },
       error: (error) => {
-        this.cache$.next({ value: this.value, deleteError: this.generateError(error, EzStateAction.delete) });
+        this.cache$.next({
+          value: this.value,
+          deleteError: this.generateError(error, EzStateAction.delete),
+        });
       },
     });
   }

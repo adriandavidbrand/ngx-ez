@@ -13,13 +13,15 @@ import {
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
 import { EzFooterComponent } from '../ez-footer/ez-footer.component';
-import { multipleSortFunction, SortDirection } from 'ez-functions';
-import { resolveProperty } from 'ez-functions';
-import { groupBy, GroupBy, flattenGroups } from 'ez-functions';
 import { EzTableState } from '../../models/ez-table-state';
 import { EzTableConfigService } from '../../services/ez-table-config.service';
 import { EzHeadingComponent } from '../ez-heading/ez-heading.component';
-import { pageNums } from '../../functions/page-nums';
+import { pageNums } from 'ez-functions';
+import { flattenGroups } from 'ez-functions';
+import { groupBy, GroupBy } from 'ez-functions';
+import { randomString } from 'ez-functions';
+import { resolveProperty } from 'ez-functions';
+import { multipleSortFunction, SortDirection } from 'ez-functions';
 
 @Component({
   selector: 'ez-table',
@@ -31,10 +33,17 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
   data: any[] = [];
 
   @Input()
-  tableId = 'table';
+  // give it a random Id so it is unique
+  tableId!: string;
 
   @Input()
   sortable = true;
+
+  @Input()
+  loading = false;
+
+  @Input()
+  loadingRows = 7;
 
   @Input('groupBy')
   set groupBySet(value: string | GroupBy) {
@@ -44,7 +53,7 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
       this.groupBy = value;
     }
   }
-  groupBy: GroupBy;
+  groupBy?: GroupBy;
 
   @Input()
   pageSizes: any[] = [5, 10, 25, 50, 'All'];
@@ -65,37 +74,71 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
   @Input()
   noDataMessage = this.config.messages.noData;
 
+  private propertySorting: {
+    columnId: string | null | undefined;
+    direction: SortDirection;
+    changed: boolean;
+  } = {
+    columnId: null,
+    direction: SortDirection.ascending,
+    changed: false,
+  };
+
   @Input()
-  state: EzTableState;
+  set sortId(id: string | null | undefined) {
+    if (this.propertySorting.columnId !== id) {
+      this.propertySorting.changed = true;
+    }
+    this.propertySorting.columnId = id;
+  }
+
+  @Input()
+  set sortDirection(direction: SortDirection) {
+    if (this.propertySorting.direction !== direction) {
+      this.propertySorting.changed = true;
+    }
+    this.propertySorting.direction = direction;
+  }
+
+  @Input('search')
+  search = '';
+
+  @Input()
+  state?: EzTableState;
 
   @Input()
   breakGrouping = true;
 
   @Output()
+  rowClick = new EventEmitter();
+
+  @Output()
+  cellClick = new EventEmitter();
+
+  @Output()
   stateChange = new EventEmitter<EzTableState>();
 
-  pageData: any[];
+  pageData = [] as any[];
 
   columnSort: EzColumnComponent[] = [];
 
-  search = '';
   pageNum = 1;
-  pageNums = [];
+  pageNums = [] as number[];
   filteredPageNums = [];
-  totalPages: number;
-  totalRecords: number;
-  start: number;
-  finish: number;
+  totalPages = 0;
+  totalRecords = 0;
+  start = 0;
+  finish = 0;
   initialised = false;
 
   @ContentChildren(EzHeadingComponent)
-  headings: QueryList<EzHeadingComponent>;
+  headings!: QueryList<EzHeadingComponent>;
 
   @ContentChildren(EzColumnComponent)
-  columns: QueryList<EzColumnComponent>;
+  columns!: QueryList<EzColumnComponent>;
 
   @ContentChildren(EzFooterComponent)
-  footers: QueryList<EzFooterComponent>;
+  footers!: QueryList<EzFooterComponent>;
 
   resolveProperty = resolveProperty;
 
@@ -153,7 +196,7 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
       this.groupBy &&
       (!this.breakGrouping ||
         this.columnSort.every(
-          (column) => !column.breakGrouping || this.groupBy.keys.some((key) => key === column.property)
+          (column) => !column.breakGrouping || this.groupBy?.keys.some((key) => key === column.property)
         ))
     ) {
       filteredData = flattenGroups(groupBy(filteredData, this.groupBy));
@@ -222,9 +265,33 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  private propertySort() {
+    const id = this.propertySorting.columnId;
+    const column = id ? this.columns.find((c) => c.id === id) : undefined;
+    this.columnSort.forEach((c) => {
+      if (c !== column && c.direction) {
+        delete c.direction;
+      }
+    });
+    if (column) {
+      column.direction = this.propertySorting.direction;
+      this.columnSort = [column];
+    } else {
+      this.columnSort = [];
+    }
+    this.propertySorting.changed = false;
+  }
+
+  ngOnChanges(_: SimpleChanges): void {
     if (this.initialised) {
-      this.goto(1);
+      if (this.propertySorting.changed) {
+        this.propertySort();
+        this.update();
+      } else {
+        this.goto(1);
+      }
+    } else if (!this.tableId) {
+      this.tableId = `table_${randomString(32)}`;
     }
   }
 
@@ -235,11 +302,13 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
       this.columnSort = Object.keys(this.state.columnSort).reduce((columnSort, id) => {
         const column = this.columns.find((c) => c.id === id);
         if (column) {
-          column.direction = this.state.columnSort[id];
+          column.direction = this.state?.columnSort[id];
           columnSort.push(column);
         }
         return columnSort;
-      }, []);
+      }, [] as EzColumnComponent[]);
+    } else if (this.propertySorting.changed) {
+      this.propertySort();
     }
     this.update();
     this.initialised = true;
@@ -254,7 +323,7 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
           columnSort[column.id] = column.direction;
         }
         return columnSort;
-      }, {}),
+      }, {} as any),
     });
   }
 }
