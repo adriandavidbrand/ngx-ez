@@ -43,7 +43,7 @@ export class EzTableComponent implements AfterContentInit, OnDestroy, OnChanges 
   loading = false;
 
   @Input()
-  loadingRows = 7;
+  loadingRows = 5;
 
   @Input('groupBy')
   set groupBySet(value: string | GroupBy) {

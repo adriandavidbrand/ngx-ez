@@ -1,0 +1,54 @@
+.ez-form.ng-invalid .ng-invalid.ng-dirty input,
+.ez-form.ez-submitted .ng-invalid input,
+.ez-form.ng-invalid .ng-invalid.ng-dirty select,
+.ez-form.ez-submitted .ng-invalid select {
+  border-color: red;
+}
+
+.ez-form {
+  input, select {
+    padding: 10px;
+    border: solid 1px gray;
+    background-color: #eee;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    transition: border-color .3s ease-in-out, box-shadow .3s ease-in-out;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    box-shadow: 0 10px 20px -3px rgba(34,19,59,.2);
+  }
+
+  ::placeholder {
+    color: gray;
+  }
+
+  .ez-validation {
+    color: red;
+  }
+
+  .ez-label {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .ez-validation {
+    margin-bottom: 10px;
+  }
+
+  button {
+    color: white;
+    padding: 10px;
+    background-color: blue;
+    border: none;
+    border-radius: 3px;
+    transition: box-shadow .3s ease-in-out;
+    margin-right: 5px;
+  }
+
+  button:hover {
+    box-shadow: 0 10px 20px -3px rgb(34 19 59 / 25%);
+  }
+}
