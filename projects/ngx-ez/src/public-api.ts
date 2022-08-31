@@ -58,6 +58,10 @@ export * from './lib/ez-table/models/ez-table-state';
 export * from './lib/ez-table/services/ez-table-bootstrap-config.service';
 export * from './lib/ez-table/services/ez-table-config.service';
 
+export * from './lib/ez-tabs/ez-tabs.module';
+export * from './lib/ez-tabs/components/ez-tab/ez-tab.component';
+export * from './lib/ez-tabs/components/ez-tabs/ez-tabs.component';
+
 export * from './lib/pipes/clone/clone.pipe';
 export * from './lib/pipes/clone/clone-pipe.module';
 export * from './lib/pipes/iterable/iterable.pipe';
