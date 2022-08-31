@@ -5,10 +5,12 @@ import {
   EzCheckboxesModule,
   EzCheckboxModule,
   EzFormsModule,
+  EzModalModule,
   EzPasswordModule,
   EzRadioModule,
   EzSelectModule,
   EzTableModule,
+  EzTabsModule,
   EzTextModule,
   EzYesNoModule,
   SameValidatorModule,
@@ -16,9 +18,12 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsComponent } from './components/forms/forms.component';
+import { TableComponent } from './components/table/table.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, FormsComponent, TableComponent, ModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -33,6 +38,8 @@ import { AppComponent } from './app.component';
     EzSelectModule,
     SameValidatorModule,
     EzYesNoModule,
+    EzTabsModule,
+    EzModalModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,52 +1,10 @@
 <h1>Easy Angular</h1>
-<h2>Forms</h2>
-<form ezForm (ezSubmit)="onSubmit()" [ezFormReadonly]="readonly">
-  <ez-text name="text" [(ngModel)]="model.text" required range="4-6">
-    Text
-  </ez-text>
 
-  <ez-yes-no name="yesno" [(ngModel)]="model.yesno" required>
-    Yes/No
-  </ez-yes-no>
 
-  <ez-select name="select" [(ngModel)]="model.select" [options]="[{ value: 1, label: 'Select 1' }, { value: 2, label: 'Select 2' }]" required>
-    Select
-  </ez-select>
-
-  <ez-radio name="radio" [(ngModel)]="model.radio" [options]="[{ value: 1, label: 'Radio 1' }, { value: 2, label: 'Radio 2' }]" required>
-    Radio
-  </ez-radio>
-
-  <ez-checkbox name="checkbox" [(ngModel)]="model.checkbox">
-    Checkbox
-  </ez-checkbox>
-
-  <ez-checkboxes name="checkboxes" [(ngModel)]="model.checkboxes"
-    [options]="[{ property: 'prop1', label: 'Checkbox 1' }, { property: 'prop2', label: 'Checkbox 2' }, { property: 'prop3', label: 'Checkbox 3' }]" checkboxes-required>
-    Checkboxes
-  </ez-checkboxes>
-
-  <ez-password name="password" [(ngModel)]="model.password" required>
-    Password
-  </ez-password>
-
-  <ez-password name="passwordAgain" [(ngModel)]="passwordAgain" [same]="model.password" [messages]="{ same: 'Should be the same as password' }">
-    Password Again
-  </ez-password>
-
-  <button type="submit">Submit</button>
-  <button type="reset">Reset</button>
-  <button type="button" (click)="readonly = !readonly">Toggle readonly</button>
-</form>
-
-<h2>Table</h2>
-<ez-table [data]="tableData" pageSize="5" groupBy="lastName">
-  <ez-table-search></ez-table-search>
-  <ez-column heading="Last Name" property="lastName">
-    <ng-template let-item>
-      {{item.lastName}}
-    </ng-template>
-  </ez-column>
-  <ez-column heading="First Name" property="firstName"></ez-column>
-  <ez-table-pager footer></ez-table-pager>
-</ez-table>
+<h2>Tabs</h2>
+<ez-tabs>
+  <ez-tab name="forms" heading="Forms" route="forms"></ez-tab>
+  <ez-tab name="table" heading="Table" route="table"></ez-tab>
+  <ez-tab name="modal" heading="Modal" route="modal"></ez-tab>
+  <router-outlet></router-outlet>
+</ez-tabs>

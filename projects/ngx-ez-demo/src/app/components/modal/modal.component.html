@@ -1,0 +1,12 @@
+<h2>Modal</h2>
+
+<button (click)="modal.open()">Open modal by reference</button>
+<button (click)="open$.next()">Open modal with observable</button>
+
+<ez-modal heading="Modal demo" #modal [open$]="open$" [close$]="close$">
+  Here is a modal
+  <ng-container footer>
+    <button (click)="modal.close()">Close by reference</button>
+    <button (click)="close$.next()">Close with observable</button>
+  </ng-container>
+</ez-modal>

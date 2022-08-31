@@ -6,7 +6,9 @@
 }
 
 .ez-form {
-  input, select {
+
+  input,
+  select {
     padding: 10px;
     border: solid 1px gray;
     background-color: #eee;
@@ -15,9 +17,10 @@
     transition: border-color .3s ease-in-out, box-shadow .3s ease-in-out;
   }
 
-  input:focus, select:focus {
+  input:focus,
+  select:focus {
     outline: none;
-    box-shadow: 0 10px 20px -3px rgba(34,19,59,.2);
+    box-shadow: 0 10px 20px -3px rgba(34, 19, 59, .2);
   }
 
   ::placeholder {
@@ -26,6 +29,7 @@
 
   .ez-validation {
     color: red;
+    height: 1rem;
   }
 
   .ez-label {

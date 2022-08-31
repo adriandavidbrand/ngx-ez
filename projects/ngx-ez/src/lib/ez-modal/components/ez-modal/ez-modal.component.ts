@@ -62,7 +62,7 @@ export class EzModalComponent implements OnDestroy {
           heading.focus();
         }
       }
-      trapFocus(element.querySelector('.modal'));
+      trapFocus(element.querySelector('.ez-modal'));
       element.addEventListener('keyup', (e: any) => {
         if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
           this.close();

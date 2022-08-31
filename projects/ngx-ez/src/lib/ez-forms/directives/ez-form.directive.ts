@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs';
 import { EzFormConfigService } from '../services/ez-form-config.service';
 
 @Directive({
-  selector: '[ezForm]',
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: 'form',
   exportAs: 'ezForm',
 })
 export class EzFormDirective implements OnDestroy {

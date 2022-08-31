@@ -150,7 +150,9 @@
             "styles": [
               "projects/ngx-ez-demo/src/styles.scss",
               "projects/ngx-ez/styles/forms.scss",
-              "projects/ngx-ez/styles/table.scss"
+              "projects/ngx-ez/styles/modal.scss",
+              "projects/ngx-ez/styles/table.scss",
+              "projects/ngx-ez/styles/tabs.scss"
             ],
             "scripts": []
           },
