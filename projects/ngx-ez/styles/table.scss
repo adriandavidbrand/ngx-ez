@@ -9,6 +9,7 @@ ez-table {
     padding: 5px 10px 5px 5px;
     border: 1px solid gray;
     border-right: none;
+    background-color: #eee;
 
     span {
       display: inline-block;
@@ -30,7 +31,7 @@ ez-table {
     content: "";
     position: absolute;
     border-style: solid;
-    border-color: #ddd transparent;
+    border-color: #ccc transparent;
     display: block;
     width: 0;
     right: -15px;
