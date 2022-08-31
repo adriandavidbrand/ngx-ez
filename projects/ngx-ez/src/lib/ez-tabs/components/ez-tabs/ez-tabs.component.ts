@@ -1,4 +1,4 @@
-import { Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { EzTabComponent } from '../ez-tab/ez-tab.component';
@@ -8,7 +8,7 @@ import { EzTabComponent } from '../ez-tab/ez-tab.component';
   templateUrl: './ez-tabs.component.html',
   styleUrls: ['./ez-tabs.component.scss'],
 })
-export class EzTabsComponent {
+export class EzTabsComponent implements AfterContentInit {
   selectedTab?: EzTabComponent;
 
   current?: string;
@@ -50,5 +50,13 @@ export class EzTabsComponent {
       }
       tab.tabSelected.emit();
     }
+  }
+
+  ngAfterContentInit() {
+    setTimeout(() => {
+      if (this.current && !this.selectedTab) {
+        this.currentSet = this.current;
+      }
+    });
   }
 }
