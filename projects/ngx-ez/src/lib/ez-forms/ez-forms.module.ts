@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 import { EzControlComponent } from './components/ez-control/ez-control.component';
 import { EzFormDirective } from './directives/ez-form.directive';
@@ -10,7 +9,7 @@ import { EzFormReadonlyDirective } from './directives/ez-form-readonly.directive
 
 @NgModule({
   declarations: [EzControlComponent, EzFormDirective, EzFormConfigDirective, ValidDirective, EzFormReadonlyDirective],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   exports: [EzControlComponent, EzFormDirective, EzFormConfigDirective, ValidDirective, EzFormReadonlyDirective],
 })
 export class EzFormsModule {}
