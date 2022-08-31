@@ -44,8 +44,10 @@ export * from './lib/ez-forms/validators/same.directive';
 export * from './lib/ez-forms/validators/same.validator.module';
 export * from './lib/ez-forms/validators/validator-base.directive';
 
-export * from './lib/ez-table/ez-table.module';
+export * from './lib/ez-modal/ez-modal.module';
+export * from './lib/ez-modal/components/ez-modal/ez-modal.component';
 
+export * from './lib/ez-table/ez-table.module';
 export * from './lib/ez-table/components/ez-column/ez-column.component';
 export * from './lib/ez-table/components/ez-footer/ez-footer.component';
 export * from './lib/ez-table/components/ez-heading/ez-heading.component';

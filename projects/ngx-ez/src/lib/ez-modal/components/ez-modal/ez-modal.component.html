@@ -1,0 +1,15 @@
+<ng-container *ngIf="visible">
+  <div class="ez-modal-container">
+    <div class="ez-modal-backdrop" (click)="close()"></div>
+    <div class="ez-modal">
+      <div class="ez-modal-head">
+        <h1 tabindex="-1">{{ heading }}</h1>
+        <a class="ez-modal-close" (click)="close()"></a>
+      </div>
+      <ng-content></ng-content>
+      <div class="ez-modal-footer">
+        <ng-content select="[footer]"></ng-content>
+      </div>
+    </div>
+  </div>
+</ng-container>
