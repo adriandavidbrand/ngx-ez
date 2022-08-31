@@ -7,6 +7,9 @@
     },
     "./styles/table": {
       "sass": "./styles/table.scss"
+    },
+    "./styles/tabs": {
+      "sass": "./styles/tabs.scss"
     }
   },
   "peerDependencies": {

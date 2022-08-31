@@ -1,0 +1,25 @@
+<div class="tab-container">
+  <ng-content select="[left]"></ng-content>
+  <ul role="tablist">
+    <li *ngFor="let tab of tabs" role="presentation" [ngClass]="{ active: tab === selectedTab }">
+      <a *ngIf="tab.route; else noRoute" role="tab" [attr.aria-selected]="tab === selectedTab" [attr.aria-controls]="'tabpanel-' + tab.name" [routerLink]="tab.route"
+        routerLinkActive (isActiveChange)="$event && selectTab(tab)">
+        {{ tab.heading }}
+      </a>
+      <ng-template #noRoute>
+        <a href="javacript:void(0)" role="tab" [attr.aria-selected]="tab === selectedTab" [attr.aria-controls]="'tabpanel-' + tab.name" (click)="selectTab(tab)">
+          {{ tab.heading }}
+        </a>
+      </ng-template>
+    </li>
+  </ul>
+  <ng-content select="[right]"></ng-content>
+</div>
+
+<div [attr.role]="selectedTab && 'tabpanel'" [attr.id]="selectedTab && 'tabpanel-' + selectedTab.name">
+  <ng-content></ng-content>
+  <ng-container *ngIf="selectedTab?.template">
+    <ng-container *ngTemplateOutlet="selectedTab?.template ?? null"></ng-container>
+  </ng-container>
+  <ng-content select="[footer]"></ng-content>
+</div>
