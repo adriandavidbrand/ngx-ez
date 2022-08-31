@@ -5,6 +5,9 @@
     "./styles/forms": {
       "sass": "./styles/forms.scss"
     },
+    "./styles/modal": {
+      "sass": "./styles/modal.scss"
+    },
     "./styles/table": {
       "sass": "./styles/table.scss"
     },
