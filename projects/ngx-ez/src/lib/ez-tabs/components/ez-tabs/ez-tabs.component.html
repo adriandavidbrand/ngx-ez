@@ -3,7 +3,7 @@
   <ul role="tablist">
     <li *ngFor="let tab of tabs" role="presentation" [ngClass]="{ active: tab === selectedTab }">
       <a *ngIf="tab.route; else noRoute" role="tab" [attr.aria-selected]="tab === selectedTab" [attr.aria-controls]="'tabpanel-' + tab.name" [routerLink]="tab.route"
-        routerLinkActive (isActiveChange)="$event && selectTab(tab)">
+        routerLinkActive (isActiveChange)="routeChange(tab, $event)">
         {{ tab.heading }}
       </a>
       <ng-template #noRoute>

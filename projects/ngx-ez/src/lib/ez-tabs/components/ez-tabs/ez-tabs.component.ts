@@ -30,6 +30,14 @@ export class EzTabsComponent {
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
+  routeChange = (tab: EzTabComponent, active: boolean) => {
+    if (!active && this.selectedTab === tab) {
+      this.selectedTab = undefined;
+    } else if (active) {
+      this.selectTab(tab);
+    }
+  };
+
   selectTab(tab: EzTabComponent) {
     if (!tab.disabled && this.selectedTab !== tab) {
       if (!tab.route && this.selectedTab?.route) {
