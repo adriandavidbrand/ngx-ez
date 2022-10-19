@@ -2,7 +2,7 @@
   <label class="">
     Show
     <select [ngClass]="config.pageSizeSelectClasses" [value]="table.pageSize" (change)="changeSize($any($event.target).value)" [attr.aria-controls]="table.tableId">
-      <option [value]="size" *ngFor="let size of table.pageSizes">{{size}}</option>
+      <option [value]="size" *ngFor="let size of table.pageSizes" [selected]="size === table.pageSize">{{size}}</option>
     </select>
     records - Showing
     <ng-container *ngIf="table.pageData.length === 0">0</ng-container>
