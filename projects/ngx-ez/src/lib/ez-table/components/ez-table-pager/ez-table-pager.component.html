@@ -2,24 +2,14 @@
   <label class="">
     Show
     <select [ngClass]="config.pageSizeSelectClasses" [value]="table.pageSize" (change)="changeSize($any($event.target).value)" [attr.aria-controls]="table.tableId">
-      <option [value]="size" *ngFor="let size of table.pageSizes">{{size}}</option>
+      <option [value]="size" *ngFor="let size of table.pageSizes" [selected]="size === table.pageSize">{{size}}</option>
     </select>
     records - Showing
-    <ng-container *ngIf="table.pageData.length === 0">
-      0
-    </ng-container>
-    <ng-container *ngIf="table.pageData.length > 0">
-      {{table.start}}
-    </ng-container>
-    <ng-container *ngIf="table.pageData.length > 1">
-      to
-      {{table.finish}}
-    </ng-container>
-    of
-    {{table.totalRecords}}
-    records
-    <ng-container *ngIf="table.data && table.totalRecords !== table.data.length">(filtered from {{table.data.length}}
-      total records)</ng-container>
+    <ng-container *ngIf="table.pageData.length === 0">0</ng-container>
+    <ng-container *ngIf="table.pageData.length > 0">{{table.start}}</ng-container>
+    <ng-container *ngIf="table.pageData.length > 1">to {{table.finish}}</ng-container>
+    of {{table.totalRecords}} records
+    <ng-container *ngIf="table.data && table.totalRecords !== table.data.length">(filtered from {{table.data.length}} total records)</ng-container>
   </label>
 </div>
 <nav class="ez-page-select" *ngIf="table.totalPages > 1">

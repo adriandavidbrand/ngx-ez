@@ -34,11 +34,9 @@ export class EzControlComponent<T> implements OnDestroy {
     ezFormDirective?.ezSubmit.pipe(takeUntil(this.finalise$)).subscribe(() => {
       this.properties.submitted = true;
     });
-    ezFormDirective?.ezSubmitInvalid
-      .pipe(takeUntil(this.finalise$))
-      .subscribe(() => {
-        this.properties.submitted = true;
-      });
+    ezFormDirective?.ezSubmitInvalid.pipe(takeUntil(this.finalise$)).subscribe(() => {
+      this.properties.submitted = true;
+    });
     ezFormDirective?.ezReset.pipe(takeUntil(this.finalise$)).subscribe(() => {
       this.properties.submitted = false;
     });
@@ -51,38 +49,27 @@ export class EzControlComponent<T> implements OnDestroy {
           this.properties.valid = ngControl.valid ?? false;
           this.properties.pristine = ngControl.pristine ?? false;
           if (ngControl.invalid) {
-            const errorType = ngControl.errors
-              ? Object.keys(ngControl.errors)[0]
-              : '';
-            const errorValue = ngControl?.errors
-              ? ngControl.errors[errorType]
-              : '';
+            const errorType = ngControl.errors ? Object.keys(ngControl.errors)[0] : '';
+            const errorValue = ngControl?.errors ? ngControl.errors[errorType] : '';
             this.properties.message =
               ezControlBaseComponent.messages[errorType] ||
               this.config.defaultMessages[errorType] ||
-              (typeof errorValue === 'string'
-                ? errorValue
-                : this.config.defaultMessages['invalid']);
+              (typeof errorValue === 'string' ? errorValue : this.config.defaultMessages['invalid']);
           } else {
             this.properties.message = '';
           }
         });
       }
     }
-    ezFormReadonlyDirective?.readonly$
-      .pipe(takeUntil(this.finalise$))
-      .subscribe((readonly) => {
-        ezControlBaseComponent.metaData.directiveReadonly = readonly;
-        ezControlBaseComponent.properties.readonly =
-          readonly || ezControlBaseComponent.metaData.localReadonly;
-      });
+    ezFormReadonlyDirective?.readonly$.pipe(takeUntil(this.finalise$)).subscribe((readonly) => {
+      ezControlBaseComponent.metaData.directiveReadonly = readonly;
+      ezControlBaseComponent.properties.readonly = readonly || ezControlBaseComponent.metaData.localReadonly;
+    });
     ezControlBaseComponent.config = ezFormConfigService;
-    ezFormConfigDirective?.config$
-      .pipe(takeUntil(this.finalise$))
-      .subscribe((config) => {
-        this.config = config;
-        ezControlBaseComponent.config = config;
-      });
+    ezFormConfigDirective?.config$.pipe(takeUntil(this.finalise$)).subscribe((config) => {
+      this.config = config;
+      ezControlBaseComponent.config = config;
+    });
   }
 
   ngOnDestroy() {

@@ -1,7 +1,8 @@
 <ng-container *ngTemplateOutlet="properties.readonly ? readonlyTemplate : properties.fieldset ? fieldsetTemplate : labelTemplate"></ng-container>
 
 <ng-template #fieldsetTemplate>
-  <fieldset class="ez-control" [ngClass]="config.controlClasses" *ngIf="!config.fieldsetTemplate; else fieldsetConfigTemplate" [attr.aria-describedby]="properties.name + '_validation_message'">
+  <fieldset class="ez-control" [ngClass]="config.controlClasses" *ngIf="!config.fieldsetTemplate; else fieldsetConfigTemplate"
+    [attr.aria-describedby]="properties.name + '_validation_message'">
     <legend class="ez-legend" [ngClass]="config.legendClasses">
       <span class="ez-label" [ngClass]="config.fieldsetLabelClasses">
         <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
@@ -10,26 +11,21 @@
     </legend>
     <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
       <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
-      <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
     </div>
+    <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
   </fieldset>
   <ng-template #fieldsetConfigTemplate>
     <ng-container *ngTemplateOutlet="
-        config.fieldsetTemplate;
-        context: {
-          $implicit: properties,
-          config: config,
-          contentTemplate: contentTemplate,
-          controlsTemplate: controlsTemplate,
-          validationTemplate: validationTemplate
-        }">
+      config.fieldsetTemplate;
+      context: { $implicit: properties, config: config, contentTemplate: contentTemplate, controlsTemplate: controlsTemplate, validationTemplate: validationTemplate }
+    ">
     </ng-container>
   </ng-template>
 </ng-template>
 
 <ng-template #labelTemplate>
   <div class="ez-control" [ngClass]="config.controlClasses" *ngIf="!config.labelTemplate; else labelConfigTemplate">
-    <div [ngClass]="config.labelContainerClasses">
+    <div class="ez-label-container" [ngClass]="config.labelContainerClasses">
       <label class="ez-label" [ngClass]="config.labelClasses" [id]="properties.name + '_control_input_label'" [for]="properties.name + '_control_input'">
         <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
         <span class="ez-required" *ngIf="config.requiredIndicator && properties.required"> *</span>
@@ -37,19 +33,14 @@
     </div>
     <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
       <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
-      <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
     </div>
+    <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
   </div>
   <ng-template #labelConfigTemplate>
     <ng-container *ngTemplateOutlet="
         config.labelTemplate;
-        context: {
-          $implicit: properties,
-          config: config,
-          contentTemplate: contentTemplate,
-          controlsTemplate: controlsTemplate,
-          validationTemplate: validationTemplate
-        }">
+        context: { $implicit: properties, config: config, contentTemplate: contentTemplate, controlsTemplate: controlsTemplate, validationTemplate: validationTemplate }
+      ">
     </ng-container>
   </ng-template>
 </ng-template>
@@ -70,13 +61,8 @@
   <ng-template #readonlyConfigTemplate>
     <ng-container *ngTemplateOutlet="
         config.readonlyTemplate;
-        context: {
-          $implicit: properties,
-          config: config,
-          contentTemplate: contentTemplate,
-          controlsTemplate: controlsTemplate,
-          validationTemplate: validationTemplate
-        }">
+        context: { $implicit: properties, config: config, contentTemplate: contentTemplate, controlsTemplate: controlsTemplate, validationTemplate: validationTemplate }
+      ">
     </ng-container>
   </ng-template>
 </ng-template>
