@@ -212,11 +212,6 @@ export class EzCacheBase<T> {
     this.cache$.next({ value });
   }
 
-  reset(): void {
-    this.unsubscribe();
-    this.cache$.next({ value: undefined } as any);
-  }
-
   setState(state?: Partial<EzState<T>>): void {
     this.unsubscribe();
     this.cache$.next({ value: this.value, ...state });

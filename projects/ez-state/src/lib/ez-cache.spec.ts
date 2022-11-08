@@ -69,12 +69,6 @@ describe('EzCache', () => {
     expect(error).toEqual('custom error');
   });
 
-  it('reset should reset value', () => {
-    const cache = new EzCache('value');
-    cache.reset();
-    expect(cache.value).toBeUndefined();
-  });
-
   it('setState should leave value', () => {
     const cache = new EzCache('value');
     cache.setState();
