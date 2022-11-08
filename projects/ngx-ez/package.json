@@ -1,6 +1,6 @@
 {
   "name": "ngx-ez",
-  "version": "14.0.0",
+  "version": "14.0.1",
   "exports": {
     "./styles/forms": {
       "sass": "./styles/forms.scss"
