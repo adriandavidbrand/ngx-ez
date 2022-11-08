@@ -34,11 +34,6 @@ export class EzCacheBase<T> {
     error$?: Observable<any>;
   } = {};
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  generalErrorHandler(error: any, action: EzStateAction): any {
-    return error;
-  }
-
   constructor(value: T, protected errorHandler?: (error?: any, action?: EzStateAction) => any) {
     this.cache$ = new BehaviorSubject({ value: value });
   }
@@ -264,6 +259,6 @@ export class EzCacheBase<T> {
   }
 
   protected generateError(error: any, action: EzStateAction): any {
-    return (this.errorHandler && this.errorHandler(error, action)) || this.generalErrorHandler(error, action);
+    return this.errorHandler?.(error, action) ?? action;
   }
 }
