@@ -254,6 +254,6 @@ export class EzCacheBase<T> {
   }
 
   protected generateError(error: any, action: EzStateAction): any {
-    return this.errorHandler?.(error, action) ?? action;
+    return this.errorHandler?.(error, action) ?? error;
   }
 }
