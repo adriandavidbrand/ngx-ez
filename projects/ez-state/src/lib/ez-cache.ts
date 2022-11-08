@@ -4,10 +4,7 @@ import { EzStateAction } from './ez-state-action';
 import { EzCacheBase } from './ez-cache-base';
 
 export class EzCache<T> extends EzCacheBase<T> {
-  constructor(
-    value: T,
-    errorHandler?: (error?: any, action?: EzStateAction) => any
-  ) {
+  constructor(value: T, errorHandler?: (error?: any, action?: EzStateAction) => any) {
     super(value, errorHandler);
   }
 
