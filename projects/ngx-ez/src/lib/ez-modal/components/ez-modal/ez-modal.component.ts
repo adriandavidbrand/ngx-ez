@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 import { trapFocus } from 'ez-functions';
@@ -8,10 +8,13 @@ import { trapFocus } from 'ez-functions';
   templateUrl: './ez-modal.component.html',
   styleUrls: ['./ez-modal.component.scss'],
 })
-export class EzModalComponent implements OnDestroy {
+export class EzModalComponent implements OnDestroy, AfterContentInit {
   visible = false;
   @Input()
   heading = '';
+
+  @Input()
+  autoOpen = false;
 
   @Output()
   afterClosed = new EventEmitter();
@@ -53,7 +56,7 @@ export class EzModalComponent implements OnDestroy {
     this.visible = true;
     setTimeout(() => {
       const element = this.elementRef.nativeElement;
-      const autoFocus = element.querySelector('.auto-focus, [autoFocus]');
+      const autoFocus = element.querySelector('.auto-focus, [autofocus]');
       if (autoFocus) {
         autoFocus.focus();
       } else {
@@ -74,5 +77,11 @@ export class EzModalComponent implements OnDestroy {
   ngOnDestroy() {
     this.openSub?.unsubscribe();
     this.closeSub?.unsubscribe();
+  }
+
+  ngAfterContentInit() {
+    if (this.autoOpen) {
+      this.open();
+    }
   }
 }
