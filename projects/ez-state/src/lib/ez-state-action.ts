@@ -3,4 +3,5 @@ export enum EzStateAction {
   save = 'save',
   update = 'update',
   delete = 'delete',
+  poll = 'poll',
 }

@@ -12,4 +12,5 @@ export interface EzState<T> {
   deleting?: boolean;
   deleted?: boolean;
   deleteError?: any;
+  pollError?: any;
 }

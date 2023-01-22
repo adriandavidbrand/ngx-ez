@@ -603,3 +603,11 @@ describe('EzCache delete', () => {
     expect(deleted).toBeFalse();
   });
 });
+
+describe('EzCache poll', () => {
+  it('poll should triger load', () => {
+    const cache = new EzCache('');
+    cache.poll(of(of('value')));
+    expect(cache.value).toEqual('value');
+  });
+});

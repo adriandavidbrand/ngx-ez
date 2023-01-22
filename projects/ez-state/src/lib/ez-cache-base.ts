@@ -12,6 +12,7 @@ export class EzCacheBase<T> {
     save?: Subscription;
     update?: Subscription;
     delete?: Subscription;
+    poll?: Subscription;
   } = {};
 
   protected observables: {
@@ -238,6 +239,21 @@ export class EzCacheBase<T> {
     });
   }
 
+  poll(poll$: Observable<Observable<T>>): void {
+    this.unsubscribe(EzStateAction.poll);
+    this.subscriptions.poll = poll$.subscribe({
+      next: (load$) => {
+        this.load(load$);
+      },
+      error: (error) => {
+        this.cache$.next({
+          value: this.value,
+          pollError: this.generateError(error, EzStateAction.poll),
+        });
+      },
+    });
+  }
+
   unsubscribe(action?: EzStateAction): void {
     if (action) {
       const subscription = this.subscriptions[action];
@@ -250,6 +266,7 @@ export class EzCacheBase<T> {
       this.unsubscribe(EzStateAction.save);
       this.unsubscribe(EzStateAction.update);
       this.unsubscribe(EzStateAction.delete);
+      this.unsubscribe(EzStateAction.poll);
     }
   }
 
