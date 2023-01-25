@@ -1,6 +1,6 @@
 {
   "name": "ez-state",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "peerDependencies": {
     "ez-functions": "1.0.1"
   },
