@@ -41,7 +41,7 @@ export class EzControlBaseComponent<T> implements ControlValueAccessor {
 
   @Input()
   set maxlength(value: string | number) {
-    this.properties.name = `${value}`;
+    this.properties.maxlength = `${value}`;
   }
 
   @Input()
