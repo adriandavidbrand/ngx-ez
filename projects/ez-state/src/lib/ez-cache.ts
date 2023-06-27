@@ -55,7 +55,7 @@ export class EzCache<T> extends EzCacheBase<T> {
   }
 
   updateIgnoreResponse(update$: Observable<any>): void {
-    this.save(update$, true);
+    this.update(update$, true);
   }
 
   delete(delete$: Observable<T>): void;
@@ -80,6 +80,6 @@ export class EzCache<T> extends EzCacheBase<T> {
   }
 
   deleteIgnoreResponse(delete$: Observable<any>): void {
-    this.save(delete$, true);
+    this.delete(delete$, true);
   }
 }
