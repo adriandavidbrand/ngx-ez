@@ -2,7 +2,8 @@ import { Directive, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Directive({
-  selector: '[ezFormReadonly]',
+    selector: '[ezFormReadonly]',
+    standalone: false
 })
 export class EzFormReadonlyDirective {
   readonly$ = new BehaviorSubject<boolean>(false);

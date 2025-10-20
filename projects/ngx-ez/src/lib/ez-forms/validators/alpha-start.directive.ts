@@ -2,9 +2,10 @@ import { Directive } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[alpha-start]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: AlphaStartDirective, multi: true }],
+    // eslint-disable-next-line @angular-eslint/directive-selector
+    selector: '[alpha-start]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: AlphaStartDirective, multi: true }],
+    standalone: false
 })
 export class AlphaStartDirective implements Validator {
   constructor() {}

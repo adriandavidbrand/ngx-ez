@@ -1,10 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 import { EzControlProperties } from '../models/ez-controls-properties';
 import { EzFormConfig } from '../models/ez-form-config';
 
-@Component({ selector: 'ez-control-base', template: '' })
+@Component({
+    selector: 'ez-control-base', template: '',
+    standalone: false
+})
 export class EzControlBaseComponent<T> implements ControlValueAccessor {
   properties: EzControlProperties = {
     dirty: false,
@@ -65,8 +68,9 @@ export class EzControlBaseComponent<T> implements ControlValueAccessor {
     this.properties.required = value !== false && value !== 'false';
   }
 
-  @Input()
-  messages: { [key: string]: string } = {};
+  readonly messages = input<{
+    [key: string]: string;
+}>({});
 
   value?: T = undefined;
 

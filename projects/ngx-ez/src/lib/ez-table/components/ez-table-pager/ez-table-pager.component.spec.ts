@@ -10,8 +10,8 @@ class TableMock {
 }
 
 describe('EzTablePagerComponent', () => {
-  let component: EzTablePagerComponent;
-  let fixture: ComponentFixture<EzTablePagerComponent>;
+  let component: EzTablePagerComponent<any>;
+  let fixture: ComponentFixture<EzTablePagerComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

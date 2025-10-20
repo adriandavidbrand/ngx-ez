@@ -4,9 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EzTabComponent } from '../ez-tab/ez-tab.component';
 
 @Component({
-  selector: 'ez-tabs',
-  templateUrl: './ez-tabs.component.html',
-  styleUrls: ['./ez-tabs.component.scss'],
+    selector: 'ez-tabs',
+    templateUrl: './ez-tabs.component.html',
+    styleUrls: ['./ez-tabs.component.scss'],
+    standalone: false
 })
 export class EzTabsComponent implements AfterContentInit {
   selectedTab?: EzTabComponent;
@@ -14,7 +15,7 @@ export class EzTabsComponent implements AfterContentInit {
   current?: string;
   @Input('current')
   set currentSet(name: string) {
-    const tab = this.tabs?.find((tab) => tab.name === name);
+    const tab = this.tabs?.find((tab) => tab.name() === name);
     if (tab) {
       this.selectTab(tab);
     } else {
@@ -39,14 +40,15 @@ export class EzTabsComponent implements AfterContentInit {
   };
 
   selectTab(tab: EzTabComponent) {
-    if (!tab.disabled && this.selectedTab !== tab) {
-      if (!tab.route && this.selectedTab?.route) {
+    if (!tab.disabled() && this.selectedTab !== tab) {
+      if (!tab.route() && this.selectedTab?.route()) {
         this.router.navigate(['.'], { relativeTo: this.route });
       }
       this.selectedTab = tab;
-      if (this.current !== tab.name) {
-        this.current = tab.name;
-        this.currentChange.emit(tab.name);
+      const name = tab.name();
+      if (this.current !== name) {
+        this.current = name;
+        this.currentChange.emit(name);
       }
       tab.tabSelected.emit();
     }

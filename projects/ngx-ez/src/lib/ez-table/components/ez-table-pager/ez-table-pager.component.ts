@@ -6,14 +6,15 @@ import { EzTableComponent } from '../ez-table/ez-table.component';
   selector: 'ez-table-pager',
   templateUrl: './ez-table-pager.component.html',
   styleUrls: ['./ez-table-pager.component.scss'],
+  standalone: false,
 })
-export class EzTablePagerComponent {
+export class EzTablePagerComponent<T> {
   config = this.table.config;
 
-  changeSize(pageSize: string | number) {
-    this.table.pageSizeSet = pageSize;
+  changeSize(pageSize: string | 'All') {
+    this.table.currentPageSize.set(pageSize === 'All' ? pageSize : Number(pageSize));
     this.table.goto(1);
   }
 
-  constructor(public table: EzTableComponent) {}
+  constructor(public table: EzTableComponent<T>) {}
 }

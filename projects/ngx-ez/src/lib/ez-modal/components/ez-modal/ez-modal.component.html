@@ -1,9 +1,9 @@
-<ng-container *ngIf="visible">
+@if (visible) {
   <div class="ez-modal-container">
     <div class="ez-modal-backdrop" (click)="close()"></div>
     <div class="ez-modal">
       <div class="ez-modal-head">
-        <h1 tabindex="-1">{{ heading }}</h1>
+        <h1 tabindex="-1">{{ heading() }}</h1>
         <a href="javascript:void(0)" class="ez-modal-close" (click)="close()"></a>
       </div>
       <ng-content></ng-content>
@@ -12,4 +12,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+}

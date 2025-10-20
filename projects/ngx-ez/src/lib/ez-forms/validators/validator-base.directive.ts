@@ -1,7 +1,10 @@
 import { SimpleChanges, OnChanges, Directive, Inject } from '@angular/core';
 
 // eslint-disable-next-line @angular-eslint/directive-selector
-@Directive({ selector: '[validator-base]' })
+@Directive({
+    selector: '[validator-base]',
+    standalone: false
+})
 export class ValidatorBaseDirective implements OnChanges {
   inputs: string[];
 

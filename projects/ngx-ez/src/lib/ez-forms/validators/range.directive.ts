@@ -4,9 +4,10 @@ import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 import { ValidatorBaseDirective } from './validator-base.directive';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[range]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: RangeDirective, multi: true }],
+    // eslint-disable-next-line @angular-eslint/directive-selector
+    selector: '[range]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: RangeDirective, multi: true }],
+    standalone: false
 })
 export class RangeDirective extends ValidatorBaseDirective implements Validator {
   @Input()

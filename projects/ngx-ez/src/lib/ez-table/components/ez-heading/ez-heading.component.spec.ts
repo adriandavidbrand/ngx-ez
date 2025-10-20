@@ -21,9 +21,4 @@ describe('EzHeadingComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('columnsSet should parse string', () => {
-    component.columnsSet = '5';
-    expect(component.columns).toEqual(5);
-  });
 });

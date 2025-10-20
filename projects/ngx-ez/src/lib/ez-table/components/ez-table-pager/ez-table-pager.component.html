@@ -1,43 +1,87 @@
 <div class="ez-page-size" [ngClass]="config.pageSizeClasses">
   <label class="">
     Show
-    <select [ngClass]="config.pageSizeSelectClasses" [value]="table.pageSize" (change)="changeSize($any($event.target).value)" [attr.aria-controls]="table.tableId">
-      <option [value]="size" *ngFor="let size of table.pageSizes" [selected]="size === table.pageSize">{{size}}</option>
+    <select
+      [ngClass]="config.pageSizeSelectClasses"
+      [value]="table.currentPageSize()"
+      (change)="changeSize($any($event.target).value)"
+      [attr.aria-controls]="table.tableId()"
+    >
+      @for (size of table.pageSizes(); track size) {
+      <option [value]="size" [selected]="size === table.currentPageSize()">{{ size }}</option>
+      }
     </select>
-    records - Showing
-    <ng-container *ngIf="table.pageData.length === 0">0</ng-container>
-    <ng-container *ngIf="table.pageData.length > 0">{{table.start}}</ng-container>
-    <ng-container *ngIf="table.pageData.length > 1">to {{table.finish}}</ng-container>
-    of {{table.totalRecords}} records
-    <ng-container *ngIf="table.data && table.totalRecords !== table.data.length">(filtered from {{table.data.length}} total records)</ng-container>
+    records - Showing @if (table.pageData.length === 0) { 0 } @if (table.pageData.length > 0) {
+    {{ table.start }}
+    } @if (table.pageData.length > 1) { to {{ table.finish }} } of {{ table.totalRecords }} records @if (table.data() &&
+    table.totalRecords !== table.data().length) { (filtered from {{ table.data().length }} total records) }
   </label>
 </div>
-<nav class="ez-page-select" *ngIf="table.totalPages > 1">
+@if (table.totalPages > 1) {
+<nav class="ez-page-select">
   <ul class="pagination">
-    <li class="page-item" [ngClass]="{ 'disabled': table.pageNum === 1 }">
-      <a href="javascript:void(0)" class="page-link" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="1" [tabindex]="table.pageNum === 1 ? -1 : 0"
-        (keydown.enter)="table.first()" (click)="table.first()">First</a>
+    <li class="page-item" [ngClass]="{ disabled: table.pageNum === 1 }">
+      <a
+        href="javascript:void(0)"
+        class="page-link"
+        [attr.aria-controls]="table.tableId()"
+        [attr.data-dt-idx]="1"
+        [tabindex]="table.pageNum === 1 ? -1 : 0"
+        (keydown.enter)="table.first()"
+        (click)="table.first()"
+        >First</a
+      >
     </li>
-
-    <li class="page-item" [ngClass]="{ 'disabled': table.pageNum === 1 }">
-      <a href="javascript:void(0)" class="page-link" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="table.pageNum === 1 ? 1 : table.pageNum - 1"
-        [tabindex]="table.pageNum === 1 ? -1 : 0" (keydown.enter)="table.previous()" (click)="table.previous()">Previous</a>
+    <li class="page-item" [ngClass]="{ disabled: table.pageNum === 1 }">
+      <a
+        href="javascript:void(0)"
+        class="page-link"
+        [attr.aria-controls]="table.tableId()"
+        [attr.data-dt-idx]="table.pageNum === 1 ? 1 : table.pageNum - 1"
+        [tabindex]="table.pageNum === 1 ? -1 : 0"
+        (keydown.enter)="table.previous()"
+        (click)="table.previous()"
+        >Previous</a
+      >
     </li>
-
-    <li *ngFor="let pn of table.pageNums" class="page-item" [ngClass]="{ 'active': table.pageNum === pn }">
-      <a href="javascript:void(0)" class="page-link" [tabIndex]="table.pageNum === pn ? -1 : 0" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="pn"
-        (keydown.enter)="table.goto(pn)" (click)="table.goto(pn)">{{pn}}</a>
+    @for (pn of table.pageNums; track pn) {
+    <li class="page-item" [ngClass]="{ active: table.pageNum === pn }">
+      <a
+        href="javascript:void(0)"
+        class="page-link"
+        [tabIndex]="table.pageNum === pn ? -1 : 0"
+        [attr.aria-controls]="table.tableId()"
+        [attr.data-dt-idx]="pn"
+        (keydown.enter)="table.goto(pn)"
+        (click)="table.goto(pn)"
+        >{{ pn }}</a
+      >
     </li>
-
-    <li class="page-item" [ngClass]="{ 'disabled': table.pageNum === table.totalPages }">
-      <a href="javascript:void(0)" class="page-link" [attr.aria-controls]="table.tableId"
-        [attr.data-dt-idx]="table.pageNum === table.totalPages ? table.totalPages : table.pageNum + 1" [tabindex]="table.pageNum === table.totalPages ? -1 : 0"
-        (keydown.enter)="table.next()" (click)="table.next()">Next</a>
+    }
+    <li class="page-item" [ngClass]="{ disabled: table.pageNum === table.totalPages }">
+      <a
+        href="javascript:void(0)"
+        class="page-link"
+        [attr.aria-controls]="table.tableId()"
+        [attr.data-dt-idx]="table.pageNum === table.totalPages ? table.totalPages : table.pageNum + 1"
+        [tabindex]="table.pageNum === table.totalPages ? -1 : 0"
+        (keydown.enter)="table.next()"
+        (click)="table.next()"
+        >Next</a
+      >
     </li>
-
-    <li class="page-item" [ngClass]="{ 'disabled': table.pageNum === table.totalPages }">
-      <a href="javascript:void(0)" class="page-link" [attr.aria-controls]="table.tableId" [attr.data-dt-idx]="table.totalPages"
-        [tabindex]="table.pageNum === table.totalPages ? -1 : 0" (keydown.enter)="table.last()" (click)="table.last()">Last</a>
+    <li class="page-item" [ngClass]="{ disabled: table.pageNum === table.totalPages }">
+      <a
+        href="javascript:void(0)"
+        class="page-link"
+        [attr.aria-controls]="table.tableId()"
+        [attr.data-dt-idx]="table.totalPages"
+        [tabindex]="table.pageNum === table.totalPages ? -1 : 0"
+        (keydown.enter)="table.last()"
+        (click)="table.last()"
+        >Last</a
+      >
     </li>
   </ul>
 </nav>
+}

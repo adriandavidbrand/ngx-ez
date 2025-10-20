@@ -11,9 +11,10 @@ import { EzFormConfigService } from '../../services/ez-form-config.service';
 import { EzControlBaseComponent } from '../ez-control-base.component';
 
 @Component({
-  selector: 'ez-control',
-  templateUrl: './ez-control.component.html',
-  styleUrls: ['./ez-control.component.scss'],
+    selector: 'ez-control',
+    templateUrl: './ez-control.component.html',
+    styleUrls: ['./ez-control.component.scss'],
+    standalone: false
 })
 export class EzControlComponent<T> implements OnDestroy {
   properties: EzControlProperties;
@@ -52,7 +53,7 @@ export class EzControlComponent<T> implements OnDestroy {
             const errorType = ngControl.errors ? Object.keys(ngControl.errors)[0] : '';
             const errorValue = ngControl?.errors ? ngControl.errors[errorType] : '';
             this.properties.message =
-              ezControlBaseComponent.messages[errorType] ||
+              ezControlBaseComponent.messages()[errorType] ||
               this.config.defaultMessages[errorType] ||
               (typeof errorValue === 'string' ? errorValue : this.config.defaultMessages['invalid']);
           } else {

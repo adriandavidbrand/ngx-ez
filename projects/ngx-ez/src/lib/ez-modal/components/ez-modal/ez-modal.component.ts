@@ -1,20 +1,19 @@
-import { AfterContentInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, input } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 import { trapFocus } from 'ez-functions';
 
 @Component({
-  selector: 'ez-modal',
-  templateUrl: './ez-modal.component.html',
-  styleUrls: ['./ez-modal.component.scss'],
+    selector: 'ez-modal',
+    templateUrl: './ez-modal.component.html',
+    styleUrls: ['./ez-modal.component.scss'],
+    standalone: false
 })
 export class EzModalComponent implements OnDestroy, AfterContentInit {
   visible = false;
-  @Input()
-  heading = '';
+  readonly heading = input('');
 
-  @Input()
-  autoOpen = false;
+  readonly autoOpen = input(false);
 
   @Output()
   afterClosed = new EventEmitter();
@@ -80,7 +79,7 @@ export class EzModalComponent implements OnDestroy, AfterContentInit {
   }
 
   ngAfterContentInit() {
-    if (this.autoOpen) {
+    if (this.autoOpen()) {
       this.open();
     }
   }

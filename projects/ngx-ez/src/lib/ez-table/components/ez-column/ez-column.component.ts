@@ -1,20 +1,18 @@
-import { Component, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, Input, TemplateRef, ContentChild, input } from '@angular/core';
 import { SortDirection } from 'ez-functions';
 
 @Component({
   selector: 'ez-column',
   templateUrl: './ez-column.component.html',
   styleUrls: ['./ez-column.component.scss'],
+  standalone: false,
 })
 export class EzColumnComponent {
-  @Input()
-  property = '';
+  readonly property = input('');
 
-  @Input()
-  heading?: string;
+  readonly heading = input<string>();
 
-  @Input()
-  id?: string;
+  readonly id = input<string>();
 
   @Input('sortable')
   set sortableSet(val: string | boolean) {
@@ -22,26 +20,17 @@ export class EzColumnComponent {
   }
   sortable = true;
 
-  @Input()
-  compare?: (a: any, b: any) => number;
+  readonly compare = input<(a: any, b: any) => number>();
 
-  @Input()
-  display?: (item: any) => string;
+  readonly headingClass = input('');
 
-  @Input()
-  headingClass = '';
+  readonly headingId = input<string>();
 
-  @Input()
-  headingId?: string;
+  readonly cellClass = input('');
 
-  @Input()
-  cellClass = '';
+  readonly width = input<string>();
 
-  @Input()
-  width?: string;
-
-  @Input()
-  breakGrouping = true;
+  readonly breakGrouping = input(true);
 
   direction?: SortDirection;
 

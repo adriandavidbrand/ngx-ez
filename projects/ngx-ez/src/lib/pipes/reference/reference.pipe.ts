@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Option } from '../../ez-forms/models/option';
 
 @Pipe({
-  name: 'reference',
+    name: 'reference',
+    standalone: false
 })
 export class ReferencePipe<T> implements PipeTransform {
   transform(value: T, options: Option<T>[]): string | undefined {

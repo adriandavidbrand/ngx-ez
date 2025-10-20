@@ -1,33 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { randomString } from 'ez-functions';
+import { Component, EventEmitter, Output, TemplateRef, ViewChild, input } from '@angular/core';
 
 @Component({
   selector: 'ez-tab',
   templateUrl: './ez-tab.component.html',
   styleUrls: ['./ez-tab.component.scss'],
+  standalone: false,
 })
-export class EzTabComponent implements OnInit {
-  @Input()
-  heading!: string;
+export class EzTabComponent {
+  readonly heading = input.required<string>();
 
-  @Input()
-  name!: string;
+  readonly name = input.required<string>();
 
-  @Input()
-  route?: string;
+  readonly route = input<string>();
 
-  @Input()
-  disabled = false;
+  readonly disabled = input(false);
 
   @Output()
   tabSelected = new EventEmitter();
 
   @ViewChild(TemplateRef)
   template?: TemplateRef<any>;
-
-  ngOnInit() {
-    if (!this.name) {
-      this.name = randomString(16);
-    }
-  }
 }

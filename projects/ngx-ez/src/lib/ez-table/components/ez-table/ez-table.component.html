@@ -1,58 +1,85 @@
 <div class="ez-table">
   <ng-content></ng-content>
-  <table [id]="tableId" [ngClass]="config.tableClasses">
+  <table [id]="tableId()" [ngClass]="config.tableClasses">
     <thead>
-      <tr *ngIf="headings?.length">
-        <th *ngFor="let heading of headings" [attr.colspan]="heading.columns" [ngClass]="heading.class">
-          {{ heading.title }}
+      @if (headings.length) {
+      <tr>
+        @for (heading of headings(); track heading) {
+        <th [attr.colspan]="heading.columns()" [ngClass]="heading.class()">
+          {{ heading.title() }}
         </th>
+        }
       </tr>
+      }
       <tr [ngClass]="config.headingRowClasses">
-        <th *ngFor="let column of columns" [ngClass]="column.headingClass" [attr.id]="column.headingId" [attr.width]="column.width" [attr.tabindex]="column.sortable ? '0' : null"
-          [attr.aria-controls]="column.sortable ? tableId : null" [attr.aria-sort]="column.direction" [attr.aria-label]="column.heading || column.property" (keydown.enter)="sort(column, false)"
-          (keydown.shift.enter)="sort(column, true)" (click)="headerClick(column, $event)">
-          <span>{{ column.heading ?? column.property }}</span>
+        @for (column of columns(); track column) {
+        <th
+          [ngClass]="column.headingClass()"
+          [attr.id]="column.headingId()"
+          [attr.width]="column.width()"
+          [attr.tabindex]="column.sortable ? '0' : null"
+          [attr.aria-controls]="column.sortable ? tableId() : null"
+          [attr.aria-sort]="column.direction"
+          [attr.aria-label]="column.heading() || column.property()"
+          (keydown.enter)="sort(column, false)"
+          (keydown.shift.enter)="sort(column, true)"
+          (click)="headerClick(column, $event)"
+        >
+          <span>{{ column.heading() ?? column.property() }}</span>
         </th>
+        }
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngIf="loading else dataRows">
-        <tr *ngFor="let row of loadingRows | iterable" class="ez-loading-row">
-          <td *ngFor="let column of columns"><span>&nbsp;</span></td>
-        </tr>
-      </ng-container>
-      <ng-template #dataRows>
-        <tr *ngIf="pageData.length === 0; else pageDataTemplate">
-          <td [colSpan]="columns.length">
-            {{ noDataMessage }}
-          </td>
-        </tr>
-        <ng-template #pageDataTemplate>
-          <tr *ngFor="let item of pageData; index as i" [ngClass]="config.rowClasses" (click)="rowClick.emit(item)">
-            <ng-container *ngFor="let column of columns">
-              <td *ngIf="!item._rows || item._rows[column.property] !== -1" [attr.rowspan]="item._rows && item._rows[column.property]" [ngClass]="column.cellClass">
-                <ng-container *ngTemplateOutlet="column.template || defaultColumTemplate; context: { $implicit: item, index: i }" (click)="cellClick.emit(item)">
-                </ng-container>
-                <ng-template #defaultColumTemplate let-item>
-                  {{ column.display ? column.display(item) : resolveProperty(item, column.property) }}
-                </ng-template>
-              </td>
-            </ng-container>
-          </tr>
-        </ng-template>
-      </ng-template>
-    </tbody>
-    <tfoot *ngIf="footers?.length">
-      <tr [ngClass]="config.footerRowClasses">
-        <td *ngFor="let footer of footers" [attr.colspan]="footer.columns" [ngClass]="footer.cellClass">
-          <ng-container *ngTemplateOutlet="footer.template || defaultFooterTemplate; context: { data: data, pageData: pageData, search: search }">
-          </ng-container>
-          <ng-template #defaultFooterTemplate>
-            {{ footer.display ? footer.display(pageData, data) : footer.value }}
-          </ng-template>
+      @if (loading()) { @for (row of loadingRows() | iterable; track row) {
+      <tr class="ez-loading-row">
+        @for (column of columns(); track column) {
+        <td><span>&nbsp;</span></td>
+        }
+      </tr>
+      } } @else { @if (pageData.length === 0) {
+      <tr>
+        <td [colSpan]="columns().length">
+          {{ noDataMessage() }}
         </td>
       </tr>
+      } @else { @for (item of pageData; track item; let i = $index) {
+      <tr [ngClass]="config.rowClasses" (click)="rowClick.emit(item)">
+        @for (column of columns(); track column) { @if (!item._rows || item._rows[column.property()] !== -1) {
+        <td [attr.rowspan]="item._rows && item._rows[column.property()]" [ngClass]="column.cellClass()">
+          <ng-container
+            *ngTemplateOutlet="column.template || defaultColumTemplate; context: { $implicit: item, index: i }"
+            (click)="cellClick.emit(item)"
+          >
+          </ng-container>
+          <ng-template #defaultColumTemplate let-item>
+            {{ resolveProperty(item, column.property()) }}
+          </ng-template>
+        </td>
+        } }
+      </tr>
+      } } }
+    </tbody>
+    @if (footers.length) {
+    <tfoot>
+      <tr [ngClass]="config.footerRowClasses">
+        @for (footer of footers(); track footer) {
+        <td [attr.colspan]="footer.columns()" [ngClass]="footer.cellClass()">
+          <ng-container
+            *ngTemplateOutlet="
+              footer.template || defaultFooterTemplate;
+              context: { data: data(), pageData: pageData, search: search() }
+            "
+          >
+          </ng-container>
+          <ng-template #defaultFooterTemplate>
+            {{ footer.value() }}
+          </ng-template>
+        </td>
+        }
+      </tr>
     </tfoot>
+    }
   </table>
   <ng-content select="[footer]"></ng-content>
 </div>
