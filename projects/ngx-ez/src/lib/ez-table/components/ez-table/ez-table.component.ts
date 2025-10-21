@@ -1,4 +1,14 @@
-import { Component, Output, EventEmitter, input, model, linkedSignal, contentChildren, signal } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  input,
+  model,
+  linkedSignal,
+  contentChildren,
+  signal,
+  computed,
+} from '@angular/core';
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
 import { EzFooterComponent } from '../ez-footer/ez-footer.component';
@@ -53,14 +63,7 @@ export class EzTableComponent<T> {
   @Output()
   cellClick = new EventEmitter();
 
-  pageData = [] as any[];
-
-  pageNum = signal(1);
-  pageNums = signal<number[]>([]);
-  totalPages = signal(0);
-  totalRecords = signal(0);
-  start = signal(0);
-  finish = signal(0);
+  readonly pageNum = signal(1);
 
   headings = contentChildren(EzHeadingComponent);
 
@@ -75,15 +78,12 @@ export class EzTableComponent<T> {
     source: () => ({
       sortId: this.sortId(),
       sortDirection: this.sortDirection(),
-      columns: this.columns(),
+      columns: [...this.columns()],
     }),
-    compute: (
-      source: { sortId: string | undefined; sortDirection: SortDirection; columns: EzColumnComponent[] },
-      previous: EzColumnComponent[]
-    ) => {
+    computation: (source) => {
       const id = source.sortId;
       const column = id ? source.columns.find((c) => c.id() === id) : undefined;
-      previous.forEach((c) => {
+      source.columns.forEach((c) => {
         if (c !== column && c.sortDirection()) {
           c.sortDirection.set(undefined);
         }
@@ -97,70 +97,80 @@ export class EzTableComponent<T> {
     },
   });
 
+  readonly filteredData = computed(() => {
+    const data = this.data();
+    const searchValue = this.search();
+    const searchArray = searchValue ? searchValue.split(' ') : null;
+    return searchArray && searchArray.length
+      ? data.filter((item) =>
+          searchArray.every((search) => {
+            const searchRegEx = new RegExp(search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
+            return this.columns().some((c) => {
+              return searchRegEx.test(resolveProperty(item, c.property()) || '');
+            });
+          })
+        )
+      : [...data];
+  });
+
+  readonly sortedData = computed(() =>
+    this.columnSort().length > 0
+      ? [...this.filteredData()].sort(
+          multipleSortFunction(
+            ...this.columnSort().map((c) => ({
+              property: c.property(),
+              direction: c.sortDirection(),
+              compare: c.compare(),
+            }))
+          )
+        )
+      : this.filteredData()
+  );
+
+  readonly totalRecords = computed(() => this.sortedData().length);
+
+  readonly multiPage = computed(() => {
+    const pageSize = this.currentPageSize();
+    return typeof pageSize !== 'string' && pageSize < this.totalRecords();
+  });
+
+  readonly start = computed(() => (this.multiPage() ? Number(this.currentPageSize()) * (this.pageNum() - 1) + 1 : 1));
+  readonly finish = computed(() => {
+    if (this.multiPage()) {
+      const finish = this.start() + Number(this.currentPageSize());
+      const totalRecords = this.totalRecords();
+      return totalRecords < finish ? totalRecords : finish;
+    }
+    return 1;
+  });
+
+  readonly totalPages = computed(() => {
+    if (this.multiPage()) {
+      const pageSize = Number(this.currentPageSize());
+      const totalRecords = this.totalRecords();
+      return Math.floor(totalRecords / pageSize) + (totalRecords % pageSize === 0 ? 0 : 1);
+    }
+    return 1;
+  });
+
+  readonly pageNums = computed(() => pageNums(this.pageNum(), this.totalPages(), this.maxPages()));
+
+  readonly pageData = computed(() => {
+    const pageData = this.multiPage()
+      ? this.sortedData().filter((_, i) => i >= this.start() - 1 && i < this.finish())
+      : this.sortedData();
+    return this.groupBy() &&
+      (!this.breakGrouping() ||
+        this.columnSort().every(
+          (column) => !column.breakGrouping() || this.groupBy()?.keys.some((key) => key === column.property())
+        ))
+      ? flattenGroups(groupBy(pageData, this.groupBy() as GroupBy))
+      : pageData;
+  });
+
   resolveProperty = resolveProperty;
 
   constructor(public config: EzTableConfigService) {}
-
-  update(): void {
-    const data = this.data();
-    if (!data) {
-      this.pageData = [];
-      this.totalRecords = 0;
-      this.totalPages = 1;
-      return;
-    }
-    const searchValue = this.search();
-    const searchArray = searchValue ? searchValue.split(' ') : null;
-    let filteredData =
-      searchArray && searchArray.length
-        ? data.filter((item) =>
-            searchArray.every((search) => {
-              const searchRegEx = new RegExp(search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
-              return this.columns().some((c) => {
-                return searchRegEx.test(resolveProperty(item, c.property()) || '');
-              });
-            })
-          )
-        : [...data];
-    if (this.columnSort.length > 0) {
-      filteredData.sort(
-        multipleSortFunction(
-          ...this.columnSort.map((c) => ({
-            property: c.property(),
-            direction: c.direction,
-            compare: c.compare(),
-          }))
-        )
-      );
-    }
-    const pageSize = this.currentPageSize();
-    this.totalRecords = filteredData.length;
-    if (typeof pageSize !== 'string' && pageSize < filteredData.length) {
-      this.start = pageSize * (this.pageNum - 1) + 1;
-      this.finish = this.start + pageSize - 1;
-      if (this.finish > filteredData.length) {
-        this.finish = filteredData.length;
-      }
-      this.totalPages = Math.floor(filteredData.length / pageSize) + (filteredData.length % pageSize === 0 ? 0 : 1);
-      filteredData = filteredData.filter((_, i) => i >= this.start - 1 && i < this.finish);
-      this.pageNums = pageNums(this.pageNum, this.totalPages, this.maxPages());
-    } else {
-      this.pageNum = 1;
-      this.totalPages = 1;
-      this.start = 1;
-      this.finish = filteredData.length;
-    }
-    if (
-      this.groupBy() &&
-      (!this.breakGrouping() ||
-        this.columnSort.every(
-          (column) => !column.breakGrouping() || this.groupBy()?.keys.some((key) => key === column.property())
-        ))
-    ) {
-      filteredData = flattenGroups(groupBy(filteredData, this.groupBy() as GroupBy));
-    }
-    this.pageData = filteredData;
-  }
 
   goto(pageNum: number): void {
     this.pageNum.set(pageNum);

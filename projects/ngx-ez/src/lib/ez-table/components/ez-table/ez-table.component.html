@@ -13,38 +13,26 @@
       }
       <tr [ngClass]="config.headingRowClasses">
         @for (column of columns(); track column) {
-        <th
-          [ngClass]="column.headingClass()"
-          [attr.id]="column.headingId()"
-          [attr.width]="column.width()"
-          [attr.tabindex]="column.sortable() ? '0' : null"
-          [attr.aria-controls]="column.sortable() ? tableId() : null"
-          [attr.aria-sort]="column.direction"
-          [attr.aria-label]="column.heading() || column.property()"
-          (keydown.enter)="sort(column, false)"
-          (keydown.shift.enter)="sort(column, true)"
-          (click)="headerClick(column, $event)"
-        >
+        <th [ngClass]="column.headingClass()" [attr.id]="column.headingId()" [attr.width]="column.width()" [attr.tabindex]="column.sortable() ? '0' : null"
+          [attr.aria-controls]="column.sortable() ? tableId() : null" [attr.aria-sort]="column.sortDirection()" [attr.aria-label]="column.heading() || column.property()"
+          (keydown.enter)="sort(column, false)" (keydown.shift.enter)="sort(column, true)" (click)="headerClick(column, $event)">
           <span>{{ column.heading() ?? column.property() }}</span>
         </th>
         }
       </tr>
     </thead>
     <tbody>
-      @if (pageData.length === 0) {
+      @if (pageData().length === 0) {
       <tr>
         <td [colSpan]="columns().length">
           {{ noDataMessage() }}
         </td>
       </tr>
-      } @else { @for (item of pageData; track item; let i = $index) {
+      } @else { @for (item of pageData(); track item; let i = $index) {
       <tr [ngClass]="config.rowClasses" (click)="rowClick.emit(item)">
         @for (column of columns(); track column) { @if (!item._rows || item._rows[column.property()] !== -1) {
         <td [attr.rowspan]="item._rows && item._rows[column.property()]" [ngClass]="column.cellClass()">
-          <ng-container
-            *ngTemplateOutlet="column.template || defaultColumTemplate; context: { $implicit: item, index: i }"
-            (click)="cellClick.emit(item)"
-          >
+          <ng-container *ngTemplateOutlet="column.template() || defaultColumTemplate; context: { $implicit: item, index: i }" (click)="cellClick.emit(item)">
           </ng-container>
           <ng-template #defaultColumTemplate let-item>
             {{ resolveProperty(item, column.property()) }}
@@ -59,12 +47,10 @@
       <tr [ngClass]="config.footerRowClasses">
         @for (footer of footers(); track footer) {
         <td [attr.colspan]="footer.columns()" [ngClass]="footer.cellClass()">
-          <ng-container
-            *ngTemplateOutlet="
-              footer.template || defaultFooterTemplate;
-              context: { data: data(), pageData: pageData, search: search() }
-            "
-          >
+          <ng-container *ngTemplateOutlet="
+              footer.template() || defaultFooterTemplate;
+              context: { data: data(), pageData: pageData(), search: search() }
+            ">
           </ng-container>
           <ng-template #defaultFooterTemplate>
             {{ footer.value() }}
