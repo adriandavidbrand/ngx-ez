@@ -1,18 +1,23 @@
 <ez-control>
   <ng-content></ng-content>
   <ng-container controls-container>
-    @if (properties.readonly) {
-      {{ value | reference: options() }}
+    @if (properties.readonly()) {
+    {{ value | reference : options() }}
     } @else {
-      <select [id]="properties.name + '_control_input'" [attr.aria-describedby]="properties.name + '_validation_message'" [attr.aria-labelledby]="properties.labelledby"
-        [ngClass]="config.selectClasses" [valid]="properties.valid" (change)="lookupIndex($any($event.target).value)">
-        @if (showDefault()) {
-          <option value="-1" [selected]="value === defaultValue()">{{defaultText()}}</option>
-        }
-        @for (option of options(); track option; let i = $index) {
-          <option [value]="i" [selected]="value === option.value">{{option.label}}</option>
-        }
-      </select>
+    <select
+      [id]="properties.name() + '_control_input'"
+      [attr.aria-describedby]="properties.name() + '_validation_message'"
+      [attr.aria-labelledby]="properties.labelledby()"
+      [ngClass]="config.selectClasses"
+      [valid]="properties.valid()"
+      (change)="lookupIndex($any($event.target).value)"
+    >
+      @if (showDefault()) {
+      <option value="-1" [selected]="value === defaultValue()">{{ defaultText() }}</option>
+      } @for (option of options(); track option; let i = $index) {
+      <option [value]="i" [selected]="value === option.value">{{ option.label }}</option>
+      }
+    </select>
     }
   </ng-container>
 </ez-control>

@@ -1,6 +1,5 @@
-import { Component, OnDestroy, Optional } from '@angular/core';
+import { Component, computed, Optional, signal } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 
 import { EzFormConfigDirective } from '../../directives/ez-form-config.directive';
 import { EzFormReadonlyDirective } from '../../directives/ez-form-readonly.directive';
@@ -9,72 +8,77 @@ import { EzControlProperties } from '../../models/ez-controls-properties';
 import { EzFormConfig } from '../../models/ez-form-config';
 import { EzFormConfigService } from '../../services/ez-form-config.service';
 import { EzControlBaseComponent } from '../ez-control-base.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'ez-control',
-    templateUrl: './ez-control.component.html',
-    styleUrls: ['./ez-control.component.scss'],
-    standalone: false
+  selector: 'ez-control',
+  templateUrl: './ez-control.component.html',
+  styleUrls: ['./ez-control.component.scss'],
+  standalone: false,
 })
-export class EzControlComponent<T> implements OnDestroy {
-  properties: EzControlProperties;
+export class EzControlComponent<T> {
+  properties: EzControlProperties = {
+    dirty: signal(this.ngControl.dirty ?? false),
+    valid: signal(this.ngControl.valid ?? false),
+    invalid: signal(this.ngControl.invalid ?? false),
+    pristine: signal(this.ngControl.pristine ?? false),
+    submitted: signal(false),
+    message: signal(''),
+    fieldset: this.ezControlBaseComponent.fieldset,
+    labelledby: this.ezControlBaseComponent.labelledby,
+    maxlength: this.ezControlBaseComponent.maxlength,
+    name: this.ezControlBaseComponent.name,
+    placeholder: this.ezControlBaseComponent.placeholder,
+    required: this.ezControlBaseComponent.required,
+    readonly: computed(() => this.ezControlBaseComponent.readonly() || this.ezFormReadonlyDirective?.ezFormReadonly()),
+  };
 
   config: EzFormConfig = this.ezFormConfigService;
 
-  finalise$ = new Subject<void>();
-
   constructor(
-    ezControlBaseComponent: EzControlBaseComponent<T>,
+    private ezControlBaseComponent: EzControlBaseComponent<T>,
     private ezFormConfigService: EzFormConfigService,
-    @Optional() ezFormReadonlyDirective: EzFormReadonlyDirective,
+    @Optional() private ezFormReadonlyDirective: EzFormReadonlyDirective,
     @Optional() ezFormConfigDirective: EzFormConfigDirective,
-    @Optional() ngControl: NgControl,
+    @Optional() private ngControl: NgControl,
     @Optional() ezFormDirective: EzFormDirective
   ) {
-    this.properties = ezControlBaseComponent.properties;
-    ezFormDirective?.ezSubmit.pipe(takeUntil(this.finalise$)).subscribe(() => {
-      this.properties.submitted = true;
+    ezFormDirective?.ezSubmit.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.properties.submitted.set(true);
     });
-    ezFormDirective?.ezSubmitInvalid.pipe(takeUntil(this.finalise$)).subscribe(() => {
-      this.properties.submitted = true;
+    ezFormDirective?.ezSubmitInvalid.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.properties.submitted.set(true);
     });
-    ezFormDirective?.ezReset.pipe(takeUntil(this.finalise$)).subscribe(() => {
-      this.properties.submitted = false;
+    ezFormDirective?.ezReset.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.properties.submitted.set(false);
     });
     if (ngControl) {
       ngControl.valueAccessor = ezControlBaseComponent;
       if (ngControl.valueChanges) {
-        ngControl.valueChanges.pipe(takeUntil(this.finalise$)).subscribe(() => {
-          this.properties.dirty = ngControl.dirty ?? false;
-          this.properties.invalid = ngControl.invalid ?? false;
-          this.properties.valid = ngControl.valid ?? false;
-          this.properties.pristine = ngControl.pristine ?? false;
+        ngControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
+          this.properties.dirty.set(ngControl.dirty ?? false);
+          this.properties.invalid.set(ngControl.invalid ?? false);
+          this.properties.valid.set(ngControl.valid ?? false);
+          this.properties.pristine.set(ngControl.pristine ?? false);
           if (ngControl.invalid) {
             const errorType = ngControl.errors ? Object.keys(ngControl.errors)[0] : '';
             const errorValue = ngControl?.errors ? ngControl.errors[errorType] : '';
-            this.properties.message =
+            this.properties.message.set(
               ezControlBaseComponent.messages()[errorType] ||
-              this.config.defaultMessages[errorType] ||
-              (typeof errorValue === 'string' ? errorValue : this.config.defaultMessages['invalid']);
+                this.config.defaultMessages[errorType] ||
+                (typeof errorValue === 'string' ? errorValue : this.config.defaultMessages['invalid'])
+            );
           } else {
-            this.properties.message = '';
+            this.properties.message.set('');
           }
         });
       }
     }
-    ezFormReadonlyDirective?.readonly$.pipe(takeUntil(this.finalise$)).subscribe((readonly) => {
-      ezControlBaseComponent.metaData.directiveReadonly = readonly;
-      ezControlBaseComponent.properties.readonly = readonly || ezControlBaseComponent.metaData.localReadonly;
-    });
     ezControlBaseComponent.config = ezFormConfigService;
-    ezFormConfigDirective?.config$.pipe(takeUntil(this.finalise$)).subscribe((config) => {
+    ezControlBaseComponent.properties = this.properties;
+    ezFormConfigDirective?.config$.pipe(takeUntilDestroyed()).subscribe((config) => {
       this.config = config;
       ezControlBaseComponent.config = config;
     });
-  }
-
-  ngOnDestroy() {
-    this.finalise$.next();
-    this.finalise$.complete();
   }
 }

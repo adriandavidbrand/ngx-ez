@@ -1,14 +1,9 @@
-import { Directive, Input } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Directive, input } from '@angular/core';
 
 @Directive({
-    selector: '[ezFormReadonly]',
-    standalone: false
+  selector: '[ezFormReadonly]',
+  standalone: false,
 })
 export class EzFormReadonlyDirective {
-  readonly$ = new BehaviorSubject<boolean>(false);
-  @Input()
-  set ezFormReadonly(value: boolean | string) {
-    this.readonly$.next(value !== false && value !== 'false');
-  }
+  ezFormReadonly = input(false, { transform: (value: boolean | string) => value !== false && value !== 'false' });
 }

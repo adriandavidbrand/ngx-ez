@@ -1,83 +1,124 @@
-<ng-container *ngTemplateOutlet="properties.readonly ? readonlyTemplate : properties.fieldset ? fieldsetTemplate : labelTemplate"></ng-container>
+<ng-container
+  *ngTemplateOutlet="
+    properties.readonly() ? readonlyTemplate : properties.fieldset() ? fieldsetTemplate : labelTemplate
+  "
+></ng-container>
 
 <ng-template #fieldsetTemplate>
   @if (!config.fieldsetTemplate) {
-    <fieldset class="ez-control" [ngClass]="config.controlClasses"
-      [attr.aria-describedby]="properties.name + '_validation_message'">
-      <legend class="ez-legend" [ngClass]="config.legendClasses">
-        <span class="ez-label" [ngClass]="config.fieldsetLabelClasses">
-          <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-          @if (config.requiredIndicator && properties.required) {
-            <span class="ez-required"> *</span>
-          }
-        </span>
-      </legend>
-      <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
-        <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
-      </div>
-      <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
-    </fieldset>
+  <fieldset
+    class="ez-control"
+    [ngClass]="config.controlClasses"
+    [attr.aria-describedby]="properties.name() + '_validation_message'"
+  >
+    <legend class="ez-legend" [ngClass]="config.legendClasses">
+      <span class="ez-label" [ngClass]="config.fieldsetLabelClasses">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+        @if (config.requiredIndicator && properties.required()) {
+        <span class="ez-required"> *</span>
+        }
+      </span>
+    </legend>
+    <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
+      <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
+  </fieldset>
   } @else {
-    <ng-container *ngTemplateOutlet="
+  <ng-container
+    *ngTemplateOutlet="
       config.fieldsetTemplate;
-      context: { $implicit: properties, config: config, contentTemplate: contentTemplate, controlsTemplate: controlsTemplate, validationTemplate: validationTemplate }
-    ">
-    </ng-container>
+      context: {
+        $implicit: properties,
+        config: config,
+        contentTemplate: contentTemplate,
+        controlsTemplate: controlsTemplate,
+        validationTemplate: validationTemplate
+      }
+    "
+  >
+  </ng-container>
   }
 </ng-template>
 
 <ng-template #labelTemplate>
   @if (!config.labelTemplate) {
-    <div class="ez-control" [ngClass]="config.controlClasses">
-      <div class="ez-label-container" [ngClass]="config.labelContainerClasses">
-        <label class="ez-label" [ngClass]="config.labelClasses" [id]="properties.name + '_control_input_label'" [for]="properties.name + '_control_input'">
-          <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-          @if (config.requiredIndicator && properties.required) {
-            <span class="ez-required"> *</span>
-          }
-        </label>
-      </div>
-      <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
-        <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
-      </div>
-      <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
+  <div class="ez-control" [ngClass]="config.controlClasses">
+    <div class="ez-label-container" [ngClass]="config.labelContainerClasses">
+      <label
+        class="ez-label"
+        [ngClass]="config.labelClasses"
+        [id]="properties.name() + '_control_input_label'"
+        [for]="properties.name() + '_control_input'"
+      >
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+        @if (config.requiredIndicator && properties.required()) {
+        <span class="ez-required"> *</span>
+        }
+      </label>
     </div>
+    <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
+      <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="validationTemplate"></ng-container>
+  </div>
   } @else {
-    <ng-container *ngTemplateOutlet="
-        config.labelTemplate;
-        context: { $implicit: properties, config: config, contentTemplate: contentTemplate, controlsTemplate: controlsTemplate, validationTemplate: validationTemplate }
-      ">
-    </ng-container>
+  <ng-container
+    *ngTemplateOutlet="
+      config.labelTemplate;
+      context: {
+        $implicit: properties,
+        config: config,
+        contentTemplate: contentTemplate,
+        controlsTemplate: controlsTemplate,
+        validationTemplate: validationTemplate
+      }
+    "
+  >
+  </ng-container>
   }
 </ng-template>
 
 <ng-template #readonlyTemplate>
   @if (!config.readonlyTemplate) {
-    <div class="ez-control" [ngClass]="config.controlClasses">
-      <div [ngClass]="config.labelContainerClasses">
-        <span class="ez-label" [ngClass]="config.readonlyLabelClasses">
-          <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
-        </span>
-      </div>
-      <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
-        <span class="ez-readonly" [ngClass]="config.readonlyClasses">
-          <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
-        </span>
-      </div>
+  <div class="ez-control" [ngClass]="config.controlClasses">
+    <div [ngClass]="config.labelContainerClasses">
+      <span class="ez-label" [ngClass]="config.readonlyLabelClasses">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+      </span>
     </div>
+    <div class="ez-controls" [ngClass]="config.controlsContainerClasses">
+      <span class="ez-readonly" [ngClass]="config.readonlyClasses">
+        <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+      </span>
+    </div>
+  </div>
   } @else {
-    <ng-container *ngTemplateOutlet="
-        config.readonlyTemplate;
-        context: { $implicit: properties, config: config, contentTemplate: contentTemplate, controlsTemplate: controlsTemplate, validationTemplate: validationTemplate }
-      ">
-    </ng-container>
+  <ng-container
+    *ngTemplateOutlet="
+      config.readonlyTemplate;
+      context: {
+        $implicit: properties,
+        config: config,
+        contentTemplate: contentTemplate,
+        controlsTemplate: controlsTemplate,
+        validationTemplate: validationTemplate
+      }
+    "
+  >
+  </ng-container>
   }
 </ng-template>
 
 <ng-template #validationTemplate>
-  <div tabindex="-1" [id]="properties.name + '_validation_message'" class="ez-validation" [ngClass]="config.validationClasses">
-    @if (properties.invalid && (properties.dirty || properties.submitted || config.pristineMessages)) {
-      {{ properties.message }}
+  <div
+    tabindex="-1"
+    [id]="properties.name() + '_validation_message'"
+    class="ez-validation"
+    [ngClass]="config.validationClasses"
+  >
+    @if (properties.invalid() && (properties.dirty() || properties.submitted() || config.pristineMessages)) {
+    {{ properties.message() }}
     }
   </div>
 </ng-template>

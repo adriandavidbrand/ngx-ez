@@ -2,12 +2,21 @@
   <ng-content></ng-content>
   <ng-container controls-container>
     <div [ngClass]="config.checkboxContainerClasses">
-      <input [id]="properties.name + '_control_input'" [attr.aria-describedby]="properties.name + '_validation_message'" [attr.aria-labelledby]="properties.labelledby"
-        [value]="value" type="checkbox" [ngClass]="config.checkboxClasses" [disabled]="properties.readonly || disabled()" [checked]="value"
-        (change)="onChange($any($event.target).checked)" [valid]="properties.valid">
-        @if (sublabel()) {
-          <span class="ez-sublabel" [ngClass]="config.sublabelClasses">{{sublabel()}}</span>
-        }
-      </div>
-    </ng-container>
-  </ez-control>
+      <input
+        [id]="properties.name() + '_control_input'"
+        [attr.aria-describedby]="properties.name() + '_validation_message'"
+        [attr.aria-labelledby]="properties.labelledby()"
+        [value]="value"
+        type="checkbox"
+        [ngClass]="config.checkboxClasses"
+        [disabled]="properties.readonly() || disabled()"
+        [checked]="value"
+        (change)="onChange($any($event.target).checked)"
+        [valid]="properties.valid()"
+      />
+      @if (sublabel()) {
+      <span class="ez-sublabel" [ngClass]="config.sublabelClasses">{{ sublabel() }}</span>
+      }
+    </div>
+  </ng-container>
+</ez-control>

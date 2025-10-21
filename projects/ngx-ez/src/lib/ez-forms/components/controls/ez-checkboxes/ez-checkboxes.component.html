@@ -2,13 +2,19 @@
   <ng-content></ng-content>
   <ng-container controls-container>
     @for (option of options(); track option) {
-      <div [ngClass]="config.checkboxContainerClasses">
-        <label [ngClass]="config.checkboxLabelClasses">
-          <input type="checkbox" [checked]="value && value[option.property ?? '']" [disabled]="properties.readonly || option.disabled" (change)="onValueChange($event, option)"
-            [ngClass]="config.checkboxClasses" [valid]="properties.valid">
-            {{option.label}}
-          </label>
-        </div>
-      }
-    </ng-container>
-  </ez-control>
+    <div [ngClass]="config.checkboxContainerClasses">
+      <label [ngClass]="config.checkboxLabelClasses">
+        <input
+          type="checkbox"
+          [checked]="value && value[option.property ?? '']"
+          [disabled]="properties.readonly() || option.disabled"
+          (change)="onValueChange($event, option)"
+          [ngClass]="config.checkboxClasses"
+          [valid]="properties.valid()"
+        />
+        {{ option.label }}
+      </label>
+    </div>
+    }
+  </ng-container>
+</ez-control>

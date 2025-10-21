@@ -1,23 +1,37 @@
 <ez-control fieldset>
   <ng-content></ng-content>
   <ng-container controls-container>
-    @if (properties.readonly) {
-      {{ value === 'Y' ? 'Yes' : value === 'N' ? 'No' : '' }}
+    @if (properties.readonly()) {
+    {{ value === "Y" ? "Yes" : value === "N" ? "No" : "" }}
     } @else {
-      <div [ngClass]="config.radioContainerClasses">
-        <label [ngClass]="config.radioLabelClasses">
-          <input type="radio" value="Y" [name]="properties.name + '_radio_input'" (change)="onChange($any($event.target).value)" [checked]="value === 'Y'"
-            [ngClass]="config.radioClasses" [valid]="properties.valid" />
-            Yes
-          </label>
-        </div>
-        <div [ngClass]="config.radioContainerClasses">
-          <label [ngClass]="config.radioLabelClasses">
-            <input type="radio" value="N" [name]="properties.name + '_radio_input'" (change)="onChange($any($event.target).value)" [checked]="value === 'N'"
-              [ngClass]="config.radioClasses" [valid]="properties.valid" />
-              No
-            </label>
-          </div>
-        }
-      </ng-container>
-    </ez-control>
+    <div [ngClass]="config.radioContainerClasses">
+      <label [ngClass]="config.radioLabelClasses">
+        <input
+          type="radio"
+          value="Y"
+          [name]="properties.name() + '_radio_input'"
+          (change)="onChange($any($event.target).value)"
+          [checked]="value === 'Y'"
+          [ngClass]="config.radioClasses"
+          [valid]="properties.valid()"
+        />
+        Yes
+      </label>
+    </div>
+    <div [ngClass]="config.radioContainerClasses">
+      <label [ngClass]="config.radioLabelClasses">
+        <input
+          type="radio"
+          value="N"
+          [name]="properties.name() + '_radio_input'"
+          (change)="onChange($any($event.target).value)"
+          [checked]="value === 'N'"
+          [ngClass]="config.radioClasses"
+          [valid]="properties.valid()"
+        />
+        No
+      </label>
+    </div>
+    }
+  </ng-container>
+</ez-control>

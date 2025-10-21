@@ -1,12 +1,22 @@
 <ez-control>
   <ng-content></ng-content>
   <ng-container controls-container>
-    @if (properties.readonly) {
-      {{ value }}
+    @if (properties.readonly()) {
+    {{ value }}
     } @else {
-      <input [id]="properties.name + '_control_input'" [attr.aria-describedby]="properties.name + '_validation_message'" [attr.aria-labelledby]="properties.labelledby"
-        [attr.maxlength]="properties.maxlength" [value]="value || ''" type="text" [attr.placeholder]="properties.placeholder" (blur)="onChange($any($event.target).value)"
-        (keydown.enter)="onChange($any($event.target).value)" [ngClass]="config.inputClasses" [valid]="properties.valid" />
-      }
-    </ng-container>
-  </ez-control>
+    <input
+      [id]="properties.name() + '_control_input'"
+      [attr.aria-describedby]="properties.name() + '_validation_message'"
+      [attr.aria-labelledby]="properties.labelledby()"
+      [attr.maxlength]="properties.maxlength()"
+      [value]="value || ''"
+      type="text"
+      [attr.placeholder]="properties.placeholder()"
+      (blur)="onChange($any($event.target).value)"
+      (keydown.enter)="onChange($any($event.target).value)"
+      [ngClass]="config.inputClasses"
+      [valid]="properties.valid()"
+    />
+    }
+  </ng-container>
+</ez-control>

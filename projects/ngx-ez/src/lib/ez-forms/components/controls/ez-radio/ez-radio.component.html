@@ -1,18 +1,22 @@
 <ez-control fieldset>
   <ng-content></ng-content>
   <ng-container controls-container>
-    @if (properties.readonly) {
-      {{ value | reference: options() }}
-    } @else {
-      @for (option of options(); track option) {
-        <div [ngClass]="config.radioContainerClasses">
-          <label [ngClass]="config.radioLabelClasses">
-            <input type="radio" [name]="properties.name + '_radio_input'" (change)="onChange(option.value)" [checked]="value === option.value" [ngClass]="config.radioClasses"
-              [valid]="properties.valid" />
-              {{ option.label }}
-            </label>
-          </div>
-        }
-      }
-    </ng-container>
-  </ez-control>
+    @if (properties.readonly()) {
+    {{ value | reference : options() }}
+    } @else { @for (option of options(); track option) {
+    <div [ngClass]="config.radioContainerClasses">
+      <label [ngClass]="config.radioLabelClasses">
+        <input
+          type="radio"
+          [name]="properties.name() + '_radio_input'"
+          (change)="onChange(option.value)"
+          [checked]="value === option.value"
+          [ngClass]="config.radioClasses"
+          [valid]="properties.valid()"
+        />
+        {{ option.label }}
+      </label>
+    </div>
+    } }
+  </ng-container>
+</ez-control>
