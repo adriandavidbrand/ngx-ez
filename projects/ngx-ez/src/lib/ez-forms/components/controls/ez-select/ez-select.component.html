@@ -14,7 +14,7 @@
     >
       @if (showDefault()) {
       <option value="-1" [selected]="value === defaultValue()">{{ defaultText() }}</option>
-      } @for (option of options(); track option; let i = $index) {
+      } @for (option of options(); track option.value; let i = $index) {
       <option [value]="i" [selected]="value === option.value">{{ option.label }}</option>
       }
     </select>
