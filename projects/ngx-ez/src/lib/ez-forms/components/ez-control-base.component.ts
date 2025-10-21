@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 import { EzFormConfig } from '../models/ez-form-config';
@@ -8,6 +8,7 @@ import { EzControlProperties } from '../models/ez-controls-properties';
   selector: 'ez-control-base',
   template: '',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EzControlBaseComponent<T> implements ControlValueAccessor {
   config!: EzFormConfig;

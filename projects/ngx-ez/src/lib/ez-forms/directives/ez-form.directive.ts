@@ -1,16 +1,16 @@
-import { Directive, ElementRef, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
 
 import { EzFormConfigService } from '../services/ez-form-config.service';
 
 @Directive({
-    // eslint-disable-next-line @angular-eslint/directive-selector
-    selector: 'form',
-    exportAs: 'ezForm',
-    standalone: false
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: 'form',
+  exportAs: 'ezForm',
+  standalone: false,
 })
-export class EzFormDirective implements OnDestroy {
+export class EzFormDirective {
   @Output()
   ezSubmit: EventEmitter<any> = new EventEmitter();
 
@@ -19,8 +19,6 @@ export class EzFormDirective implements OnDestroy {
 
   @Output()
   ezReset: EventEmitter<any> = new EventEmitter();
-
-  private subscription: Subscription;
 
   private formSubmittedClasses!: string[];
 
@@ -45,7 +43,7 @@ export class EzFormDirective implements OnDestroy {
         this.formSubmittedClasses = configService.formSubmittedClasses;
       }
     }
-    this.subscription = form.ngSubmit.subscribe(() => {
+    form.ngSubmit.pipe(takeUntilDestroyed()).subscribe(() => {
       this.onSubmit(el.nativeElement);
       if (form.valid) {
         this.ezSubmit.emit(form.value);
@@ -56,10 +54,6 @@ export class EzFormDirective implements OnDestroy {
     elm.addEventListener('reset', () => {
       this.reset();
     });
-  }
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
   }
 
   private onSubmit(elm: any) {

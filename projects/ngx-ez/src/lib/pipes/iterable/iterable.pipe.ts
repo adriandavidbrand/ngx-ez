@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'iterable',
-    standalone: false
+  name: 'iterable',
 })
 export class IterablePipe implements PipeTransform {
   // This pipe can be used when you want to repeat something in a template n times

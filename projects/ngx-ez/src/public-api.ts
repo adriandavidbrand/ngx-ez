@@ -7,19 +7,12 @@ export * from './lib/ez-forms/ez-forms.module';
 export * from './lib/ez-forms/components/ez-control-base.component';
 export * from './lib/ez-forms/components/ez-control/ez-control.component';
 export * from './lib/ez-forms/components/controls/ez-checkbox/ez-checkbox.component';
-export * from './lib/ez-forms/components/controls/ez-checkbox/ez-checkbox.module';
 export * from './lib/ez-forms/components/controls/ez-checkboxes/ez-checkboxes.component';
-export * from './lib/ez-forms/components/controls/ez-checkboxes/ez-checkboxes.module';
 export * from './lib/ez-forms/components/controls/ez-password/ez-password.component';
-export * from './lib/ez-forms/components/controls/ez-password/ez-password.module';
 export * from './lib/ez-forms/components/controls/ez-radio/ez-radio.component';
-export * from './lib/ez-forms/components/controls/ez-radio/ez-radio.module';
 export * from './lib/ez-forms/components/controls/ez-select/ez-select.component';
-export * from './lib/ez-forms/components/controls/ez-select/ez-select.module';
 export * from './lib/ez-forms/components/controls/ez-text/ez-text.component';
-export * from './lib/ez-forms/components/controls/ez-text/ez-text.module';
 export * from './lib/ez-forms/components/controls/ez-yes-no/ez-yes-no.component';
-export * from './lib/ez-forms/components/controls/ez-yes-no/ez-yes-no.module';
 
 export * from './lib/ez-forms/directives/ez-form-config.directive';
 export * from './lib/ez-forms/directives/ez-form-readonly.directive';
@@ -65,8 +58,5 @@ export * from './lib/ez-tabs/components/ez-tab/ez-tab.component';
 export * from './lib/ez-tabs/components/ez-tabs/ez-tabs.component';
 
 export * from './lib/pipes/clone/clone.pipe';
-export * from './lib/pipes/clone/clone-pipe.module';
 export * from './lib/pipes/iterable/iterable.pipe';
-export * from './lib/pipes/iterable/iterable-pipe.module';
 export * from './lib/pipes/reference/reference.pipe';
-export * from './lib/pipes/reference/reference-pipe.module';

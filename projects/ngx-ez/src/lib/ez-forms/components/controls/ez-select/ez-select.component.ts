@@ -1,15 +1,19 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { EzControlBaseComponent } from '../../ez-control-base.component';
 import { Option } from '../../../models/option';
 import { deepEquals } from 'ez-functions';
+import { EzFormsModule } from '../../../ez-forms.module';
+import { CommonModule } from '@angular/common';
+import { ReferencePipe } from '../../../../pipes/reference/reference.pipe';
 
 @Component({
-    selector: 'ez-select',
-    templateUrl: './ez-select.component.html',
-    styleUrls: ['./ez-select.component.scss'],
-    providers: [{ provide: EzControlBaseComponent, useExisting: EzSelectComponent }],
-    standalone: false
+  selector: 'ez-select',
+  templateUrl: './ez-select.component.html',
+  styleUrls: ['./ez-select.component.scss'],
+  imports: [CommonModule, EzFormsModule, ReferencePipe],
+  providers: [{ provide: EzControlBaseComponent, useExisting: EzSelectComponent }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EzSelectComponent<T> extends EzControlBaseComponent<T | undefined> {
   readonly options = input.required<Option<T>[]>();

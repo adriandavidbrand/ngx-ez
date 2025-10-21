@@ -1,4 +1,4 @@
-import { Component, computed, Optional, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, Optional, signal } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 import { EzFormConfigDirective } from '../../directives/ez-form-config.directive';
@@ -15,6 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './ez-control.component.html',
   styleUrls: ['./ez-control.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EzControlComponent<T> {
   properties: EzControlProperties = {
