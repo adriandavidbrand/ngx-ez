@@ -2,7 +2,7 @@ import { Component, Input, input } from '@angular/core';
 
 @Component({
   selector: 'ez-heading',
-  templateUrl: './ez-heading.component.html',
+  template: '',
   styleUrls: ['./ez-heading.component.scss'],
   standalone: false,
 })

@@ -1,21 +1,7 @@
-import {
-  Component,
-  Input,
-  Output,
-  AfterContentInit,
-  OnDestroy,
-  EventEmitter,
-  SimpleChanges,
-  OnChanges,
-  input,
-  model,
-  linkedSignal,
-  contentChildren,
-} from '@angular/core';
+import { Component, Output, EventEmitter, input, model, linkedSignal, contentChildren, signal } from '@angular/core';
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
 import { EzFooterComponent } from '../ez-footer/ez-footer.component';
-import { EzTableState } from '../../models/ez-table-state';
 import { EzTableConfigService } from '../../services/ez-table-config.service';
 import { EzHeadingComponent } from '../ez-heading/ez-heading.component';
 import { pageNums } from 'ez-functions';
@@ -30,62 +16,34 @@ import { multipleSortFunction, SortDirection } from 'ez-functions';
   styleUrls: ['./ez-table.component.scss'],
   standalone: false,
 })
-export class EzTableComponent<T> implements AfterContentInit, OnDestroy, OnChanges {
+export class EzTableComponent<T> {
   readonly data = input<T[]>([]);
 
   readonly tableId = input.required<string>();
 
   readonly sortable = input(true);
 
-  readonly loading = input(false);
-
-  readonly loadingRows = input(5);
-
-  groupBy = input(undefined, {
+  readonly groupBy = input(undefined, {
     transform: (value: string | GroupBy) => (typeof value === 'string' ? { keys: value.split(' ') } : value),
   });
 
   readonly pageSizes = input<(number | string)[]>([5, 10, 25, 50, 'All']);
 
-  pageSize = input('All', {
+  readonly pageSize = input('All', {
     transform: (value: string | number) => (typeof value === 'string' && value !== 'All' ? parseInt(value) : value),
   });
 
-  currentPageSize = linkedSignal(() => this.pageSize());
+  readonly currentPageSize = linkedSignal(() => this.pageSize());
 
   readonly maxPages = input(10);
 
   readonly noDataMessage = input(this.config.messages.noData);
 
-  private propertySorting: {
-    columnId: string | null | undefined;
-    direction: SortDirection;
-    changed: boolean;
-  } = {
-    columnId: null,
-    direction: SortDirection.ascending,
-    changed: false,
-  };
+  readonly sortId = input<string>();
 
-  @Input()
-  set sortId(id: string | null | undefined) {
-    if (this.propertySorting.columnId !== id) {
-      this.propertySorting.changed = true;
-    }
-    this.propertySorting.columnId = id;
-  }
-
-  @Input()
-  set sortDirection(direction: SortDirection) {
-    if (this.propertySorting.direction !== direction) {
-      this.propertySorting.changed = true;
-    }
-    this.propertySorting.direction = direction;
-  }
+  readonly sortDirection = input<SortDirection>();
 
   readonly search = model('');
-
-  readonly state = input<EzTableState>();
 
   readonly breakGrouping = input(true);
 
@@ -95,27 +53,49 @@ export class EzTableComponent<T> implements AfterContentInit, OnDestroy, OnChang
   @Output()
   cellClick = new EventEmitter();
 
-  @Output()
-  stateChange = new EventEmitter<EzTableState>();
-
   pageData = [] as any[];
 
-  columnSort: EzColumnComponent[] = [];
-
-  pageNum = 1;
-  pageNums = [] as number[];
-  filteredPageNums = [];
-  totalPages = 0;
-  totalRecords = 0;
-  start = 0;
-  finish = 0;
-  initialised = false;
+  pageNum = signal(1);
+  pageNums = signal<number[]>([]);
+  totalPages = signal(0);
+  totalRecords = signal(0);
+  start = signal(0);
+  finish = signal(0);
 
   headings = contentChildren(EzHeadingComponent);
 
   columns = contentChildren(EzColumnComponent);
 
   footers = contentChildren(EzFooterComponent);
+
+  columnSort = linkedSignal<
+    { sortId: string | undefined; sortDirection: SortDirection | undefined; columns: EzColumnComponent[] },
+    EzColumnComponent[]
+  >({
+    source: () => ({
+      sortId: this.sortId(),
+      sortDirection: this.sortDirection(),
+      columns: this.columns(),
+    }),
+    compute: (
+      source: { sortId: string | undefined; sortDirection: SortDirection; columns: EzColumnComponent[] },
+      previous: EzColumnComponent[]
+    ) => {
+      const id = source.sortId;
+      const column = id ? source.columns.find((c) => c.id() === id) : undefined;
+      previous.forEach((c) => {
+        if (c !== column && c.sortDirection()) {
+          c.sortDirection.set(undefined);
+        }
+      });
+      if (column) {
+        column.sortDirection.set(source.sortDirection);
+        return [column];
+      } else {
+        return [];
+      }
+    },
+  });
 
   resolveProperty = resolveProperty;
 
@@ -183,35 +163,30 @@ export class EzTableComponent<T> implements AfterContentInit, OnDestroy, OnChang
   }
 
   goto(pageNum: number): void {
-    this.pageNum = pageNum;
-    this.update();
+    this.pageNum.set(pageNum);
   }
 
   next(): void {
     if (this.pageNum < this.totalPages) {
-      this.pageNum++;
-      this.update();
+      this.pageNum.update((value) => value + 1);
     }
   }
 
   last(): void {
-    if (this.pageNum < this.totalPages) {
-      this.pageNum = this.totalPages;
-      this.update();
+    if (this.pageNum() < this.totalPages()) {
+      this.pageNum.set(this.totalPages());
     }
   }
 
   previous(): void {
-    if (this.pageNum > 1) {
-      this.pageNum--;
-      this.update();
+    if (this.pageNum() > 1) {
+      this.pageNum.update((value) => value - 1);
     }
   }
 
   first(): void {
-    if (this.pageNum !== 1) {
-      this.pageNum = 1;
-      this.update();
+    if (this.pageNum() !== 1) {
+      this.pageNum.set(1);
     }
   }
 
@@ -221,87 +196,25 @@ export class EzTableComponent<T> implements AfterContentInit, OnDestroy, OnChang
   }
 
   sort(column: EzColumnComponent, multi: boolean): void {
-    if (this.sortable() && column.sortable) {
-      const current = this.columnSort.find((c) => c === column);
+    if (this.sortable() && column.sortable()) {
+      const current = this.columnSort().find((c) => c === column);
       if (current) {
-        column.direction =
-          column.direction === SortDirection.ascending ? SortDirection.descending : SortDirection.ascending;
+        column.sortDirection.update((sortDirection) =>
+          sortDirection === SortDirection.ascending ? SortDirection.descending : SortDirection.ascending
+        );
       } else {
-        column.direction = SortDirection.ascending;
+        column.sortDirection.set(SortDirection.ascending);
       }
       if (!multi) {
-        this.columnSort.forEach((c) => {
-          if (c !== column && c.direction) {
-            delete c.direction;
+        this.columnSort().forEach((c) => {
+          if (c !== column && c.sortDirection()) {
+            c.sortDirection.set(undefined);
           }
         });
-        this.columnSort = [column];
+        this.columnSort.set([column]);
       } else if (!current) {
-        this.columnSort.push(column);
-      }
-      this.update();
-    }
-  }
-
-  private propertySort() {
-    const id = this.propertySorting.columnId;
-    const column = id ? this.columns().find((c) => c.id() === id) : undefined;
-    this.columnSort.forEach((c) => {
-      if (c !== column && c.direction) {
-        delete c.direction;
-      }
-    });
-    if (column) {
-      column.direction = this.propertySorting.direction;
-      this.columnSort = [column];
-    } else {
-      this.columnSort = [];
-    }
-    this.propertySorting.changed = false;
-  }
-
-  ngOnChanges(_: SimpleChanges): void {
-    if (this.initialised) {
-      if (this.propertySorting.changed) {
-        this.propertySort();
-        this.update();
-      } else {
-        this.goto(1);
+        this.columnSort.update((columns) => [...columns, column]);
       }
     }
-  }
-
-  ngAfterContentInit(): void {
-    const state = this.state();
-    if (state) {
-      this.currentPageSize.set(state.pageSize);
-      this.pageNum = state.pageNum;
-      this.columnSort = Object.keys(state.columnSort).reduce((columnSort, id) => {
-        const column = this.columns().find((c) => c.id() === id);
-        if (column) {
-          column.direction = this.state()?.columnSort[id];
-          columnSort.push(column);
-        }
-        return columnSort;
-      }, [] as EzColumnComponent[]);
-    } else if (this.propertySorting.changed) {
-      this.propertySort();
-    }
-    this.update();
-    this.initialised = true;
-  }
-
-  ngOnDestroy(): void {
-    this.stateChange.emit({
-      pageNum: this.pageNum,
-      pageSize: this.currentPageSize(),
-      columnSort: this.columnSort.reduce((columnSort, column) => {
-        const id = column.id();
-        if (id) {
-          columnSort[id] = column.direction;
-        }
-        return columnSort;
-      }, {} as any),
-    });
   }
 }

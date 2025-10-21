@@ -1,8 +1,8 @@
-import { Component, Input, ContentChild, TemplateRef, input } from '@angular/core';
+import { Component, TemplateRef, input, contentChild } from '@angular/core';
 
 @Component({
   selector: 'ez-footer',
-  templateUrl: './ez-footer.component.html',
+  template: '',
   styleUrls: ['./ez-footer.component.scss'],
   standalone: false,
 })
@@ -13,8 +13,7 @@ export class EzFooterComponent {
 
   readonly display = input<(pageData: any[], data: any[]) => string>();
 
-  @ContentChild(TemplateRef, { static: false })
-  template!: TemplateRef<any>;
+  readonly template = contentChild(TemplateRef);
 
   readonly columns = input(1, {
     transform: (value: number | string) => (typeof value === 'string' ? parseInt(value) : value),

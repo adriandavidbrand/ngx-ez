@@ -1,9 +1,9 @@
-import { Component, Input, TemplateRef, ContentChild, input } from '@angular/core';
+import { Component, TemplateRef, input, contentChild, model } from '@angular/core';
 import { SortDirection } from 'ez-functions';
 
 @Component({
   selector: 'ez-column',
-  templateUrl: './ez-column.component.html',
+  template: '',
   styleUrls: ['./ez-column.component.scss'],
   standalone: false,
 })
@@ -14,11 +14,7 @@ export class EzColumnComponent {
 
   readonly id = input<string>();
 
-  @Input('sortable')
-  set sortableSet(val: string | boolean) {
-    this.sortable = val !== undefined && val !== false;
-  }
-  sortable = true;
+  readonly sortable = input(true, { transform: (value: string | boolean) => value !== 'false' && value !== false });
 
   readonly compare = input<(a: any, b: any) => number>();
 
@@ -32,8 +28,7 @@ export class EzColumnComponent {
 
   readonly breakGrouping = input(true);
 
-  direction?: SortDirection;
+  readonly sortDirection = model<SortDirection>();
 
-  @ContentChild(TemplateRef)
-  template?: TemplateRef<any>;
+  readonly template = contentChild(TemplateRef);
 }
