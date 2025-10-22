@@ -8,6 +8,7 @@ import {
   contentChildren,
   signal,
   computed,
+  effect,
 } from '@angular/core';
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
@@ -49,7 +50,7 @@ export class EzTableComponent<T> {
 
   readonly noDataMessage = input(this.config.messages.noData);
 
-  readonly sortId = input<string>();
+  readonly sortId = input('');
 
   readonly sortDirection = input<SortDirection>();
 
@@ -71,31 +72,7 @@ export class EzTableComponent<T> {
 
   footers = contentChildren(EzFooterComponent);
 
-  columnSort = linkedSignal<
-    { sortId: string | undefined; sortDirection: SortDirection | undefined; columns: EzColumnComponent[] },
-    EzColumnComponent[]
-  >({
-    source: () => ({
-      sortId: this.sortId(),
-      sortDirection: this.sortDirection(),
-      columns: [...this.columns()],
-    }),
-    computation: (source) => {
-      const id = source.sortId;
-      const column = id ? source.columns.find((c) => c.id() === id) : undefined;
-      source.columns.forEach((c) => {
-        if (c !== column && c.sortDirection()) {
-          c.sortDirection.set(undefined);
-        }
-      });
-      if (column) {
-        column.sortDirection.set(source.sortDirection);
-        return [column];
-      } else {
-        return [];
-      }
-    },
-  });
+  columnSort = signal<EzColumnComponent[]>([]);
 
   readonly filteredData = computed(() => {
     const data = this.data();
@@ -105,9 +82,7 @@ export class EzTableComponent<T> {
       ? data.filter((item) =>
           searchArray.every((search) => {
             const searchRegEx = new RegExp(search.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'i');
-            return this.columns().some((c) => {
-              return searchRegEx.test(resolveProperty(item, c.property()) || '');
-            });
+            return this.columns().some((c) => searchRegEx.test(resolveProperty(item, c.property()) || ''));
           })
         )
       : [...data];
@@ -170,14 +145,31 @@ export class EzTableComponent<T> {
 
   resolveProperty = resolveProperty;
 
-  constructor(public config: EzTableConfigService) {}
+  constructor(public config: EzTableConfigService) {
+    effect(() => {
+      const sortIds = this.sortId()
+        ?.split(',')
+        .map((id) => id.trim());
+      const sortDirection = this.sortDirection();
+      const columns = this.columns();
+      const sortColumns = sortIds.map((id) => columns.find((c) => c.id() === id)).filter((c) => !!c);
+      if (sortColumns.length) {
+        sortColumns.forEach((c) => {
+          c?.sortDirection.set(sortDirection ? sortDirection : SortDirection.ascending);
+        });
+        this.columnSort.set(sortColumns);
+      } else {
+        this.columnSort.set([]);
+      }
+    });
+  }
 
   goto(pageNum: number): void {
     this.pageNum.set(pageNum);
   }
 
   next(): void {
-    if (this.pageNum < this.totalPages) {
+    if (this.pageNum() < this.totalPages()) {
       this.pageNum.update((value) => value + 1);
     }
   }
