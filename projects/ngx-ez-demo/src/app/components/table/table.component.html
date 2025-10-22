@@ -8,5 +8,10 @@
     </ng-template>
   </ez-column>
   <ez-column heading="First Name" property="firstName"></ez-column>
+  <ez-expand-row>
+    <ng-template let-item>
+      {{item.firstName}}
+    </ng-template>
+  </ez-expand-row>
   <ez-table-pager footer></ez-table-pager>
 </ez-table>

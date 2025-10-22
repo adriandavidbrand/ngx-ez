@@ -19,6 +19,9 @@
           <span>{{ column.heading() ?? column.property() }}</span>
         </th>
         }
+        @if (expandRow()) {
+        <th>&nbsp;</th>
+        }
       </tr>
     </thead>
     <tbody>
@@ -28,7 +31,7 @@
           {{ noDataMessage() }}
         </td>
       </tr>
-      } @else { @for (item of pageData(); track item; let i = $index) {
+      } @else { @for (item of pageData(); track item; let i = $index) { @let control = { expanded: false};
       <tr [ngClass]="config.rowClasses" (click)="rowClick.emit(item)">
         @for (column of columns(); track column) { @if (!item._rows || item._rows[column.property()] !== -1) {
         <td [attr.rowspan]="item._rows && item._rows[column.property()]" [ngClass]="column.cellClass()">
@@ -38,9 +41,17 @@
             {{ resolveProperty(item, column.property()) }}
           </ng-template>
         </td>
-        } }
+        } } @if (expandRow()) {
+        <td><a (click)="control.expanded = !control.expanded">+</a></td>
+        }
       </tr>
-      } }
+      @if (expandRow() && control.expanded) {
+      <tr>
+        <td [attr.colspan]="columns().length + 1">
+          <ng-container *ngTemplateOutlet="expandRow()?.template(); context: { $implicit: item, index: i }"></ng-container>
+        </td>
+      </tr>
+      } } }
     </tbody>
     @if (footers().length) {
     <tfoot>

@@ -9,6 +9,7 @@ import {
   signal,
   computed,
   effect,
+  contentChild,
 } from '@angular/core';
 
 import { EzColumnComponent } from '../ez-column/ez-column.component';
@@ -20,6 +21,7 @@ import { flattenGroups } from 'ez-functions';
 import { groupBy, GroupBy } from 'ez-functions';
 import { resolveProperty } from 'ez-functions';
 import { multipleSortFunction, SortDirection } from 'ez-functions';
+import { EzExpandRowComponent } from '../ez-expand-row/ez-expand-row.component';
 
 @Component({
   selector: 'ez-table',
@@ -69,6 +71,8 @@ export class EzTableComponent<T> {
   headings = contentChildren(EzHeadingComponent);
 
   columns = contentChildren(EzColumnComponent);
+
+  expandRow = contentChild(EzExpandRowComponent);
 
   footers = contentChildren(EzFooterComponent);
 
