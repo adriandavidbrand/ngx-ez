@@ -5,8 +5,8 @@ import { EzColumnComponent } from '../ez-column/ez-column.component';
 import { EzTableComponent } from './ez-table.component';
 
 describe('EzTableComponent', () => {
-  let component: EzTableComponent;
-  let fixture: ComponentFixture<EzTableComponent>;
+  let component: EzTableComponent<any>;
+  let fixture: ComponentFixture<EzTableComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

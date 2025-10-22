@@ -42,6 +42,7 @@ export * from './lib/ez-modal/components/ez-modal/ez-modal.component';
 
 export * from './lib/ez-table/ez-table.module';
 export * from './lib/ez-table/components/ez-column/ez-column.component';
+export * from './lib/ez-table/components/ez-expand-row/ez-expand-row.component';
 export * from './lib/ez-table/components/ez-footer/ez-footer.component';
 export * from './lib/ez-table/components/ez-heading/ez-heading.component';
 export * from './lib/ez-table/components/ez-table/ez-table.component';
